@@ -1,10 +1,18 @@
 import React, { useRef, useState } from "react";
-import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  KeyboardAvoidingView,
+  Dimensions,
+} from "react-native";
 import { Button, Input, Text } from "@rneui/themed";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Link } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
 
 interface FormValues {
   phoneNumber: string;
@@ -17,7 +25,7 @@ const SigninSchema = Yup.object().shape({
   phoneNumber: Yup.string()
     .matches(/^[0-9]+$/, "Geçersiz telefon numarası")
     .min(10, "Telefon numarası en az 10 karakter olmalıdır")
-    .max(15, "Telefon numarası en fazla 15 karakter olmalıdır")
+    .max(10, "Telefon numarası en fazla 10 karakter olmalıdır")
     .required("Telefon numarası gereklidir"),
   password: Yup.string().test(
     "conditional-password",
@@ -69,7 +77,7 @@ const SigninScreen = () => {
   const formik = useFormik<FormValues>({
     initialValues: {
       phoneNumber: "",
-      loginOption: "",
+      loginOption: "password",
       password: "",
       verificationCode: ["", "", "", ""],
     },
@@ -79,8 +87,6 @@ const SigninScreen = () => {
       // Giriş yapma işlemleri burada gerçekleştirilir
     },
   });
-
-  console.log(formik.errors);
 
   const handleChangeVerificationCode = (index: number, text: string) => {
     const verificationCodes = [...formik.values.verificationCode];
@@ -136,9 +142,40 @@ const SigninScreen = () => {
       </View>
     )
   );
+  const windowHeight = Dimensions.get("window").height;
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+    <ScrollView
+      contentContainerStyle={{
+        flexGrow: 1,
+        justifyContent: "center",
+        height: windowHeight,
+      }}
+    >
+      <LinearGradient
+        colors={["#ff0080", "#ff7f00"]}
+        style={styles.background}
+      />
+      <View
+        style={{
+          height: 300,
+          justifyContent: "center",
+          alignItems: "center",
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0,
+        }}
+      >
+        <Text h3 style={[styles.heading, { color: "white" }]}>
+          BerberTakip
+        </Text>
+        <Text style={[styles.heading, { color: "lightgray" }]}>
+          Kolayca berberinizden randevu alabilirsiniz
+        </Text>
+      </View>
+
       <View style={styles.card}>
         <Text h3 style={styles.heading}>
           Giriş Yap
@@ -155,6 +192,7 @@ const SigninScreen = () => {
               : ""
           }
           placeholder="530 880 8637"
+          maxLength={10}
           style={styles.input}
         />
         {formik.values.loginOption === "password" ? passwordInput : null}
@@ -207,8 +245,15 @@ const SigninScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  background: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    height: 300,
+  },
   scrollViewContainer: {
-    flexGrow: 1,
+    flex: 1,
     justifyContent: "center",
     backgroundColor: "#f0f0f0", // Change this to your desired background color
   },
@@ -238,6 +283,8 @@ const styles = StyleSheet.create({
   },
   signupLink: {
     alignItems: "center",
+    marginTop: 10,
+    marginBottom: 10,
   },
   verificationCodeContainer: {
     flexDirection: "row",

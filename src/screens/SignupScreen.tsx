@@ -5,12 +5,14 @@ import {
   TouchableOpacity,
   ScrollView,
   Linking,
+  Dimensions,
 } from "react-native";
 import { Button, Input, Text, CheckBox } from "@rneui/themed";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Link } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string()
@@ -20,7 +22,7 @@ const SignupSchema = Yup.object().shape({
   phoneNumber: Yup.string()
     .matches(/^[0-9]+$/, "Geçersiz telefon numarası")
     .min(10, "Telefon numarası en az 10 karakter olmalıdır")
-    .max(15, "Telefon numarası en fazla 15 karakter olmalıdır")
+    .max(10, "Telefon numarası en fazla 10 karakter olmalıdır")
     .required("Telefon numarası gereklidir"),
   password: Yup.string()
     .min(6, "Şifre en az 6 karakter olmalıdır")
@@ -51,8 +53,21 @@ const SignupScreen = () => {
     },
   });
 
+  const windowHeight = Dimensions.get("window").height;
+
   return (
-    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+    <ScrollView
+      contentContainerStyle={{
+        flexGrow: 1,
+        justifyContent: "center",
+        height: windowHeight,
+      }}
+    >
+      <LinearGradient
+        colors={["#ff0080", "#ff7f00"]}
+        style={styles.background}
+      />
+
       <View style={styles.card}>
         <Text h3 style={styles.heading}>
           Kayıt Ol
@@ -80,6 +95,7 @@ const SignupScreen = () => {
               : ""
           }
           placeholder="530 880 8637"
+          maxLength={10}
           style={styles.input}
         />
         <Input
@@ -167,7 +183,7 @@ const SignupScreen = () => {
           disabled={!formik.isValid}
         />
 
-        <TouchableOpacity style={styles.loginLink}>
+        <TouchableOpacity style={styles.signinLink}>
           <View style={{ display: "flex", flexDirection: "row" }}>
             <Text>Hesabınız var mı?</Text>
             <Link screen="Signin"> Giriş Yap</Link>
@@ -179,10 +195,12 @@ const SignupScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  scrollViewContainer: {
-    flexGrow: 1,
-    justifyContent: "center",
-    backgroundColor: "#f0f0f0", // Change this to your desired background color
+  background: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    height: 300,
   },
   card: {
     backgroundColor: "white",
@@ -213,8 +231,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: "100%",
   },
-  loginLink: {
-    marginTop: 20,
+  signinLink: {
+    marginTop: 10,
+    marginBottom: 10,
     alignItems: "center",
   },
 });
