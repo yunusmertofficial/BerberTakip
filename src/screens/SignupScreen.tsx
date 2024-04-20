@@ -13,6 +13,15 @@ import * as Yup from "yup";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Link } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
+import { useSignUp } from "../../hooks/apiServices/auth/useSignup";
+
+interface FormValues {
+  name: string;
+  phoneNumber: string;
+  password: string;
+  confirmPassword: string;
+  agreement: boolean;
+}
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string()
@@ -37,8 +46,9 @@ const SignupSchema = Yup.object().shape({
 
 const SignupScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { signUp, loading, error } = useSignUp();
 
-  const formik = useFormik({
+  const formik = useFormik<FormValues>({
     initialValues: {
       name: "",
       phoneNumber: "",
@@ -48,8 +58,7 @@ const SignupScreen = () => {
     },
     validationSchema: SignupSchema,
     onSubmit: (values) => {
-      console.log(values);
-      // Form gönderme işlemleri burada gerçekleştirilir
+      signUp(values);
     },
   });
 
@@ -173,15 +182,15 @@ const SignupScreen = () => {
         {formik.errors.agreement && (
           <Text style={styles.error}>{formik.errors.agreement}</Text>
         )}
-
-        <View style={{ height: 20 }}></View>
-
-        <Button
-          title="Kayıt Ol"
-          onPress={() => formik.handleSubmit()}
-          style={styles.button}
-          disabled={!formik.isValid}
-        />
+        {error && <Text style={styles.error}>{error}</Text>}
+        <View style={styles.button}>
+          <Button
+            title="Kayıt Ol"
+            onPress={() => formik.handleSubmit()}
+            disabled={!formik.isValid}
+            loading={loading}
+          />
+        </View>
 
         <TouchableOpacity style={styles.signinLink}>
           <View style={{ display: "flex", flexDirection: "row" }}>
@@ -228,7 +237,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   button: {
-    marginTop: 20,
+    marginTop: 10,
+    marginBottom: 10,
     width: "100%",
   },
   signinLink: {

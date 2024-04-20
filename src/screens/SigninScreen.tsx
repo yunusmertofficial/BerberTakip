@@ -13,6 +13,7 @@ import * as Yup from "yup";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Link } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
+import { useSignIn } from "../../hooks/apiServices/auth/useSignin";
 
 interface FormValues {
   phoneNumber: string;
@@ -72,6 +73,7 @@ const SigninSchema = Yup.object().shape({
 
 const SigninScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { signIn, loading, error } = useSignIn();
   const verificationCodeInputsRef = useRef<Array<any | null>>([]);
 
   const formik = useFormik<FormValues>({
@@ -83,8 +85,7 @@ const SigninScreen = () => {
     },
     validationSchema: SigninSchema,
     onSubmit: (values) => {
-      console.log(values);
-      // Giriş yapma işlemleri burada gerçekleştirilir
+      signIn(values);
     },
   });
 
@@ -221,6 +222,7 @@ const SigninScreen = () => {
             }
           />
         </View>
+        {error && <Text style={styles.error}>{error}</Text>}
         <Button
           title="Giriş Yap"
           onPress={() => {
@@ -232,6 +234,7 @@ const SigninScreen = () => {
           }}
           style={styles.button}
           disabled={!formik.isValid}
+          loading={loading}
         />
         <TouchableOpacity style={styles.signupLink}>
           <View style={{ display: "flex", flexDirection: "row" }}>
@@ -290,6 +293,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 20,
+  },
+  error: {
+    color: "red",
+    marginBottom: 10,
+    textAlign: "center",
   },
   verificationCodeItem: {
     flex: 1,
