@@ -56,10 +56,13 @@ function BarberListItem({ item, animatedValue, isLoading }: any) {
           />
           <Button
             onPress={() => handleViewProfile(item.id)}
-            color="warning"
+            color="#FFEEE0"
             buttonStyle={{
               borderRadius: 3,
               marginVertical: 5,
+            }}
+            titleStyle={{
+              color: "#FF9800",
             }}
           >
             Profil

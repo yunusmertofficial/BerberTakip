@@ -3,16 +3,47 @@ import { Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text } from "@rneui/base";
 import { Icon } from "@rneui/themed";
+import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../store";
 
 export const Filter = ({
   modalVisibile,
   setModalVisibile,
-  handleMapNavigation,
+  barbers,
 }: {
   modalVisibile: boolean;
   setModalVisibile: React.Dispatch<React.SetStateAction<boolean>>;
-  handleMapNavigation: () => void;
+  barbers: {
+    id: number;
+    name: string;
+    location: string;
+    stars: number;
+    reviews: number;
+    latitude: number;
+    longitude: number;
+  }[];
 }) => {
+  const coordinates = useSelector(
+    (state: RootState) => state.user.coordinates
+  ) as {
+    latitude: number;
+    longitude: number;
+  };
+  const navigation = useNavigation();
+
+  const handleMapNavigation = () => {
+    //@ts-ignore
+    navigation.navigate("Map", {
+      barbers: barbers,
+      initialRegion: {
+        latitude: coordinates?.latitude,
+        longitude: coordinates?.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      },
+    });
+  };
   return (
     <SafeAreaView
       style={{

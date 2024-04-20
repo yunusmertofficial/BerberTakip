@@ -10,13 +10,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import {
   clearUser as clearUserRedux,
-  setLocation,
   setUser,
 } from "./features/user/userSlice";
 import { NavigationContainer } from "@react-navigation/native";
 import HomeScreen from "./src/screens/HomeScreen";
 import MapScreen from "./src/screens/MapScreen";
-import * as Location from "expo-location";
 import { CircularProgress } from "./src/components/CircularProgress";
 
 export default function AppContainer() {
@@ -49,11 +47,8 @@ function App() {
       const isValidToken = token && typeof token === "string";
       if (isValidToken) {
         const decoded = jwtDecode(token);
-        console.log("decoded", decoded);
         const expirationTime = Number(decoded.exp) * 1000;
         const currentTime = Date.now();
-        console.log("expirationTime", expirationTime);
-        console.log("currentTime", currentTime);
         if (expirationTime < currentTime) {
           clearUser();
         } else {
@@ -82,31 +77,6 @@ const Stack = createNativeStackNavigator();
 
 function RootStack() {
   const isSignedIn = useSelector((state: RootState) => state.user.isSignedIn);
-  const dispatch = useDispatch();
-
-  const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
-  const [isLoadingLocation, setIsLoadingLocation] = React.useState(false);
-
-  const startWatchingLocation = async () => {
-    setIsLoadingLocation(true);
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
-      setErrorMsg(
-        "Bu uygulamanın çalışabilmesi için konum izni vermeniz gerekmektedir."
-      );
-    } else {
-      let location = await Location.getCurrentPositionAsync({});
-      dispatch(
-        setLocation({
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-        })
-      );
-    }
-  };
-  React.useEffect(() => {
-    if (isSignedIn) startWatchingLocation();
-  }, [isSignedIn]);
 
   return (
     <NavigationContainer>
@@ -117,7 +87,6 @@ function RootStack() {
               name="Home"
               component={HomeScreen}
               options={{ headerShown: false }}
-              initialParams={{ initialErrorMsg: errorMsg, isLoadingLocation }}
             />
             <Stack.Screen
               name="Map"

@@ -1,43 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { View, FlatList, Animated } from "react-native";
-import { useSelector } from "react-redux";
-import { useNavigation } from "@react-navigation/native";
 import BarberListItem from "./components/BarberListItem";
-import { RootState } from "../../../store";
 import { Filter } from "./components/Filter";
 import { SearchBar } from "../../components/SearchBar";
-import BarberListItemPlaceholder from "./components/Skeletion";
-
+import { Barber } from "../../types";
+import ErrorMessage from "./components/ErrorMessage";
 // Ana ekran bileşeni
 const HomeContainer = ({
   barbers,
   isLoading,
+  errorMsg,
+  fetchData,
 }: {
-  barbers:
-    | {
-        id: number;
-        name: string;
-        location: string;
-        stars: number;
-        reviews: number;
-        latitude: number;
-        longitude: number;
-      }[]
-    | {
-        id: number;
-      }[];
+  barbers: Barber[] | { id: number }[];
   isLoading: boolean;
+  errorMsg: string | null;
+  fetchData: () => void;
 }) => {
-  const coordinates = useSelector(
-    (state: RootState) => state.user.coordinates
-  ) as {
-    latitude: number;
-    longitude: number;
-  };
   const [modalVisibile, setModalVisibile] = useState(false);
-  const navigation = useNavigation();
-
-  const animatedValue = new Animated.Value(0);
+  const animatedValue = useState(new Animated.Value(0))[0] as Animated.Value;
 
   useEffect(() => {
     Animated.loop(
@@ -56,24 +37,12 @@ const HomeContainer = ({
     ).start();
   }, []);
 
-  const handleMapNavigation = () => {
-    //@ts-ignore
-    navigation.navigate("Map", {
-      barbers: barbers,
-      initialRegion: {
-        latitude: coordinates.latitude,
-        longitude: coordinates.longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      },
-    });
-  };
   return (
     <View style={{ flex: 1 }}>
       <Filter
         modalVisibile={modalVisibile}
         setModalVisibile={setModalVisibile}
-        handleMapNavigation={handleMapNavigation}
+        barbers={barbers as Barber[]}
       />
       <SearchBar
         searchData={async (searchTerm) => {
@@ -81,32 +50,21 @@ const HomeContainer = ({
           console.log(searchTerm);
         }}
       />
-
-      <FlatList
-        data={
-          isLoading
-            ? [
-                {
-                  id: 1,
-                },
-                {
-                  id: 2,
-                },
-                {
-                  id: 3,
-                },
-              ]
-            : barbers
-        }
-        renderItem={({ item }) => (
-          <BarberListItem
-            item={item}
-            animatedValue={animatedValue}
-            isLoading={isLoading}
-          />
-        )}
-        keyExtractor={(item) => item.id.toString()}
-      />
+      {errorMsg ? (
+        <ErrorMessage errorMsg={errorMsg} fetchData={fetchData} />
+      ) : (
+        <FlatList
+          data={barbers}
+          renderItem={({ item }) => (
+            <BarberListItem
+              item={item}
+              animatedValue={animatedValue}
+              isLoading={isLoading}
+            />
+          )}
+          keyExtractor={(item) => item.id.toString()}
+        />
+      )}
     </View>
   );
 };

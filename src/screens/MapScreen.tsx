@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { View, StyleSheet, Pressable, Text } from "react-native";
 import MapView, { Callout, Marker } from "react-native-maps";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import getLocationCoords from "../utils/locationUtils";
 
 interface Barber {
   id: number;
@@ -30,58 +31,64 @@ const MapScreen = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    if (mapView.current && barbers) {
-      const coordinates = barbers.map((barber) => ({
-        latitude: barber.latitude,
-        longitude: barber.longitude,
-      }));
-      mapView.current.fitToCoordinates(coordinates, {
-        edgePadding: {
-          top: 190,
-          left: 190,
-          bottom: 190,
-          right: 190,
-        },
-      });
+    if (initialRegion.latitude && initialRegion.longitude) {
+      if (mapView.current && barbers) {
+        const coordinates = barbers.map((barber) => ({
+          latitude: barber.latitude,
+          longitude: barber.longitude,
+        }));
+        mapView.current.fitToCoordinates(coordinates, {
+          edgePadding: {
+            top: 190,
+            left: 190,
+            bottom: 190,
+            right: 190,
+          },
+        });
+      }
+    } else {
+      //@ts-ignore
+      navigation.navigate("Home");
     }
-  }, [mapView.current]);
+  }, [mapView?.current]);
 
-  console.log("initialRegion", initialRegion);
   return (
     <View style={{ flex: 1 }}>
-      <MapView ref={mapView} style={styles.map} initialRegion={initialRegion}>
-        {barbers &&
-          barbers.map((barber, index) => (
-            <Marker
-              key={index}
-              title={barber.name}
-              coordinate={{
-                latitude: barber.latitude,
-                longitude: barber.longitude,
-              }}
-            >
-              <Callout
-                onPress={() => {
-                  //@ts-ignore
-                  navigation.navigate("Home");
+      {initialRegion.latitude && initialRegion.longitude && (
+        <MapView ref={mapView} style={styles.map} initialRegion={initialRegion}>
+          {barbers &&
+            barbers.map((barber, index) => (
+              <Marker
+                key={index}
+                title={barber.name}
+                coordinate={{
+                  latitude: barber.latitude,
+                  longitude: barber.longitude,
                 }}
               >
-                <View style={styles.calloutContainer}>
-                  <Text style={styles.calloutText}>{barber.name}</Text>
-                  <Pressable
-                    style={styles.calloutButton}
-                    onPress={() => {
-                      //@ts-ignore
-                      navigation.navigate("Home");
-                    }}
-                  >
-                    <Text style={styles.calloutButtonText}>Randevu Al</Text>
-                  </Pressable>
-                </View>
-              </Callout>
-            </Marker>
-          ))}
-      </MapView>
+                <Callout
+                  onPress={() => {
+                    //@ts-ignore
+                    navigation.navigate("Home");
+                  }}
+                >
+                  <View style={styles.calloutContainer}>
+                    <Text style={styles.calloutText}>{barber.name}</Text>
+                    <Pressable
+                      style={styles.calloutButton}
+                      onPress={() => {
+                        //@ts-ignore
+                        navigation.navigate("Home");
+                      }}
+                    >
+                      <Text style={styles.calloutButtonText}>Randevu Al</Text>
+                    </Pressable>
+                  </View>
+                </Callout>
+              </Marker>
+            ))}
+        </MapView>
+      )}
     </View>
   );
 };
