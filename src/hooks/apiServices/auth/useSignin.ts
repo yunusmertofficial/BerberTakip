@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { setUser } from "../../../features/user/userSlice";
+import { setUser } from "../../../../features/user/userSlice";
 
 interface SignInFormValues {
   phoneNumber: string;

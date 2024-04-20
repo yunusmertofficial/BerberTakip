@@ -13,7 +13,7 @@ import * as Yup from "yup";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Link } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
-import { useSignUp } from "../../hooks/apiServices/auth/useSignup";
+import { useSignUp } from "../hooks/apiServices/auth/useSignup";
 
 interface FormValues {
   name: string;
