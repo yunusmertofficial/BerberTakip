@@ -5,18 +5,10 @@ import { Filter } from "./components/Filter";
 import { SearchBar } from "../../components/SearchBar";
 import { Barber } from "../../types";
 import ErrorMessage from "./components/ErrorMessage";
-// Ana ekran bileşeni
-const HomeContainer = ({
-  barbers,
-  isLoading,
-  errorMsg,
-  fetchData,
-}: {
-  barbers: Barber[] | { id: number }[];
-  isLoading: boolean;
-  errorMsg: string | null;
-  fetchData: () => void;
-}) => {
+import { useBarbers } from "../../context/BarbersContext";
+
+const HomeContainer = () => {
+  const { barbers, isLoading, errorMsg } = useBarbers();
   const [modalVisibile, setModalVisibile] = useState(false);
   const animatedValue = useState(new Animated.Value(0))[0] as Animated.Value;
 
@@ -42,7 +34,6 @@ const HomeContainer = ({
       <Filter
         modalVisibile={modalVisibile}
         setModalVisibile={setModalVisibile}
-        barbers={barbers as Barber[]}
       />
       <SearchBar
         searchData={async (searchTerm) => {
@@ -51,7 +42,7 @@ const HomeContainer = ({
         }}
       />
       {errorMsg ? (
-        <ErrorMessage errorMsg={errorMsg} fetchData={fetchData} />
+        <ErrorMessage />
       ) : (
         <FlatList
           data={barbers}

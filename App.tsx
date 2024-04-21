@@ -16,6 +16,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import HomeScreen from "./src/screens/HomeScreen";
 import MapScreen from "./src/screens/MapScreen";
 import { CircularProgress } from "./src/components/CircularProgress";
+import { BarbersProvider } from "./src/context/BarbersContext";
 
 export default function AppContainer() {
   return (
@@ -78,11 +79,12 @@ const Stack = createNativeStackNavigator();
 function RootStack() {
   const isSignedIn = useSelector((state: RootState) => state.user.isSignedIn);
 
+  console.log("aaaaa");
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={isSignedIn ? "Home" : "SignIn"}>
-        {isSignedIn ? (
-          <>
+      {isSignedIn ? (
+        <BarbersProvider>
+          <Stack.Navigator initialRouteName={"Home"}>
             <Stack.Screen
               name="Home"
               component={HomeScreen}
@@ -93,22 +95,22 @@ function RootStack() {
               component={MapScreen}
               options={{ headerShown: false }}
             />
-          </>
-        ) : (
-          <>
-            <Stack.Screen
-              name="Signin"
-              component={SigninScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Signup"
-              component={SignupScreen}
-              options={{ headerShown: false }}
-            />
-          </>
-        )}
-      </Stack.Navigator>
+          </Stack.Navigator>
+        </BarbersProvider>
+      ) : (
+        <Stack.Navigator initialRouteName={"SignIn"}>
+          <Stack.Screen
+            name="Signin"
+            component={SigninScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Signup"
+            component={SignupScreen}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      )}
     </NavigationContainer>
   );
 }

@@ -1,14 +1,11 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Button, Text } from "@rneui/themed";
+import { useBarbers } from "../../../context/BarbersContext";
 
-const ErrorMessage = ({
-  errorMsg,
-  fetchData,
-}: {
-  errorMsg: string;
-  fetchData: () => void;
-}) => {
+const ErrorMessage = () => {
+  const { errorMsg, fetchData } = useBarbers();
+
   return (
     <View style={styles.container}>
       <Text style={styles.errorText}>{errorMsg}</Text>

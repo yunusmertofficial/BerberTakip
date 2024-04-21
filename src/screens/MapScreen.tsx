@@ -2,21 +2,12 @@ import React, { useRef, useEffect } from "react";
 import { View, StyleSheet, Pressable, Text } from "react-native";
 import MapView, { Callout, Marker } from "react-native-maps";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import getLocationCoords from "../utils/locationUtils";
-
-interface Barber {
-  id: number;
-  name: string;
-  location: string;
-  stars: number;
-  reviews: number;
-  latitude: number;
-  longitude: number;
-}
+import { useBarbers } from "../context/BarbersContext";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { Barber } from "../types";
 
 interface initialRegion {
-  latitude: number;
-  longitude: number;
   latitudeDelta: number;
   longitudeDelta: number;
 }
@@ -24,14 +15,16 @@ interface initialRegion {
 const MapScreen = () => {
   const route = useRoute();
   const mapView = useRef<MapView>(null);
-  const { barbers, initialRegion } = route.params as {
-    barbers: Barber[];
-    initialRegion: initialRegion;
+  const { barbers } = useBarbers() as { barbers: Barber[] };
+  const coords = useSelector((state: RootState) => state.user.coordinates) as {
+    latitude: number;
+    longitude: number;
   };
+  const { latitudeDelta, longitudeDelta } = route.params as initialRegion;
   const navigation = useNavigation();
 
   useEffect(() => {
-    if (initialRegion.latitude && initialRegion.longitude) {
+    if (coords.latitude && coords.longitude) {
       if (mapView.current && barbers) {
         const coordinates = barbers.map((barber) => ({
           latitude: barber.latitude,
@@ -54,8 +47,17 @@ const MapScreen = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      {initialRegion.latitude && initialRegion.longitude && (
-        <MapView ref={mapView} style={styles.map} initialRegion={initialRegion}>
+      {coords.latitude && coords.longitude && (
+        <MapView
+          ref={mapView}
+          style={styles.map}
+          initialRegion={{
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+            latitudeDelta,
+            longitudeDelta,
+          }}
+        >
           {barbers &&
             barbers.map((barber, index) => (
               <Marker
