@@ -43,7 +43,10 @@ export const Filter = ({
         </Text>
       </Pressable>
 
-      <Pressable style={{ flexDirection: "row", alignItems: "center" }}>
+      <Pressable
+        style={{ flexDirection: "row", alignItems: "center" }}
+        onPress={() => setModalVisibile(!modalVisibile)}
+      >
         <Icon name="filter" type="material-community" size={22} color="gray" />
         <Text style={{ fontSize: 15, fontWeight: "500", marginLeft: 8 }}>
           Filtrele

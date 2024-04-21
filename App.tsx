@@ -17,11 +17,13 @@ import HomeScreen from "./src/screens/HomeScreen";
 import MapScreen from "./src/screens/MapScreen";
 import { CircularProgress } from "./src/components/CircularProgress";
 import { BarbersProvider } from "./src/context/BarbersContext";
+import { ModalPortal } from "react-native-modals";
 
 export default function AppContainer() {
   return (
     <Provider store={store}>
       <App />
+      <ModalPortal />
     </Provider>
   );
 }
@@ -80,7 +82,6 @@ const Stack = createNativeStackNavigator();
 function RootStack() {
   const isSignedIn = useSelector((state: RootState) => state.user.isSignedIn);
 
-  console.log("aaaaa");
   return (
     <NavigationContainer>
       {isSignedIn ? (

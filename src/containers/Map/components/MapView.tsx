@@ -23,6 +23,7 @@ const MapView = ({ initialRegion }: { initialRegion: InitialRegion }) => {
         latitude: barber.latitude,
         longitude: barber.longitude,
       }));
+
       mapView.current.fitToCoordinates(coordinates, {
         edgePadding: {
           top: 190,
@@ -40,7 +41,12 @@ const MapView = ({ initialRegion }: { initialRegion: InitialRegion }) => {
       style={{
         flex: 1,
       }}
-      initialRegion={initialRegion}
+      initialRegion={{
+        latitude: initialRegion.latitude,
+        longitude: initialRegion.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      }}
     >
       {barbers.map((barber, index) => (
         <MarkerView key={index} barber={barber} navigation={navigation} />

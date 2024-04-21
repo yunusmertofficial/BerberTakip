@@ -5,6 +5,9 @@ import { Filter } from "./components/Filter";
 import { SearchBar } from "../../components/SearchBar";
 import ErrorMessage from "./components/ErrorMessage";
 import { useBarbers } from "../../context/BarbersContext";
+import FilterModal from "./components/FilterModals";
+import { ModalPortal } from "react-native-modals";
+import { Header } from "./components/Header";
 
 const HomeContainer = () => {
   const { barbers, isLoading, errorMsg } = useBarbers();
@@ -30,16 +33,13 @@ const HomeContainer = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <Filter
-        modalVisibile={modalVisibile}
-        setModalVisibile={setModalVisibile}
+      <FilterModal
+        modalVisible={modalVisibile}
+        setModalVisible={setModalVisibile}
+        applyFilters={(filters) => console.log(filters)}
       />
-      <SearchBar
-        searchData={async (searchTerm) => {
-          await new Promise((resolve) => setTimeout(resolve, 10000));
-          console.log(searchTerm);
-        }}
-      />
+      <Header modalVisible={modalVisibile} setModalVisible={setModalVisibile} />
+
       {errorMsg ? (
         <ErrorMessage />
       ) : (

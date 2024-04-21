@@ -1,3 +1,4 @@
 import getLocationCoords from "./locationUtils";
 import wait from "./wait";
-export { getLocationCoords, wait };
+import calculateRegion from "./regionUtil";
+export { getLocationCoords, wait, calculateRegion };

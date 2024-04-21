@@ -1,13 +1,19 @@
 import { Icon } from "@rneui/themed";
 import { View } from "react-native";
 
-const Stars = ({ numStars }: { numStars: number }) => {
+const Stars = ({
+  numStars,
+  size = 20,
+}: {
+  numStars: number;
+  size?: number;
+}) => {
   const yellowStars = Array.from({ length: numStars }).map((_, index) => (
     <Icon
       key={index}
       name="star"
       type="material-community"
-      size={16}
+      size={size}
       color="#FFD700"
       style={{ marginRight: 5 }}
     />
@@ -18,14 +24,14 @@ const Stars = ({ numStars }: { numStars: number }) => {
       key={index + numStars}
       name="star"
       type="material-community"
-      size={16}
+      size={size}
       color="white"
       style={{ marginRight: 5 }}
     />
   ));
 
   return (
-    <View style={{ flexDirection: "row" }}>
+    <View style={[{ flexDirection: "row" }]}>
       {[...yellowStars, ...whiteStars]}
     </View>
   );
