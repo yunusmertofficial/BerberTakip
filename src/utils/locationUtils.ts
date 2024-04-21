@@ -1,3 +1,7 @@
+function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 import * as Location from "expo-location";
 const getLocationCoords = async () => {
   try {
@@ -7,7 +11,11 @@ const getLocationCoords = async () => {
       throw new Error("Konum izni reddedildi.");
     }
 
+    // 2 sanyie bekletmemizin sebebi kullanıcının izin verdikten hemen sonra okursak hata alabiliyoruz.
+    await wait(2000);
+
     const location = await Location.getCurrentPositionAsync({});
+
     return {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,

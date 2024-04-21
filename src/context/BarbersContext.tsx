@@ -11,6 +11,7 @@ interface BarbersContextType {
   isLoading: boolean;
   errorMsg: string | null;
   fetchData: () => Promise<void>;
+  setErrorMsg: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 // Başlangıç durumları
@@ -29,6 +30,7 @@ const initialBarbersContext: BarbersContextType = {
   isLoading: true,
   errorMsg: null,
   fetchData: async () => {},
+  setErrorMsg: (value) => {},
 };
 
 // Context'i oluşturuyoruz
@@ -67,9 +69,14 @@ export const BarbersProvider: React.FC<{ children: React.ReactNode }> = ({
     fetchData();
   }, []);
 
+  console.log({
+    id: Math.floor(Math.random() * 1000),
+    isLoading,
+    errorMsg,
+  });
   return (
     <BarbersContext.Provider
-      value={{ barbers, isLoading, errorMsg, fetchData }}
+      value={{ barbers, isLoading, errorMsg, fetchData, setErrorMsg }}
     >
       {children}
     </BarbersContext.Provider>

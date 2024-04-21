@@ -3,7 +3,6 @@ import { View, FlatList, Animated } from "react-native";
 import BarberListItem from "./components/BarberListItem";
 import { Filter } from "./components/Filter";
 import { SearchBar } from "../../components/SearchBar";
-import { Barber } from "../../types";
 import ErrorMessage from "./components/ErrorMessage";
 import { useBarbers } from "../../context/BarbersContext";
 
