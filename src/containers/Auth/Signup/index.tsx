@@ -12,6 +12,7 @@ import PhoneNumberInput from "../components/FormikFields/PhoneNumberInput";
 import NameInput from "./components/FormikFields/NameInput";
 import AgreementCheckbox from "./components/FormikFields/AgreementCheckbox";
 import RoutingSignin from "./components/RoutingSignin";
+import { colors } from "../../../utils";
 
 const SignupContainer = () => {
   const { signUp, loading, error } = useSignUp();
@@ -41,7 +42,7 @@ const SignupContainer = () => {
       }}
     >
       <LinearGradient
-        colors={["#ff0080", "#ff7f00"]}
+        colors={[colors.secondary, colors.primary]}
         style={styles.background}
       />
       <CardComponent>

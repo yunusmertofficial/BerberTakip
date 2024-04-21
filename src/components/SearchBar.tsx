@@ -1,6 +1,7 @@
 import { SearchBar as SearchBarComponent } from "@rneui/themed";
 import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
+import { colors } from "../utils";
 
 export const SearchBar = ({
   searchData,
@@ -51,6 +52,6 @@ const styles = StyleSheet.create({
     height: 40,
   },
   input: {
-    color: "black",
+    color: colors.black,
   },
 });

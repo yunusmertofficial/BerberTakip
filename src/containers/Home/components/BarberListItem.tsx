@@ -10,6 +10,7 @@ import { ListItem, Avatar, Icon, Button } from "@rneui/themed";
 import { LinearGradient } from "expo-linear-gradient";
 import Stars from "../../../components/Stars";
 import { Barber } from "../../../types";
+import { colors } from "../../../utils";
 
 function BarberListItem({
   item,
@@ -38,7 +39,7 @@ function BarberListItem({
   return (
     <ListItem
       linearGradientProps={{
-        colors: ["#F44336", "#FF9800"],
+        colors: [colors.secondary, colors.primary],
         start: { x: 1, y: 0 },
         end: { x: 0.2, y: 0 },
       }}
@@ -65,13 +66,13 @@ function BarberListItem({
           />
           <Button
             onPress={() => handleViewProfile(item.id)}
-            color="#FFEEE0"
+            color={colors.secondary}
             buttonStyle={{
               borderRadius: 3,
               marginVertical: 5,
             }}
             titleStyle={{
-              color: "#FF9800",
+              color: colors.primary,
             }}
           >
             Profil
@@ -89,7 +90,7 @@ function BarberListItem({
             <View style={{ flex: 1 }}>
               <ListItem.Title
                 style={{
-                  color: "white",
+                  color: colors.grey1,
                   fontWeight: "bold",
                   marginBottom: 5,
                   fontSize: 18,
@@ -102,9 +103,9 @@ function BarberListItem({
                   name="map-marker"
                   type="material-community"
                   size={16}
-                  color="white"
+                  color={colors.white}
                 />
-                <Text style={{ color: "white", marginLeft: 5 }}>
+                <Text style={{ color: colors.white, marginLeft: 5 }}>
                   {item.location}
                 </Text>
               </View>
@@ -116,9 +117,9 @@ function BarberListItem({
               name="comment"
               type="material-community"
               size={16}
-              color="white"
+              color={colors.white}
             />
-            <Text style={{ color: "white", marginLeft: 2 }}>
+            <Text style={{ color: colors.white, marginLeft: 2 }}>
               {item.reviews}
             </Text>
           </View>
@@ -141,7 +142,7 @@ function BarberListItem({
                 name="chevron-right"
                 type="material-community"
                 size={24}
-                color="#FFD700" // Yellow color for appointment icon
+                color={colors.grey4} // Use primary color for appointment icon
               />
             </TouchableOpacity>
           </Animated.View>
@@ -182,7 +183,7 @@ const placeHolderstyles = StyleSheet.create({
     marginVertical: 5,
     padding: 10,
     marginHorizontal: 10,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: colors.white,
   },
   leftContainer: {
     flexDirection: "column",
@@ -192,13 +193,13 @@ const placeHolderstyles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: "#d3d3d3",
+    backgroundColor: colors.grey2,
     marginBottom: 5,
   },
   buttonPlaceholder: {
     width: 60,
     height: 20,
-    backgroundColor: "#d3d3d3",
+    backgroundColor: colors.grey2,
   },
   centerContainer: {
     flex: 1,
@@ -207,19 +208,19 @@ const placeHolderstyles = StyleSheet.create({
   titlePlaceholder: {
     width: "70%",
     height: 20,
-    backgroundColor: "#d3d3d3",
+    backgroundColor: colors.grey2,
     marginBottom: 5,
   },
   locationPlaceholder: {
     width: "50%",
     height: 15,
-    backgroundColor: "#d3d3d3",
+    backgroundColor: colors.grey2,
     marginBottom: 5,
   },
   starsPlaceholder: {
     width: "50%",
     height: 15,
-    backgroundColor: "#d3d3d3",
+    backgroundColor: colors.grey2,
   },
   rightContainer: {
     flexDirection: "row",
@@ -229,16 +230,15 @@ const placeHolderstyles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 15,
-    backgroundColor: "#d3d3d3",
+    backgroundColor: colors.grey2,
     marginRight: 5,
   },
   appointmentTextPlaceholder: {
     width: 60,
     height: 20,
-    backgroundColor: "#d3d3d3",
+    backgroundColor: colors.grey2,
   },
 });
-
 const styles = StyleSheet.create({
   leftContainer: {
     flexDirection: "column",
@@ -259,7 +259,10 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   appointmentText: {
-    color: "#FFD700",
+    color: colors.primary,
+    backgroundColor: colors.grey2,
+    padding: 5,
+    borderRadius: 5,
     fontWeight: "bold",
   },
 });

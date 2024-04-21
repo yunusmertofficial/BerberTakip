@@ -2,12 +2,13 @@ import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Text } from "@rneui/themed";
+import { colors } from "../../../../utils";
 
 const BackgroundHeader = () => {
   return (
     <>
       <LinearGradient
-        colors={["#ff0080", "#ff7f00"]}
+        colors={[colors.secondary, colors.primary]}
         style={styles.background}
       />
       <View
@@ -22,10 +23,10 @@ const BackgroundHeader = () => {
           bottom: 0,
         }}
       >
-        <Text h3 style={[styles.heading, { color: "white" }]}>
+        <Text h3 style={[styles.heading, { color: colors.grey2 }]}>
           BerberTakip
         </Text>
-        <Text style={[styles.heading, { color: "lightgray" }]}>
+        <Text style={[styles.heading, { color: colors.white }]}>
           Kolayca berberinizden randevu alabilirsiniz
         </Text>
       </View>

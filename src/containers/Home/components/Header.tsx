@@ -5,6 +5,26 @@ import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SearchBar } from "../../../components/SearchBar";
 
+const colors = {
+  primary: "#38B2AC", // Turquoise
+  secondary: "#FFD700", // Golden Yellow
+  background: "#F5F5F5", // Light Gray
+  white: "#FFFFFF", // Pure White
+  black: "#000000", // Pure Black
+  grey0: "#FFFFFF", // Pure White
+  grey1: "#F2F2F2", // Very Light Gray
+  grey2: "#E0E0E0", // Light Gray
+  grey3: "#CCCCCC", // Medium Gray
+  grey4: "#999999", // Dark Gray
+  grey5: "#333333", // Dark Gray
+  greyOutline: "#CCCCCC", // Medium Gray
+  searchBg: "#E0E0E0", // Light Gray
+  success: "#4CAF50", // Green
+  error: "#F44336", // Red
+  warning: "#FFEB3B", // Yellow
+  divider: "#E0E0E0", // Light Gray
+};
+
 export const Header = ({
   modalVisible,
   setModalVisible,
@@ -22,7 +42,9 @@ export const Header = ({
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: colors.primary }]}
+    >
       <View style={styles.topRow}>
         <SearchBar
           searchData={async (searchTerm) => {
@@ -35,37 +57,55 @@ export const Header = ({
             name="bell"
             type="material-community"
             size={22}
-            color="#FF5733"
+            color={colors.secondary}
           />
         </Pressable>
       </View>
-      <View style={styles.divider} />
+      <View style={[styles.divider, { backgroundColor: colors.divider }]} />
       <View style={styles.bottomRow}>
         <Button
           onPress={() => setModalVisible(!modalVisible)}
-          buttonStyle={[styles.button, styles.filterButton]}
+          buttonStyle={[
+            styles.button,
+            styles.filterButton,
+            { backgroundColor: colors.primary },
+          ]}
           title="Filtrele"
           icon={
             <Icon
               name="filter"
               type="material-community"
               size={22}
-              color="#FFF"
+              color={colors.white}
             />
           }
           titleStyle={styles.buttonText}
         />
         <Pressable
           onPress={handleMapNavigation}
-          style={{ flexDirection: "row", alignItems: "center" }}
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            backgroundColor: colors.grey3,
+            borderRadius: 20,
+            paddingHorizontal: 12,
+            paddingVertical: 8,
+          }}
         >
           <Icon
             name="map-marker-alt"
             type="font-awesome-5"
             size={22}
-            color="gray"
+            color={colors.black}
           />
-          <Text style={{ fontSize: 15, fontWeight: "500", marginLeft: 8 }}>
+          <Text
+            style={{
+              fontSize: 15,
+              fontWeight: "500",
+              marginLeft: 8,
+              color: colors.black,
+            }}
+          >
             Harita
           </Text>
         </Pressable>
@@ -78,7 +118,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
     alignItems: "stretch",
-    backgroundColor: "#87CEEB", // Açık mavimsi renk
     paddingHorizontal: 20,
     paddingVertical: 10,
   },
@@ -89,12 +128,12 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 1,
-    backgroundColor: "#E0E0E0", // Ayırıcı rengi
     marginBottom: 10,
   },
   bottomRow: {
     flexDirection: "row",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
+
     alignItems: "center",
   },
   button: {
@@ -106,16 +145,13 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   filterButton: {
-    backgroundColor: "#4169E1", // Daha koyu mavimsi renk
-  },
-  mapButton: {
-    backgroundColor: "#00BFFF", // Daha açık mavimsi renk
+    backgroundColor: colors.grey5,
   },
   buttonText: {
     fontSize: 15,
     fontWeight: "500",
     marginLeft: 8,
-    color: "white",
+    color: colors.white,
     textAlign: "center",
   },
 
@@ -124,3 +160,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
 });
+
+export default Header;
