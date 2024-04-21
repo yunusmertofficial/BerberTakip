@@ -1,5 +1,5 @@
 import * as Location from "expo-location";
-import { wait } from ".";
+import wait from "./wait";
 
 const getLocationCoords = async () => {
   try {

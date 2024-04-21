@@ -46,6 +46,7 @@ function App() {
       const token = await AsyncStorage.getItem("token");
       //apiye istek atıp orada token kontrolü yapılabilir
       const isValidToken = token && typeof token === "string";
+
       if (isValidToken) {
         const decoded = jwtDecode(token);
         const expirationTime = Number(decoded.exp) * 1000;
