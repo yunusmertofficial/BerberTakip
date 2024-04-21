@@ -1,9 +1,15 @@
 import { Input } from "@rneui/themed";
+import { FormikProps } from "formik";
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import SignInFormValues from "../../../../types/FormValues/Auth/SignIn";
 
-const PasswordInput = ({ formik }: { formik: any }) => {
+const PasswordInput = ({
+  formik,
+}: {
+  formik: FormikProps<SignInFormValues>;
+}) => {
   const [showPassword, setShowPassword] = React.useState(false);
   return (
     <Input

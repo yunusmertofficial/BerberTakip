@@ -1,8 +1,14 @@
 import { Input } from "@rneui/themed";
+import { FormikProps } from "formik";
 import React, { useRef } from "react";
 import { View } from "react-native";
+import SignInFormValues from "../../../../types/FormValues/Auth/SignIn";
 
-const VerificationCode = ({ formik }: { formik: any }) => {
+const VerificationCodeInputs = ({
+  formik,
+}: {
+  formik: FormikProps<SignInFormValues>;
+}) => {
   const verificationCodeInputsRef = useRef<Array<any | null>>([]);
   const handleChangeVerificationCode = (index: number, text: string) => {
     const verificationCodes = [...formik.values.verificationCode];
@@ -51,4 +57,4 @@ const VerificationCode = ({ formik }: { formik: any }) => {
   );
 };
 
-export default VerificationCode;
+export default VerificationCodeInputs;

@@ -3,25 +3,19 @@ import { StyleSheet, ScrollView, Dimensions } from "react-native";
 import { Button, Text } from "@rneui/themed";
 import { useFormik } from "formik";
 import { Card as CardComponent, CardHeader } from "../../components/Card";
-import PhoneNumber from "./components/InputFields/PhoneNumber";
-import PasswordInput from "./components/InputFields/PasswordInput";
-import VerificationCode from "./components/InputFields/VerificationCode";
+import PhoneNumberInput from "./components/FormikFields/PhoneNumberInput";
+import PasswordInput from "./components/FormikFields/PasswordInput";
+import VerificationCodeInputs from "./components/FormikFields/VerificationCodeInputs";
 import { useSignIn } from "../../hooks/apiServices/auth/useSignin";
-import LoginOption from "./components/LoginOption";
+import LoginOptionField from "./components/FormikFields/LoginOptionField";
 import RoutingSignup from "./components/RoutingSignup";
-import SigninSchema from "../../formikSchemas/signin";
 import BackgroundHeader from "./components/BackgroundHeader";
-
-interface FormValues {
-  phoneNumber: string;
-  password: string;
-  loginOption: "password" | "verificationCode" | "";
-  verificationCode: [string, string, string, string];
-}
+import SignInFormValues from "../../types/FormValues/Auth/SignIn";
+import SigninSchema from "../../formikSchemas/Auth/SigninSchema";
 
 const SigninContainer = () => {
   const { signIn, loading, error } = useSignIn();
-  const formik = useFormik<FormValues>({
+  const formik = useFormik<SignInFormValues>({
     initialValues: {
       phoneNumber: "",
       loginOption: "password",
@@ -47,14 +41,14 @@ const SigninContainer = () => {
       <BackgroundHeader />
       <CardComponent>
         <CardHeader> Giriş Yap</CardHeader>
-        <PhoneNumber formik={formik} />
+        <PhoneNumberInput formik={formik} />
         {formik.values.loginOption === "password" ? (
           <PasswordInput formik={formik} />
         ) : null}
         {formik.values.loginOption === "verificationCode" ? (
-          <VerificationCode formik={formik} />
+          <VerificationCodeInputs formik={formik} />
         ) : null}
-        <LoginOption formik={formik} />
+        <LoginOptionField formik={formik} />
         {error && <Text style={styles.error}>{error}</Text>}
         <Button
           title="Giriş Yap"

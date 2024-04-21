@@ -9,8 +9,17 @@ import {
 import { ListItem, Avatar, Icon, Button } from "@rneui/themed";
 import { LinearGradient } from "expo-linear-gradient";
 import Stars from "../../../components/Stars";
+import { Barber } from "../../../types";
 
-function BarberListItem({ item, animatedValue, isLoading }: any) {
+function BarberListItem({
+  item,
+  animatedValue,
+  isLoading,
+}: {
+  item: any;
+  animatedValue: Animated.Value;
+  isLoading: boolean;
+}) {
   if (isLoading) {
     return <BarberListItemPlaceholder />;
   }
