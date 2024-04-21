@@ -1,8 +1,6 @@
-function wait(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 import * as Location from "expo-location";
+import { wait } from ".";
+
 const getLocationCoords = async () => {
   try {
     const { status } = await Location.requestForegroundPermissionsAsync();

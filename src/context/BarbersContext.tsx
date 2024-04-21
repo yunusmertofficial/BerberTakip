@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { fetchBarbers } from "../apiServices/barber";
 import { Barber } from "../types";
-import getLocationCoords from "../utils/locationUtils";
 import { setLocation } from "../../features/user/userSlice";
 import { useDispatch } from "react-redux";
+import { getLocationCoords } from "../utils";
 
 // Berberlerin tipini ve diğer durumları içeren bir arayüz oluşturuyoruz
 interface BarbersContextType {
