@@ -24,7 +24,7 @@ export const Header = ({
 
   return (
     <SafeAreaView
-      style={[styles.container, { backgroundColor: colors.primary }]}
+      style={[styles.container, { backgroundColor: colors.background }]}
     >
       <View style={styles.topRow}>
         <SearchBar

@@ -142,7 +142,7 @@ function BarberListItem({
                 name="chevron-right"
                 type="material-community"
                 size={24}
-                color={colors.grey4} // Use primary color for appointment icon
+                color={colors.divider} // Use primary color for appointment icon
               />
             </TouchableOpacity>
           </Animated.View>
