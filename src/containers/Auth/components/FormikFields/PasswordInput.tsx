@@ -1,28 +1,26 @@
 import { Input } from "@rneui/themed";
-import { FormikProps } from "formik";
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import SignInFormValues from "../../../../types/FormValues/Auth/SignIn";
 
 const PasswordInput = ({
   formik,
+  type = "password",
 }: {
-  formik: FormikProps<SignInFormValues>;
+  formik: any;
+  type?: "password" | "confirmPassword";
 }) => {
   const [showPassword, setShowPassword] = React.useState(false);
   return (
     <Input
-      onChangeText={formik.handleChange("password")}
-      onBlur={formik.handleBlur("password")}
-      value={formik.values.password}
+      onChangeText={formik.handleChange(type)}
+      onBlur={formik.handleBlur(type)}
+      value={formik.values[type]}
       secureTextEntry={!showPassword}
       errorMessage={
-        formik.touched.password && formik.errors.password
-          ? formik.errors.password
-          : ""
+        formik.touched[type] && formik.errors[type] ? formik.errors[type] : ""
       }
-      placeholder="Şifre"
+      placeholder={type === "password" ? "Şifre" : "Şifreyi Onayla"}
       style={{
         margin: 0,
         padding: 0,

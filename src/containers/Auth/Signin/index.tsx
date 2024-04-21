@@ -2,16 +2,16 @@ import React from "react";
 import { StyleSheet, ScrollView, Dimensions } from "react-native";
 import { Button, Text } from "@rneui/themed";
 import { useFormik } from "formik";
-import { Card as CardComponent, CardHeader } from "../../components/Card";
-import PhoneNumberInput from "./components/FormikFields/PhoneNumberInput";
-import PasswordInput from "./components/FormikFields/PasswordInput";
-import VerificationCodeInputs from "./components/FormikFields/VerificationCodeInputs";
-import { useSignIn } from "../../hooks/apiServices/auth/useSignin";
 import LoginOptionField from "./components/FormikFields/LoginOptionField";
 import RoutingSignup from "./components/RoutingSignup";
 import BackgroundHeader from "./components/BackgroundHeader";
-import SignInFormValues from "../../types/FormValues/Auth/SignIn";
-import SigninSchema from "../../formikSchemas/Auth/SigninSchema";
+import { useSignIn } from "../../../hooks/apiServices/auth/useSignin";
+import SignInFormValues from "../../../types/FormValues/Auth/SignIn";
+import SigninSchema from "../../../formikSchemas/Auth/SigninSchema";
+import { CardHeader, Card as CardComponent } from "../../../components/Card";
+import PhoneNumberInput from "../components/FormikFields/PhoneNumberInput";
+import PasswordInput from "../components/FormikFields/PasswordInput";
+import VerificationCodeInputs from "../components/FormikFields/VerificationCodeInputs";
 
 const SigninContainer = () => {
   const { signIn, loading, error } = useSignIn();

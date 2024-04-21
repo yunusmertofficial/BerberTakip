@@ -1,13 +1,7 @@
 import { Input } from "@rneui/base";
-import { FormikProps } from "formik";
 import React from "react";
-import SignInFormValues from "../../../../types/FormValues/Auth/SignIn";
 
-const PhoneNumberInput = ({
-  formik,
-}: {
-  formik: FormikProps<SignInFormValues>;
-}) => {
+const PhoneNumberInput = ({ formik }: { formik: any }) => {
   return (
     <Input
       label="Telefon Numarası"
