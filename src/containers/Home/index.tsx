@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { View, FlatList, Animated } from "react-native";
 import BarberListItem from "./components/BarberListItem";
-import { Filter } from "./components/Filter";
-import { SearchBar } from "../../components/SearchBar";
 import ErrorMessage from "./components/ErrorMessage";
 import { useBarbers } from "../../context/BarbersContext";
+import { Header } from "./components/Header";
+import FilterModal from "./components/FilterModal";
 
 const HomeContainer = () => {
   const { barbers, isLoading, errorMsg } = useBarbers();
@@ -30,16 +30,12 @@ const HomeContainer = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <Filter
-        modalVisibile={modalVisibile}
-        setModalVisibile={setModalVisibile}
+      <FilterModal
+        modalVisible={modalVisibile}
+        setModalVisible={setModalVisibile}
+        applyFilters={(filters) => console.log(filters)}
       />
-      <SearchBar
-        searchData={async (searchTerm) => {
-          await new Promise((resolve) => setTimeout(resolve, 10000));
-          console.log(searchTerm);
-        }}
-      />
+      <Header modalVisible={modalVisibile} setModalVisible={setModalVisibile} />
       {errorMsg ? (
         <ErrorMessage />
       ) : (

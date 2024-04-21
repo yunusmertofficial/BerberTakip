@@ -38,10 +38,12 @@ export const SearchBar = ({
 
 const styles = StyleSheet.create({
   searchContainer: {
+    flex: 1,
+    marginRight: 10,
     backgroundColor: "transparent",
     borderBottomColor: "transparent",
     borderTopColor: "transparent",
-    paddingHorizontal: 10,
+    width: "90%",
   },
   inputContainer: {
     backgroundColor: "#E0E0E0",
