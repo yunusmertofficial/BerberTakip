@@ -53,7 +53,7 @@ const Screen1 = () => {
             headerShown: true,
             headerTitleAlign: "center",
             headerStyle: {
-              backgroundColor: colors.background,
+              backgroundColor: colors.primary,
             },
           }}
         />
@@ -78,6 +78,13 @@ function RootStack() {
             <Stack.Screen
               name="BarberProfile"
               component={BarberProfileScreen}
+              options={{
+                title: "Berber Profili",
+                headerShown: true,
+                headerStyle: {
+                  backgroundColor: colors.primary,
+                },
+              }}
             />
           </Stack.Group>
         ) : (

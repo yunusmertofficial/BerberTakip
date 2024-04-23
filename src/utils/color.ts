@@ -14,7 +14,7 @@ const colors = {
   searchBg: "#E0E0E0", // Light Gray
   success: "#4CAF50", // Green
   error: "#F44336", // Red
-  warning: "#FFEB3B", // Yellow
+  warning: "#FFA500", // Orange (Turuncumsu)
   divider: "#E0E0E0", // Light Gray
 };
 

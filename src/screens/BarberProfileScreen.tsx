@@ -1,11 +1,8 @@
-import { View, Text } from "react-native";
+import React from "react";
+import BarberProfileContainer from "../containers/Barber";
 
 const BarberProfileScreen = () => {
-  return (
-    <View>
-      <Text>Barber Screen</Text>
-    </View>
-  );
+  return <BarberProfileContainer />;
 };
 
 export default BarberProfileScreen;

@@ -9,7 +9,6 @@ import {
 import { ListItem, Avatar, Icon, Button } from "@rneui/themed";
 import { LinearGradient } from "expo-linear-gradient";
 import Stars from "../../../components/Stars";
-import { Barber } from "../../../types";
 import { colors } from "../../../utils";
 import { useNavigation } from "@react-navigation/native";
 
@@ -113,18 +112,18 @@ function BarberListItem({
                   {item.location}
                 </Text>
               </View>
-              <Stars numStars={item.stars} />
+              <Stars numStars={item.rating} />
             </View>
           </View>
           <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
             <Icon
-              name="comment"
+              name="calendar-check"
               type="material-community"
               size={16}
               color={colors.white}
             />
             <Text style={{ color: colors.white, marginLeft: 2 }}>
-              {item.reviews}
+              {item.completed_appointments}
             </Text>
           </View>
         </View>
@@ -253,6 +252,7 @@ const styles = StyleSheet.create({
     flex: 2,
     alignSelf: "center",
     marginLeft: 10,
+    marginRight: 20,
   },
   rightContainer: {
     flexDirection: "row",
@@ -265,6 +265,7 @@ const styles = StyleSheet.create({
   appointmentText: {
     color: colors.primary,
     backgroundColor: colors.grey2,
+    textAlign: "center",
     padding: 5,
     borderRadius: 5,
     fontWeight: "bold",

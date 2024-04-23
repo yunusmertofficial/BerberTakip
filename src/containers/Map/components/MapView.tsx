@@ -3,7 +3,7 @@ import ReactNativeMapView from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
 import { MarkerView } from "./MarkerView";
 import { useBarbers } from "../../../context/BarbersContext";
-import { Barber } from "../../../types";
+import Barber from "../../../types/Barber";
 
 interface InitialRegion {
   latitudeDelta: number;

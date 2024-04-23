@@ -10,27 +10,31 @@ const Stars = ({
   style?: ViewStyle;
   size?: number;
 }) => {
-  const yellowStars = Array.from({ length: numStars }).map((_, index) => (
-    <Icon
-      key={index}
-      name="star"
-      type="material-community"
-      size={size}
-      color="#FFD700"
-      style={{ marginRight: 5 }}
-    />
-  ));
+  const yellowStars = Array.from({ length: Math.floor(numStars) }).map(
+    (_, index) => (
+      <Icon
+        key={index}
+        name="star"
+        type="material-community"
+        size={size}
+        color="#FFD700"
+        style={{ marginRight: 5 }}
+      />
+    )
+  );
 
-  const whiteStars = Array.from({ length: 5 - numStars }).map((_, index) => (
-    <Icon
-      key={index + numStars}
-      name="star"
-      type="material-community"
-      size={size}
-      color="white"
-      style={{ marginRight: 5 }}
-    />
-  ));
+  const whiteStars = Array.from({ length: 5 - Math.floor(numStars) }).map(
+    (_, index) => (
+      <Icon
+        key={index + Math.floor(numStars)}
+        name="star"
+        type="material-community"
+        size={size}
+        color="white"
+        style={{ marginRight: 5 }}
+      />
+    )
+  );
 
   return (
     <View style={[styles.container, style]}>

@@ -8,19 +8,23 @@ import {
 } from "react-native";
 import { colors } from "../utils";
 
-interface ErrorFallbackProps {
+export interface ErrorFallbackProps {
   resetError: () => void;
+  title?: string;
+  error?: string | null;
 }
 
 const ErrorFallbackComponent: React.FC<ErrorFallbackProps> = ({
   resetError,
+  title,
+  error,
 }) => (
   <SafeAreaView style={styles.container}>
     <View style={styles.content}>
-      <Text style={styles.title}>Hata!</Text>
-      <Text style={styles.subtitle}>Bir şeyler ters gitti.</Text>
+      <Text style={styles.title}>{title || "Bir şeyler ters gitti."}</Text>
       <Text style={styles.error}>
-        Üzgünüz, bir şeyler ters gitti ve işlem tamamlanamadı. Lütfen tekrar
+        {error ||
+          "Üzgünüz, bir şeyler ters gitti ve işlem tamamlanamadı. Lütfen tekrar deneyin."}
       </Text>
       <TouchableOpacity style={styles.button} onPress={resetError}>
         <Text style={styles.buttonText}>Tekrar Dene</Text>
@@ -49,6 +53,7 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 18,
     marginBottom: 20,
+    textAlign: "center",
     color: colors.grey5,
   },
   error: {
