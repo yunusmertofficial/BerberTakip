@@ -1,23 +1,18 @@
-import { decode } from "base-64";
-global.atob = decode;
 import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SigninScreen from "./src/screens/SigninScreen";
 import SignupScreen from "./src/screens/SignupScreen";
 import BarberProfileScreen from "./src/screens/BarberProfileScreen";
-import { Provider, useDispatch, useSelector } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import store, { RootState } from "./store";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { jwtDecode } from "jwt-decode";
-import {
-  clearUser as clearUserRedux,
-  setUser,
-} from "./features/user/userSlice";
 import { NavigationContainer } from "@react-navigation/native";
 import HomeScreen from "./src/screens/HomeScreen";
 import MapScreen from "./src/screens/MapScreen";
-import { CircularProgress } from "./src/components/CircularProgress";
 import { BarbersProvider } from "./src/context/BarbersContext";
+import useAuthentication from "./src/hooks/useAuthentication";
+import ErrorBoundary from "./src/components/ErrorBoundary";
+import LoadingBoundary from "./src/components/LoadingBoundary";
+import { colors } from "./src/utils";
 
 export default function AppContainer() {
   return (
@@ -28,53 +23,15 @@ export default function AppContainer() {
 }
 
 function App() {
-  const dispatch = useDispatch();
-  const [loadingToken, setLoadingToken] = React.useState(true);
+  const { loadingToken, error, checkToken } = useAuthentication();
 
-  // Check user authentication status on app start
-  React.useEffect(() => {
-    checkToken();
-  }, []);
-
-  const clearUser = () => {
-    dispatch(clearUserRedux());
-    AsyncStorage.removeItem("token");
-  };
-
-  const checkToken = async () => {
-    setLoadingToken(true);
-
-    try {
-      const token = await AsyncStorage.getItem("token");
-      //apiye istek atıp orada token kontrolü yapılabilir
-      const isValidToken = token && typeof token === "string";
-
-      if (isValidToken) {
-        const decoded = jwtDecode(token);
-        const expirationTime = Number(decoded.exp) * 1000;
-        const currentTime = Date.now();
-        if (expirationTime < currentTime) {
-          clearUser();
-        } else {
-          dispatch(
-            setUser({
-              ...decoded,
-              latitude: undefined,
-              longitude: undefined,
-            })
-          );
-        }
-      } else {
-        clearUser();
-      }
-    } catch (error) {
-      console.error("Token kontrol edilirken hata oluştu:", error);
-    } finally {
-      setLoadingToken(false);
-    }
-  };
-
-  return loadingToken ? <CircularProgress /> : <RootStack />;
+  return (
+    <LoadingBoundary isLoading={loadingToken}>
+      <ErrorBoundary isErrored={error} resetError={checkToken}>
+        <RootStack />
+      </ErrorBoundary>
+    </LoadingBoundary>
+  );
 }
 
 const Stack = createNativeStackNavigator();
@@ -91,7 +48,14 @@ const Screen1 = () => {
         <Stack.Screen
           name="Map"
           component={MapScreen}
-          options={{ headerShown: false }}
+          options={{
+            title: "Harita",
+            headerShown: true,
+            headerTitleAlign: "center",
+            headerStyle: {
+              backgroundColor: colors.background,
+            },
+          }}
         />
       </Stack.Navigator>
     </BarbersProvider>
