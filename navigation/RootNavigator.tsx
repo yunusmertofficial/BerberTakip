@@ -19,7 +19,7 @@ function RootStack() {
         }}
       >
         <Tab.Navigator
-          screenOptions={({ route, navigation }) => ({
+          screenOptions={{
             headerShown: false,
             tabBarStyle: {
               height: 60,
@@ -37,7 +37,7 @@ function RootStack() {
             tabBarIconStyle: {
               fontSize: 50,
             },
-          })}
+          }}
         >
           <Tab.Screen
             name="HomeStack"
