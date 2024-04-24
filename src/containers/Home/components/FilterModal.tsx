@@ -59,7 +59,12 @@ const FilterModal: React.FC<{
       transparent={true}
       onRequestClose={() => setModalVisible(false)}
     >
-      <View style={styles.modalContainer}>
+      <Pressable
+        style={styles.modalContainer}
+        onPress={() => {
+          setModalVisible(false);
+        }}
+      >
         <View style={styles.innerContainer}>
           <View style={styles.filterGroup}>
             <Text style={styles.filterTitle}>Yıldıza Göre Filtreleme:</Text>
@@ -130,8 +135,19 @@ const FilterModal: React.FC<{
             ))}
           </View>
           <Button title="Uygula" onPress={handleApplyFilters} />
+          <Pressable
+            style={styles.closeButton}
+            onPress={() => setModalVisible(false)}
+          >
+            <Icon
+              name="close"
+              type="material-community"
+              size={24}
+              color="#333"
+            />
+          </Pressable>
         </View>
-      </View>
+      </Pressable>
     </Modal>
   );
 };
@@ -148,6 +164,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     width: "80%",
+    zIndex: 2,
   },
   filterGroup: {
     marginBottom: 20,
@@ -156,6 +173,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 10,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    padding: 10,
   },
 });
 
