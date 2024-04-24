@@ -1,9 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { fetchBarbers } from "../apiServices/barber";
 import { setLocation } from "../../features/user/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getLocationCoords } from "../utils";
 import Barber from "../types/Barber";
+import { RootState } from "../../store";
 
 // Berberlerin tipini ve diğer durumları içeren bir arayüz oluşturuyoruz
 interface BarbersContextType {
@@ -48,13 +49,17 @@ export const BarbersProvider: React.FC<{ children: React.ReactNode }> = ({
   const [errorMsg, setErrorMsg] = useState<string | null>(
     initialBarbersContext.errorMsg
   );
+  const coordinates = useSelector((state: RootState) => state.user.coordinates);
 
   const fetchData = async () => {
     setIsLoading(true);
     setErrorMsg(null);
     try {
-      const coords = await getLocationCoords();
-      dispatch(setLocation(coords));
+      let coords = coordinates;
+      if (!coordinates) {
+        coords = await getLocationCoords();
+        dispatch(setLocation(coords));
+      }
       const barbers = await fetchBarbers();
       setBarbers(barbers);
     } catch (error: any) {

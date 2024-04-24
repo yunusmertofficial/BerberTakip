@@ -12,12 +12,14 @@ export interface ErrorFallbackProps {
   resetError: () => void;
   title?: string;
   error?: string | null;
+  retryAgainMessage?: string;
 }
 
 const ErrorFallbackComponent: React.FC<ErrorFallbackProps> = ({
   resetError,
   title,
   error,
+  retryAgainMessage,
 }) => (
   <SafeAreaView style={styles.container}>
     <View style={styles.content}>
@@ -27,7 +29,9 @@ const ErrorFallbackComponent: React.FC<ErrorFallbackProps> = ({
           "Üzgünüz, bir şeyler ters gitti ve işlem tamamlanamadı. Lütfen tekrar deneyin."}
       </Text>
       <TouchableOpacity style={styles.button} onPress={resetError}>
-        <Text style={styles.buttonText}>Tekrar Dene</Text>
+        <Text style={styles.buttonText}>
+          {retryAgainMessage || "Tekrar Dene"}
+        </Text>
       </TouchableOpacity>
     </View>
   </SafeAreaView>

@@ -1,7 +1,7 @@
 import Barber from "../types/Barber";
 import api from "./api";
 
-const fetchBarbers = async () => {
+const fetchBarbers = async (ids?: number[]) => {
   try {
     /*     const response = await api.get("barbers");
     return response.data; */
@@ -96,6 +96,10 @@ const fetchBarbers = async () => {
         ],
       },
     ];
+
+    if (ids && ids.length > 0) {
+      return data.filter((barber) => ids.includes(barber.id));
+    }
 
     return data;
   } catch (error: any) {

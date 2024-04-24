@@ -2,7 +2,6 @@ import React, { useRef, useEffect } from "react";
 import ReactNativeMapView from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
 import { MarkerView } from "./MarkerView";
-import { useBarbers } from "../../../context/BarbersContext";
 import Barber from "../../../types/Barber";
 
 interface InitialRegion {
@@ -12,9 +11,14 @@ interface InitialRegion {
   longitude: number;
 }
 
-const MapView = ({ initialRegion }: { initialRegion: InitialRegion }) => {
+const MapView = ({
+  initialRegion,
+  barbers,
+}: {
+  initialRegion: InitialRegion;
+  barbers: Barber[];
+}) => {
   const mapView = useRef<ReactNativeMapView>(null);
-  const { barbers } = useBarbers() as { barbers: Barber[] };
   const navigation = useNavigation();
 
   useEffect(() => {
