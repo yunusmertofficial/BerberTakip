@@ -56,7 +56,7 @@ export const BarbersProvider: React.FC<{ children: React.ReactNode }> = ({
     setErrorMsg(null);
     try {
       let coords = coordinates;
-      if (!coordinates) {
+      if (!coords) {
         coords = await getLocationCoords();
         dispatch(setLocation(coords));
       }

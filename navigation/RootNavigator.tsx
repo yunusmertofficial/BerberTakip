@@ -3,9 +3,10 @@ import AuthNavigator from "./stacks/AuthNavigator";
 import HomeStackScreen from "./stacks/Home";
 import { Icon } from "@rneui/themed";
 import { colors } from "../src/utils";
-import MyAppointmentKeysScreen from "../src/screens/MyAppointmentKeysScreen";
-import MyAppointmentsScreen from "../src/screens/MyAppointmentsScreen";
 import { Dimensions, View } from "react-native";
+import HistoryAppointmentsScreen from "../src/screens/HistoryAppointmentsScreen";
+import AppointmentInformationScreen from "../src/screens/AppointmentInformationScreen";
+
 const Tab = createBottomTabNavigator();
 const { width, height } = Dimensions.get("window");
 
@@ -30,7 +31,6 @@ function RootStack() {
             },
             tabBarLabelStyle: {
               fontSize: 13,
-              fontWeight: "bold",
             },
             tabBarInactiveTintColor: colors.white,
             tabBarActiveTintColor: colors.secondary,
@@ -57,10 +57,10 @@ function RootStack() {
             }}
           />
           <Tab.Screen
-            name="MyAppointmentKeys"
-            component={MyAppointmentKeysScreen}
+            name="AppointmentInformation"
+            component={AppointmentInformationScreen}
             options={{
-              tabBarLabel: "Randevu Anahtarım",
+              tabBarLabel: "Randevu Bilgilerim",
               tabBarIconStyle: {
                 marginBottom: 10,
               },
@@ -88,10 +88,10 @@ function RootStack() {
             }}
           />
           <Tab.Screen
-            name="MyAppointments"
-            component={MyAppointmentsScreen}
+            name="HistoryAppointments"
+            component={HistoryAppointmentsScreen}
             options={{
-              tabBarLabel: "Randevularım",
+              tabBarLabel: "Randevu Geçmişin",
               tabBarIcon: ({ color, size }) => (
                 <Icon
                   name="calendar"
