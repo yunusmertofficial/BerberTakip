@@ -12,6 +12,7 @@ interface UserState {
 
 // Define types for user info
 interface UserInfo {
+  _id: string;
   // Define properties of user info
 }
 

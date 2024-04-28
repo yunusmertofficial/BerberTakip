@@ -1,5 +1,16 @@
 import * as Location from "expo-location";
-import wait from "./wait";
+
+const getCurrentPositionAsync = async () => {
+  try {
+    const location = await Location.getCurrentPositionAsync({});
+    return {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    };
+  } catch (error) {
+    throw new Error("Konum bilgilerine erişilemedi.");
+  }
+};
 
 const getLocationCoords = async () => {
   try {
@@ -9,17 +20,11 @@ const getLocationCoords = async () => {
       throw new Error("Konum izni reddedildi.");
     }
 
-    // 2 sanyie bekletmemizin sebebi kullanıcının izin verdikten hemen sonra okursak hata alabiliyoruz.
-    await wait(2000);
+    let coords = await getCurrentPositionAsync();
 
-    const location = await Location.getCurrentPositionAsync({});
-
-    return {
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-    };
-  } catch (error) {
-    throw new Error("Konum bilgilerine erişilemedi.");
+    return coords;
+  } catch (error: any) {
+    throw new Error(error.message);
   }
 };
 
