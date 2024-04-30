@@ -49,7 +49,7 @@ const StatusText = ({
   queueNumber,
 }: {
   status: AppointmentStatus;
-  scheduledAppointmentTime: Date;
+  scheduledAppointmentTime?: Date;
   queueNumber: number;
 }) => {
   let message = "";
@@ -65,6 +65,7 @@ const StatusText = ({
       message = "Randevu Onaylandı";
       break;
     case AppointmentStatus.Appointment:
+      if (!scheduledAppointmentTime) return null;
       color = colors.primary;
       const formattedDate = scheduledAppointmentTime.toLocaleString("tr-TR", {
         year: "numeric",
@@ -103,12 +104,12 @@ const StatusText = ({
 
 const AppointmentDetails = ({
   status,
-  scheduledAppointmentTime,
+  estimatedTime,
   waitingTimeInMinutes,
   confirmationTime,
 }: {
   status: AppointmentStatus;
-  scheduledAppointmentTime: Date;
+  estimatedTime?: Date;
   waitingTimeInMinutes: number;
   confirmationTime: Date;
 }) => {
@@ -116,13 +117,16 @@ const AppointmentDetails = ({
     case AppointmentStatus.Appointment:
     case AppointmentStatus.InQueue:
     case AppointmentStatus.InQueueWithAppointment:
-      return (
-        <EstimatedStartTime
-          label="Tahmini Randevu Başlangıç Zamanı"
-          time={scheduledAppointmentTime}
-        />
-      );
-
+      if (estimatedTime) {
+        return (
+          <EstimatedStartTime
+            label="Tahmini Randevu Başlangıç Zamanı"
+            time={estimatedTime}
+          />
+        );
+      } else {
+        return null;
+      }
     case AppointmentStatus.AwaitingBarberConfirmation:
       return (
         <>
@@ -151,13 +155,15 @@ const AppointmentDetails = ({
 
 const AppoinmentKey = ({
   scheduledAppointmentTime,
+  estimatedTime,
   waitingTimeInMinutes,
   confirmationTime,
   status,
   queueNumber,
   appointmentNumber,
 }: {
-  scheduledAppointmentTime: Date;
+  scheduledAppointmentTime?: Date;
+  estimatedTime?: Date;
   appointmentNumber: string;
   queueNumber: number;
   status: AppointmentStatus;
@@ -175,7 +181,7 @@ const AppoinmentKey = ({
       <View style={[styles.detailsContainer, { alignItems: "center" }]}>
         <AppointmentDetails
           status={status}
-          scheduledAppointmentTime={scheduledAppointmentTime}
+          estimatedTime={estimatedTime}
           waitingTimeInMinutes={waitingTimeInMinutes}
           confirmationTime={confirmationTime}
         />
