@@ -15,10 +15,6 @@ export enum AppointmentStatus {
 }
 
 export interface AppointmentType {
-  appointmentStatus: {
-    type: "Scheduled" | "In Progress";
-    status: AppointmentStatus;
-  };
   appointmentNumber: string;
   barberName: string;
   personnelName: string;
@@ -28,17 +24,20 @@ export interface AppointmentType {
   };
   appointmentLocation: string;
   queueNumber: number;
-  inProgress?: {
-    startedAt: Date;
-    estimatedEndTime: Date;
+  data: {
+    type: "Pending" | "In Progress";
+    scheduledAppointmentTime?: Date;
+    inProgress: {
+      startedAt: Date;
+    };
+    pending: {
+      status: AppointmentStatus;
+      estimatedTime: Date;
+      waitingTimeInMinutes: number; // Müşterinin bekletilme süresi (dakika)
+      confirmationTime: Date; // Müşterinin randevusunun onaylandığı zaman
+    };
+    services: Service[];
   };
-  scheduled: {
-    scheduledAppointmentTime: Date;
-    scheduledAppointmentEndTime: Date;
-    waitingTimeInMinutes: number; // Müşterinin bekletilme süresi (dakika)
-    confirmationTime: Date; // Müşterinin randevusunun onaylandığı zaman
-  };
-  services: Service[];
 }
 
 export interface Service {
@@ -56,10 +55,6 @@ const AppointmentInformationContainer: React.FC = () => {
     try {
       setIsLoading(true);
       const appointmentInProgress: AppointmentType = {
-        appointmentStatus: {
-          type: "Scheduled",
-          status: AppointmentStatus.ConfirmedByBarber,
-        },
         appointmentNumber: "A002",
         queueNumber: 2,
         barberName: "Berber2",
@@ -69,28 +64,31 @@ const AppointmentInformationContainer: React.FC = () => {
           longitude: 28.75646534427912,
         },
         personnelName: "Jane Doe",
-        inProgress: {
-          startedAt: new Date("2024-04-25T18:40:00"),
-          estimatedEndTime: new Date("2024-04-25T20:40:00"),
-        },
-        scheduled: {
-          scheduledAppointmentTime: new Date("2024-04-25T18:40:00"),
-          scheduledAppointmentEndTime: new Date("2024-04-25T20:40:00"),
-          confirmationTime: new Date("2024-04-25T18:20:00"),
-          waitingTimeInMinutes: 20,
-        },
-        services: [
-          {
-            serviceName: "Saç Kesimi",
-            servicePrice: 50,
-            serviceDuration: 30,
+        data: {
+          type: "In Progress",
+          scheduledAppointmentTime: new Date("2024-04-25T18:00:00"),
+          inProgress: {
+            startedAt: new Date("2024-04-25T18:40:00"),
           },
-          {
-            serviceName: "Sakal Tıraşı",
-            servicePrice: 30,
-            serviceDuration: 20,
+          pending: {
+            status: AppointmentStatus.ConfirmedByBarber,
+            estimatedTime: new Date("2024-04-25T18:40:00"),
+            waitingTimeInMinutes: 20,
+            confirmationTime: new Date("2024-04-25T18:20:00"),
           },
-        ],
+          services: [
+            {
+              serviceName: "Saç Kesimi",
+              servicePrice: 50,
+              serviceDuration: 30,
+            },
+            {
+              serviceName: "Sakal Tıraşı",
+              servicePrice: 30,
+              serviceDuration: 20,
+            },
+          ],
+        },
       };
       setAppointment(appointmentInProgress);
     } catch (error: any) {
@@ -104,6 +102,18 @@ const AppointmentInformationContainer: React.FC = () => {
     fetchAppointmentInformation();
   }, []);
 
+  function calculateEstimatedEndTime(
+    startTime: Date | undefined,
+    services: Service[]
+  ): Date {
+    const effectiveStartTime = startTime || new Date();
+    const totalServiceTime = services.reduce(
+      (total, service) => total + service.serviceDuration,
+      0
+    );
+    return new Date(effectiveStartTime.getTime() + totalServiceTime * 60000);
+  }
+
   return (
     <LoadingBoundary isLoading={isLoading}>
       <ErrorBoundary
@@ -112,17 +122,18 @@ const AppointmentInformationContainer: React.FC = () => {
         resetError={fetchAppointmentInformation}
         isErrored={!!errorMessage}
       >
-        {appointment?.appointmentStatus?.type === "Scheduled" && (
+        {appointment?.data?.type === "Pending" && (
           <ScheduledAppointmentInformation appointment={appointment} />
         )}
-        {appointment?.appointmentStatus?.type === "In Progress" && (
+        {appointment?.data?.type === "In Progress" && (
           <InProgressAppointmentInformation
             barberName={appointment.barberName}
             personnelName={appointment.personnelName}
-            startedAt={appointment.inProgress?.startedAt || new Date()}
-            estimatedEndTime={
-              appointment.inProgress?.estimatedEndTime || new Date()
-            }
+            startedAt={appointment.data.inProgress?.startedAt || new Date()}
+            estimatedEndTime={calculateEstimatedEndTime(
+              appointment.data.inProgress?.startedAt,
+              appointment.data.services
+            )}
           />
         )}
         {Object.keys(appointment || {}).length === 0 && (

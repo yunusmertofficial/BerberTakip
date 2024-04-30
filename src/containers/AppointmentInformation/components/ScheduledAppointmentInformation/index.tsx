@@ -41,13 +41,14 @@ const ScheduledAppointmentInformation = ({
         >
           <AppoinmentKey
             queueNumber={appointment.queueNumber}
-            scheduledAppointmentTime={
-              appointment.scheduled.scheduledAppointmentTime
-            }
+            scheduledAppointmentTime={appointment.data.scheduledAppointmentTime}
+            estimatedTime={appointment.data.pending?.estimatedTime}
             appointmentNumber={appointment.appointmentNumber}
-            waitingTimeInMinutes={appointment.scheduled.waitingTimeInMinutes}
-            confirmationTime={appointment.scheduled.confirmationTime}
-            status={appointment.appointmentStatus.status}
+            waitingTimeInMinutes={
+              appointment.data.pending?.waitingTimeInMinutes
+            }
+            confirmationTime={appointment.data.pending?.confirmationTime}
+            status={appointment.data.pending?.status}
           />
         </TabView.Item>
         <TabView.Item
@@ -57,12 +58,11 @@ const ScheduledAppointmentInformation = ({
             appointmentNumber={appointment.appointmentNumber}
             barberName={appointment.barberName}
             personnelName={appointment.personnelName}
-            scheduledAppointmentTime={
-              appointment.scheduled.scheduledAppointmentTime
-            }
+            scheduledAppointmentTime={appointment.data.scheduledAppointmentTime}
+            estimatedTime={appointment.data.pending?.estimatedTime}
             appointmentLocation={appointment.appointmentLocation}
             appointmentCoordinates={appointment.appointmentCoordinates}
-            services={appointment.services}
+            services={appointment.data.services}
           />
         </TabView.Item>
       </TabView>

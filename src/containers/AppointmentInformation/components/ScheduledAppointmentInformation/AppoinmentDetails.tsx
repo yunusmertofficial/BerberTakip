@@ -18,13 +18,15 @@ const ListHeaderComponent = ({
   barberName,
   personnelName,
   scheduledAppointmentTime,
+  estimatedTime,
   appointmentLocation,
   appointmentCoordinates,
 }: {
   appointmentNumber: string;
   barberName: string;
   personnelName: string;
-  scheduledAppointmentTime: Date;
+  estimatedTime?: Date;
+  scheduledAppointmentTime?: Date;
   appointmentLocation: string;
   appointmentCoordinates: { latitude: number; longitude: number };
 }) => {
@@ -41,14 +43,23 @@ const ListHeaderComponent = ({
         <Text style={styles.detailTextBold}>Hizmet Sağlayıcı:</Text>{" "}
         {personnelName}
       </Text>
-      <Text style={styles.detailText}>
-        <Text style={styles.detailTextBold}>Randevu Zamanı:</Text>{" "}
-        {scheduledAppointmentTime.toLocaleString()}
-      </Text>
+      {scheduledAppointmentTime && (
+        <Text style={styles.detailText}>
+          <Text style={styles.detailTextBold}>Randevu Zamanı:</Text>{" "}
+          {scheduledAppointmentTime.toLocaleString()}
+        </Text>
+      )}
+      {estimatedTime && (
+        <Text style={styles.detailText}>
+          <Text style={styles.detailTextBold}>Tahmini Başlangıç Zamanı:</Text>{" "}
+          {estimatedTime.toLocaleString()}
+        </Text>
+      )}
       <Text style={styles.detailText}>
         <Text style={styles.detailTextBold}>Kısa Adres:</Text>{" "}
         {appointmentLocation}
       </Text>
+
       <Button
         title="Yol Tarifi Al"
         onPress={() => {
@@ -95,6 +106,7 @@ const AppoinmentDetails = ({
   barberName,
   personnelName,
   scheduledAppointmentTime,
+  estimatedTime,
   appointmentLocation,
   appointmentCoordinates,
 }: {
@@ -102,7 +114,8 @@ const AppoinmentDetails = ({
   appointmentNumber: string;
   barberName: string;
   personnelName: string;
-  scheduledAppointmentTime: Date;
+  scheduledAppointmentTime?: Date;
+  estimatedTime?: Date;
   appointmentLocation: string;
   appointmentCoordinates: { latitude: number; longitude: number };
 }) => {
@@ -126,6 +139,7 @@ const AppoinmentDetails = ({
             barberName={barberName}
             personnelName={personnelName}
             scheduledAppointmentTime={scheduledAppointmentTime}
+            estimatedTime={estimatedTime}
             appointmentLocation={appointmentLocation}
             appointmentCoordinates={appointmentCoordinates}
           />
