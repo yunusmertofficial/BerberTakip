@@ -16,12 +16,20 @@ const InProgressAppointmentInformation: React.FC<{
 
   useEffect(() => {
     const animateShaver = Animated.loop(
-      Animated.timing(animatedValue, {
-        toValue: 1,
-        duration: 1000,
-        useNativeDriver: true,
-      })
+      Animated.sequence([
+        Animated.timing(animatedValue, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(animatedValue, {
+          toValue: 0,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+      ])
     );
+
     animateShaver.start();
 
     return () => animateShaver.stop();
