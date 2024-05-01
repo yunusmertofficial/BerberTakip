@@ -1,10 +1,10 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AuthNavigator from "./stacks/AuthNavigator";
 import HomeStackScreen from "./stacks/Home";
+import HistoryAppointmentsStackScreen from "./stacks/HistoryAppointments";
 import { Icon } from "@rneui/themed";
 import { colors } from "../src/utils";
 import { Dimensions, View } from "react-native";
-import HistoryAppointmentsScreen from "../src/screens/HistoryAppointmentsScreen";
 import AppointmentInformationScreen from "../src/screens/AppointmentInformationScreen";
 
 const Tab = createBottomTabNavigator();
@@ -88,8 +88,8 @@ function RootStack() {
             }}
           />
           <Tab.Screen
-            name="HistoryAppointments"
-            component={HistoryAppointmentsScreen}
+            name="HistoryAppointmentsStack"
+            component={HistoryAppointmentsStackScreen}
             options={{
               tabBarLabel: "Randevu Geçmişin",
               tabBarIcon: ({ color, size }) => (

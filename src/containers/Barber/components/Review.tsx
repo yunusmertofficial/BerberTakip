@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Stars from "../../../components/Stars";
-import { colors, formatRelativeDate } from "../../../utils";
+import { colors, formatTimeAgo } from "../../../utils";
 import { Rating } from "../../../types/Barber";
 
 export const Review = ({ item }: { item: Rating }) => {
@@ -9,9 +9,7 @@ export const Review = ({ item }: { item: Rating }) => {
     <View style={styles.reviewItem}>
       <Stars numStars={item.rating} />
       <Text style={styles.review}>{item.comment}</Text>
-      <Text style={{ color: colors.grey4 }}>
-        {formatRelativeDate(item.date)}
-      </Text>
+      <Text style={{ color: colors.grey4 }}>{formatTimeAgo(item.date)}</Text>
     </View>
   );
 };

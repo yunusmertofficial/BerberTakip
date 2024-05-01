@@ -1,12 +1,8 @@
 import React from "react";
-import { View, Text } from "react-native";
+import HistoryAppointmentsContainer from "../containers/HistoryAppointments";
 
 const HistoryAppointmentsScreen = () => {
-  return (
-    <View>
-      <Text>HistoryAppointmentsScreen</Text>
-    </View>
-  );
+  return <HistoryAppointmentsContainer />;
 };
 
 export default HistoryAppointmentsScreen;

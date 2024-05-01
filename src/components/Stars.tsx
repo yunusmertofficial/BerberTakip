@@ -1,46 +1,42 @@
 import { Icon } from "@rneui/themed";
-import { View, StyleSheet, ViewStyle } from "react-native";
+import { useState } from "react";
+import { View, StyleSheet, ViewStyle, TouchableOpacity } from "react-native";
 
 const Stars = ({
   numStars,
   style,
+  isEditable = false,
+  onStarClick = () => {},
   size = 16,
 }: {
   numStars: number;
   style?: ViewStyle;
   size?: number;
+  isEditable?: boolean;
+  onStarClick?: (index: number) => void;
 }) => {
-  const yellowStars = Array.from({ length: Math.floor(numStars) }).map(
-    (_, index) => (
-      <Icon
+  const stars = Array.from({ length: 5 }).map((_, index) => {
+    const color = index < Math.floor(numStars) ? "#FFD700" : "white";
+    return (
+      <TouchableOpacity
         key={index}
-        name="star"
-        type="material-community"
-        size={size}
-        color="#FFD700"
-        style={{ marginRight: 5 }}
-      />
-    )
-  );
+        disabled={!isEditable}
+        onPress={() => {
+          onStarClick(index + 1);
+        }}
+      >
+        <Icon
+          name="star"
+          type="material-community"
+          size={size}
+          color={color}
+          style={{ marginRight: 5 }}
+        />
+      </TouchableOpacity>
+    );
+  });
 
-  const whiteStars = Array.from({ length: 5 - Math.floor(numStars) }).map(
-    (_, index) => (
-      <Icon
-        key={index + Math.floor(numStars)}
-        name="star"
-        type="material-community"
-        size={size}
-        color="white"
-        style={{ marginRight: 5 }}
-      />
-    )
-  );
-
-  return (
-    <View style={[styles.container, style]}>
-      {[...yellowStars, ...whiteStars]}
-    </View>
-  );
+  return <View style={[styles.container, style]}>{stars}</View>;
 };
 
 const styles = StyleSheet.create({
