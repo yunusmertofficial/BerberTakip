@@ -4,12 +4,11 @@ import Personnel from "./Personnel";
 interface Appointment {
   id: number;
   appointmentNumber: string;
-  startDate: Date;
-  endDate: Date;
   totalPrice: number;
   totalDuration: number;
   services: Service[];
-  rating?: Rating;
-  personnel?: Personnel;
+  personnel: Personnel;
+  createdAt: Date;
+  updatedAt: Date;
 }
 export default Appointment;
