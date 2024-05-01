@@ -5,33 +5,102 @@ import AppointmentCard from "./components/AppointmentCard";
 import { colors } from "../../utils";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
+import Appointment from "../../types/Appointment";
 
-const appointments = [
+const appointments: Appointment[] = [
   {
     id: 1,
-    barber: "Berber Ali",
-    cost: 100,
-    startDate: new Date("2024-04-22T14:56"),
-    endDate: new Date("2024-04-22T19:00"),
-    rating: 4,
+    appointmentNumber: "202404230001",
+    startDate: new Date("2024-04-23T15:00"),
+    endDate: new Date("2024-04-24T18:00"),
+    totalPrice: 85,
+    totalDuration: 120,
     services: [
-      { id: 1, name: "Saç Kesimi", price: 40 },
-      { id: 2, name: "Tıraş", price: 25 },
+      { id: 1, name: "Saç Kesimi", price: 40, duration: 30 },
+      { id: 2, name: "Tıraş", price: 25, duration: 30 },
+      { id: 3, name: "Sakal Tıraşı", price: 20, duration: 60 },
     ],
+    personnel: {
+      id: 1,
+      firstName: "John",
+      lastName: "Doe",
+      barber: {
+        id: 1,
+        name: "Barber Shop",
+        location: "İstanbul",
+        stars: 4.5,
+        reviews: 125,
+        latitude: 41.0082,
+        longitude: 28.9784,
+        rating: 4.5,
+        completed_appointments: 1250,
+      },
+    },
   },
   {
     id: 2,
-    barber: "Berber Hasan",
-    cost: 80,
+    appointmentNumber: "202404230001",
     startDate: new Date("2024-04-23T15:00"),
     endDate: new Date("2024-04-24T18:00"),
+    totalPrice: 85,
+    totalDuration: 120,
     services: [
-      { id: 1, name: "Saç Kesimi", price: 40 },
-      { id: 2, name: "Tıraş", price: 25 },
+      { id: 1, name: "Saç Kesimi", price: 40, duration: 30 },
+      { id: 2, name: "Tıraş", price: 25, duration: 30 },
+      { id: 3, name: "Sakal Tıraşı", price: 20, duration: 60 },
     ],
-    rating: null,
+    personnel: {
+      id: 1,
+      firstName: "John",
+      lastName: "Doe",
+      barber: {
+        id: 1,
+        name: "Barber Shop",
+        location: "İstanbul",
+        stars: 4.5,
+        reviews: 125,
+        latitude: 41.0082,
+        longitude: 28.9784,
+        rating: 4.5,
+        completed_appointments: 1250,
+      },
+    },
   },
-  // daha fazla randevu...
+  {
+    id: 3,
+    appointmentNumber: "202404230001",
+    startDate: new Date("2024-04-23T15:00"),
+    endDate: new Date("2024-04-24T18:00"),
+    totalPrice: 85,
+    totalDuration: 120,
+    rating: {
+      ratingValue: 4.5,
+      id: 1,
+      comment: "Great service!",
+      date: new Date("2024-04-24T18:00"),
+    },
+    services: [
+      { id: 1, name: "Saç Kesimi", price: 40, duration: 30 },
+      { id: 2, name: "Tıraş", price: 25, duration: 30 },
+      { id: 3, name: "Sakal Tıraşı", price: 20, duration: 60 },
+    ],
+    personnel: {
+      id: 1,
+      firstName: "John",
+      lastName: "Doe",
+      barber: {
+        id: 1,
+        name: "Barber Shop",
+        location: "İstanbul",
+        stars: 4.5,
+        reviews: 125,
+        latitude: 41.0082,
+        longitude: 28.9784,
+        rating: 4.5,
+        completed_appointments: 1250,
+      },
+    },
+  },
 ];
 
 const HistoryAppointmentsContainer = () => {

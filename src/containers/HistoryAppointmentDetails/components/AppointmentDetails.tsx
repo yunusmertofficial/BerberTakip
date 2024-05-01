@@ -11,7 +11,7 @@ const AppointmentDetails = ({
   endDate,
 }: {
   appointmentNumber: string;
-  location: string;
+  location?: string;
   startDate: Date;
   endDate: Date;
 }) => {
@@ -42,7 +42,6 @@ const AppointmentDetails = ({
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    backgroundColor: colors.grey2, // Light gray background
   },
   header: {
     fontSize: 18,

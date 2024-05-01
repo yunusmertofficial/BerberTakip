@@ -1,4 +1,8 @@
-import { format, formatDistanceToNow } from "date-fns";
+import {
+  format,
+  formatDistanceToNow,
+  formatDuration as formatDurationDateFns,
+} from "date-fns";
 import { tr } from "date-fns/locale";
 
 export const formatTimeAgo = (date: Date): string => {
@@ -14,6 +18,15 @@ export const formatDuration = (time: number) => {
     hours: hours !== 0 ? (hours < 10 ? "0" + hours : hours) : null,
     minutes: minutes < 10 ? "0" + minutes : minutes,
   };
+};
+
+export const formatDurationMinutes = (time: number) => {
+  return formatDurationDateFns(
+    {
+      minutes: time,
+    },
+    { locale: tr }
+  );
 };
 
 export const formatDate = (date: Date, formatStr: string): string => {

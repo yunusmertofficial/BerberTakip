@@ -1,66 +1,103 @@
 import React from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 import { colors } from "../../../utils";
+import Service from "../../../types/Service";
+import { formatDurationMinutes } from "../../../utils/dateUtil";
 
-const ServicesList = ({
+interface Props {
+  services: Service[];
+  totalPrice: number;
+  totalDuration: number;
+}
+
+const ServicesList: React.FC<Props> = ({
   services,
-}: {
-  services: { id: number; name: string; price: number }[];
+  totalPrice,
+  totalDuration,
 }) => {
-  // Calculate the total cost
-  const totalCost = services.reduce((sum, item) => sum + item.price, 0);
+  const renderItem = ({ item, index }: { item: Service; index: number }) => (
+    <View
+      style={[
+        styles.row,
+        { backgroundColor: index % 2 === 1 ? colors.grey2 : colors.white },
+      ]}
+    >
+      <Text style={styles.text}>{item.name}</Text>
+      <Text style={styles.text}>{formatDurationMinutes(item.duration)}</Text>
+      <Text style={styles.text}>{`${item.price} TL`}</Text>
+    </View>
+  );
 
   return (
     <View style={styles.container}>
+      <View style={[styles.row, styles.head]}>
+        <Text style={[styles.text, styles.headText]}>Hizmet Adı</Text>
+        <Text style={[styles.text, styles.headText]}>Süre</Text>
+        <Text style={[styles.text, styles.headText]}>Fiyatı</Text>
+      </View>
       <FlatList
         data={services}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.itemContainer}>
-            <Text style={styles.itemName}>{item.name}</Text>
-            <Text style={styles.itemPrice}>{item.price} TL</Text>
-          </View>
-        )}
-        ListFooterComponent={() => (
-          <View style={styles.totalContainer}>
-            <Text style={styles.totalText}>Toplam: {totalCost} TL</Text>
-          </View>
-        )}
+        renderItem={renderItem}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={(item, index) => index.toString()}
       />
+      <View style={styles.totalContainer}>
+        <Text style={styles.totalTextLabel}>Toplam:</Text>
+        <Text style={styles.totalText}>{totalPrice} TL</Text>
+      </View>
+      <View style={styles.totalContainer}>
+        <Text style={styles.totalTextLabel}>Toplam Süre:</Text>
+        <Text style={styles.totalText}>
+          {formatDurationMinutes(totalDuration)}
+        </Text>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
     flex: 1,
+    padding: 16,
+    paddingTop: 20,
   },
-  itemContainer: {
+  row: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    alignItems: "center",
+    paddingHorizontal: 10,
+    paddingVertical: 15,
     borderBottomWidth: 1,
-    borderBottomColor: colors.divider, // Light gray color from your colors object
+    borderBottomColor: colors.divider,
   },
-  itemName: {
-    fontSize: 16,
-    color: "#333", // Dark gray text
+  head: {
+    backgroundColor: colors.primary,
   },
-  itemPrice: {
-    fontSize: 16,
+  headText: {
     fontWeight: "bold",
-    color: "#333", // Dark gray text
+    color: colors.white,
+  },
+  text: {
+    flex: 1,
+    textAlign: "center",
+    color: colors.black,
   },
   totalContainer: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 20,
+    alignItems: "center",
   },
   totalText: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "bold",
-    color: colors.primary, // Turquoise color from your colors object
+    color: colors.primary,
+  },
+  totalTextLabel: {
+    marginRight: 8,
+    fontSize: 16,
+    fontWeight: "bold",
+    color: colors.black,
   },
 });
 

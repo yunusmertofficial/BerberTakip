@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
 import Stars from "../../../components/Stars";
-import { Avatar, Icon } from "@rneui/themed";
+import { Avatar } from "@rneui/themed";
 import { colors } from "../../../utils";
-import Barber from "../../../types/Barber";
 import { ImagesAssets } from "../../../../assets/ImageAssets";
+import Personnel from "../../../types/Personnel";
 
-const Header = ({ barber }: { barber: Barber }) => {
-  const [rating, setRating] = React.useState<number>(0);
+const Header = ({
+  personnel,
+  initialRating = 0,
+}: {
+  personnel?: Personnel;
+  initialRating?: number;
+}) => {
+  const [rating, setRating] = useState<number>(initialRating);
+
   return (
     <View style={styles.header}>
       <Image
@@ -19,25 +26,21 @@ const Header = ({ barber }: { barber: Barber }) => {
           <Avatar
             rounded
             size="large"
-            source={{
-              uri: "https://randomuser.me/api/portraits/men/33.jpg",
-            }}
+            source={{ uri: "https://randomuser.me/api/portraits/men/33.jpg" }}
           />
           <View style={styles.textContainer}>
-            <Text style={styles.name}>{barber.name}</Text>
-            <Text style={{ color: colors.white, marginLeft: 10 }}>
-              {rating ? "Puanlamanız:" : "Puan Ver:"}
+            <Text style={styles.name}>{personnel?.barber?.name}</Text>
+            <Text style={styles.personnelName}>
+              {personnel?.firstName} {personnel?.lastName}
             </Text>
+            {!rating && <Text style={styles.ratingPrompt}>Puan ver:</Text>}
           </View>
         </View>
         <Stars
-          style={{ position: "relative", top: 10 }}
           numStars={rating}
           size={30}
-          isEditable={rating == 0}
-          onStarClick={(rating) => {
-            setRating(rating);
-          }}
+          isEditable={rating === 0}
+          onStarClick={setRating}
         />
       </View>
     </View>
@@ -64,6 +67,7 @@ const styles = StyleSheet.create({
   profileInfo: {
     flexDirection: "row",
     alignItems: "center",
+    marginBottom: 10, // Added margin for better separation
   },
   textContainer: {
     marginLeft: 10,
@@ -73,6 +77,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.white,
     marginTop: 10,
+  },
+  personnelName: {
+    color: colors.white,
+    fontWeight: "500",
+    fontSize: 16,
+  },
+  ratingPrompt: {
+    position: "relative",
+    top: 5,
+    color: colors.grey2,
+    fontSize: 16,
   },
 });
 

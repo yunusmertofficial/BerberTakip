@@ -1,3 +1,6 @@
+import Service from "./Service";
+import Rating from "./Rating";
+
 interface Barber {
   id: number;
   name: string;
@@ -8,20 +11,9 @@ interface Barber {
   longitude: number;
   rating: number;
   completed_appointments: number;
-  services: Service[];
-  ratings: Rating[];
-}
-export interface Service {
-  id: number;
-  name: string;
-  price: number;
-}
-
-export interface Rating {
-  id: number;
-  comment: string;
-  rating: number;
-  date: Date;
+  personnels?: Personnel[];
+  services?: Service[];
+  ratings?: Rating[];
 }
 
 export default Barber;

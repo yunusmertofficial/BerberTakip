@@ -11,24 +11,26 @@ function AuthNavigator({ children }: { children: React.ReactNode }) {
   const isSignedIn = useSelector((state: RootState) => state.user.isSignedIn);
 
   return (
-    <NavigationContainer>
+    <>
       {!isSignedIn ? (
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Signin"
-            component={SigninScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Signup"
-            component={SignupScreen}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Signin"
+              component={SigninScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Signup"
+              component={SignupScreen}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
       ) : (
         children
       )}
-    </NavigationContainer>
+    </>
   );
 }
 
