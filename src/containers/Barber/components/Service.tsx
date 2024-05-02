@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { colors } from "../../../utils";
-import Service from "../../../types/Service";
+import ServiceDto from "../../../types/Service";
 
-const Service = ({ item }: { item: Service }) => {
+const Service = ({ item }: { item: ServiceDto }) => {
   return (
     <View style={styles.serviceItem}>
       <Text>{item.name}</Text>
