@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Image, Animated, View } from "react-native";
 import { Text } from "@rneui/themed";
-import { ImagesAssets } from "../../../../assets/ImageAssets";
-import { colors } from "../../../utils";
+import { ImagesAssets } from "@assets/ImageAssets";
+import { colors } from "@utils";
 import { SafeAreaView } from "react-native-safe-area-context";
 import RemainingTime from "./RemainingTime";
 

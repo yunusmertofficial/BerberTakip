@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Pressable, Text, StyleSheet } from "react-native";
 import { Callout, Marker } from "react-native-maps";
-import Barber from "../../../types/Barber";
-import HomeScreenProps from "../../../types/navigation/screens/Home";
+import Barber from "src/types/Barber";
+import HomeScreenProps from "src/types/navigation/screens/Home";
 
 export const MarkerView = ({
   barber,

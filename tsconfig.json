@@ -1,6 +1,18 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
+    "strict": true,
+    "baseUrl": "./",
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@screens/*": ["src/screens/*"],
+      "@utils": ["src/utils/index.ts"],
+      "@hooks/*": ["src/hooks/*"],
+      "@context/*": ["src/context/*"],
+      "@apiServices/*": ["src/apiServices/*"],
+      "@features/*": ["features/*"],
+      "@assets/*": ["assets/*"],
+      "@store": ["store.ts"] // Dosyanın tam adını belirtin
+    }
   }
 }

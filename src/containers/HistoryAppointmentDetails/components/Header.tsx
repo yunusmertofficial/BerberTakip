@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
-import Stars from "../../../components/Stars";
+import Stars from "@components/Stars";
 import { Avatar } from "@rneui/themed";
-import { colors } from "../../../utils";
-import { ImagesAssets } from "../../../../assets/ImageAssets";
-import Personnel from "../../../types/Personnel";
+import { colors } from "@utils";
+import { ImagesAssets } from "@assets/ImageAssets";
+import Personnel from "src/types/Personnel";
 
 const Header = ({
   personnel,

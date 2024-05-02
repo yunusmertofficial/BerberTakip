@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import Stars from "../../../components/Stars";
-import { colors, formatTimeAgo } from "../../../utils";
-import Rating from "../../../types/Rating";
+import Stars from "@components/Stars";
+import { colors, formatTimeAgo } from "@utils";
+import Rating from "src/types/Rating";
 
 export const Review = ({ item }: { item: Rating }) => {
   return (

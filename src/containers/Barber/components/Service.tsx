@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { colors } from "../../../utils";
-import ServiceDto from "../../../types/Service";
+import { colors } from "@utils";
+import ServiceDto from "src/types/Service";
 
 const Service = ({ item }: { item: ServiceDto }) => {
   return (

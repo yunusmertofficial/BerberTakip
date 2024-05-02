@@ -3,10 +3,10 @@ import { View, StyleSheet, Pressable } from "react-native";
 import { Icon, Text, Button } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { SearchBar } from "../../../components/SearchBar";
-import { colors } from "../../../utils";
-import { useBarbers } from "../../../context/BarbersContext";
-import MapScreenProps from "../../../types/navigation/screens/Map";
+import { SearchBar } from "@components/SearchBar";
+import { colors } from "@utils";
+import { useBarbers } from "@context/BarbersContext";
+import MapScreenProps from "src/types/navigation/screens/Map";
 
 export const Header = ({
   modalVisible,

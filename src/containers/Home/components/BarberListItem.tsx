@@ -8,11 +8,11 @@ import {
 } from "react-native";
 import { ListItem, Avatar, Icon, Button } from "@rneui/themed";
 import { LinearGradient } from "expo-linear-gradient";
-import Stars from "../../../components/Stars";
-import { colors } from "../../../utils";
+import Stars from "@components/Stars";
+import { colors } from "@utils";
 import { useNavigation } from "@react-navigation/native";
-import BarberProfileScreenProps from "../../../types/navigation/screens/BarberProfile";
-import Barber from "../../../types/Barber";
+import BarberProfileScreenProps from "src/types/navigation/screens/BarberProfile";
+import Barber from "src/types/Barber";
 
 function BarberListItem({
   item,

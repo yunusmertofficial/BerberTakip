@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { View, FlatList, Animated } from "react-native";
 import BarberListItem from "./components/BarberListItem";
-import { useBarbers } from "../../context/BarbersContext";
+import { useBarbers } from "@context/BarbersContext";
 import { Header } from "./components/Header";
 import FilterModal from "./components/FilterModal";
-import ErrorBoundary from "../../components/ErrorBoundary";
+import ErrorBoundary from "@components/ErrorBoundary";
+import Barber from "src/types/Barber";
 
 const HomeContainer = () => {
   const { barbers, isLoading, errorMsg, fetchData } = useBarbers();
@@ -45,7 +46,7 @@ const HomeContainer = () => {
           data={barbers}
           renderItem={({ item }) => (
             <BarberListItem
-              item={item}
+              item={item as Barber}
               animatedValue={animatedValue}
               isLoading={isLoading}
             />

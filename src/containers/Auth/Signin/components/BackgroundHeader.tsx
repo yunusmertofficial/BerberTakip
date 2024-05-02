@@ -2,7 +2,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Text } from "@rneui/themed";
-import { colors } from "../../../../utils";
+import { colors } from "@utils";
 
 const BackgroundHeader = () => {
   return (

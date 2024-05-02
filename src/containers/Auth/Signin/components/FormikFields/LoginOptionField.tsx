@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { Button } from "@rneui/themed";
 import { FormikProps } from "formik";
-import SignInFormValues from "../../../../../types/FormValues/Auth/SignIn";
+import SignInFormValues from "src/types/FormValues/Auth/SignIn";
 
 const LoginOption = ({ formik }: { formik: FormikProps<SignInFormValues> }) => {
   return (

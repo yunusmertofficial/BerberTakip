@@ -1,6 +1,6 @@
 import { Input } from "@rneui/themed";
 import React from "react";
-import SignUpFormValues from "../../../../../types/FormValues/Auth/SignUp";
+import SignUpFormValues from "src/types/FormValues/Auth/SignUp";
 import { FormikProps } from "formik";
 const NameInput = ({ formik }: { formik: FormikProps<SignUpFormValues> }) => {
   return (

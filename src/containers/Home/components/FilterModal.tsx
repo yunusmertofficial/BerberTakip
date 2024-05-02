@@ -1,7 +1,7 @@
 import { Icon } from "@rneui/themed";
 import React, { useReducer } from "react";
 import { View, Text, StyleSheet, Button, Modal, Pressable } from "react-native";
-import Stars from "../../../components/Stars";
+import Stars from "@components/Stars";
 
 // State tipi
 interface FilterState {

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Text } from "@rneui/themed";
 import { StyleSheet, View } from "react-native";
 import ScheduledAppointmentInformation from "./components/ScheduledAppointmentInformation";
-import LoadingBoundary from "../../components/LoadingBoundary";
-import ErrorBoundary from "../../components/ErrorBoundary";
+import LoadingBoundary from "@components/LoadingBoundary";
+import ErrorBoundary from "@components/ErrorBoundary";
 import InProgressAppointmentInformation from "./components/InProgressAppointmentInformation";
 
 export enum AppointmentStatus {

@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import { colors } from "../../../utils";
-import Service from "../../../types/Service";
-import { formatDurationMinutes } from "../../../utils/dateUtil";
+import { colors } from "@utils";
+import Service from "src/types/Service";
+import { formatDurationMinutes } from "@utils";
 
 interface Props {
   services: {

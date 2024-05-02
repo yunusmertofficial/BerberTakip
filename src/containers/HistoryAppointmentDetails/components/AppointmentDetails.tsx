@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Icon } from "@rneui/themed";
-import { colors, formatDate } from "../../../utils";
+import { colors, formatDate } from "@utils";
 import { isSameDay } from "date-fns";
 
 const AppointmentDetails = ({

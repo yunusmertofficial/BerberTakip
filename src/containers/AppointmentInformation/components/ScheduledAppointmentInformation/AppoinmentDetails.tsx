@@ -3,7 +3,7 @@ import { FlatList, Linking, StyleSheet, View } from "react-native";
 import { Text } from "@rneui/themed";
 import { colors } from "../../../../utils";
 import { Button } from "@rneui/base";
-import { Service } from "../..";
+import Service from "src/types/Service";
 
 const serviceItem = ({ item }: any) => (
   <View style={styles.serviceItem}>
@@ -147,11 +147,11 @@ const AppoinmentDetails = ({
         ListFooterComponent={
           <ListFooterComponent
             totalServiceDuration={services.reduce(
-              (acc, curr) => acc + curr.serviceDuration,
+              (acc, curr) => acc + curr.estimatedDuration,
               0
             )}
             totalServicePrice={services.reduce(
-              (acc, curr) => acc + curr.servicePrice,
+              (acc, curr) => acc + curr.price,
               0
             )}
           />

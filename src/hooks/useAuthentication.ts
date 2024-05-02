@@ -4,10 +4,7 @@ import * as React from "react";
 import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
-import {
-  clearUser as clearUserRedux,
-  setUser,
-} from "../../features/user/userSlice";
+import { clearUser as clearUserRedux, setUser } from "@features/user/userSlice";
 
 const useAuthentication = () => {
   const [loadingToken, setLoadingToken] = React.useState(true);

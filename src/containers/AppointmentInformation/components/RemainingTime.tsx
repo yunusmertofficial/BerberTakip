@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Text } from "@rneui/themed";
-import { colors, formatDuration } from "../../../utils";
+import { colors, formatDuration } from "@utils";
 
 const RemainingTime: React.FC<{
   endTime: Date;

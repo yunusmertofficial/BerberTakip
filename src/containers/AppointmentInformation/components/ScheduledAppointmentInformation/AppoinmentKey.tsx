@@ -3,8 +3,8 @@ import { StyleSheet, View } from "react-native";
 import { Text } from "@rneui/themed";
 import QRCode from "react-native-qrcode-svg";
 import RemainingTime from "../RemainingTime";
-import { colors } from "../../../../utils";
-import { CircularProgress } from "../../../../components/CircularProgress";
+import { colors } from "@utils";
+import { CircularProgress } from "@components/CircularProgress";
 import { Button } from "@rneui/themed";
 enum AppointmentStatus {
   InQueue = "In Queue", // Müşteri sıradadır ve sıra numarası ile beklemektedir.

@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import { colors } from "../../../utils";
-import Barber from "../../../types/Barber";
+import { colors } from "@utils";
+import Barber from "src/types/Barber";
 
 const Location = ({ barber }: { barber: Barber }) => {
   return (

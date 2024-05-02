@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, SectionList } from "react-native";
-import { colors } from "../../utils";
+import { colors } from "@utils";
 import Service from "./components/Service";
 import Review from "./components/Review";
 import Header from "./components/Header";
 import Location from "./components/Location";
 import { useRoute } from "@react-navigation/native";
-import { fetchBarbers } from "../../apiServices/barber";
-import LoadingBoundary from "../../components/LoadingBoundary";
-import ErrorBoundary from "../../components/ErrorBoundary";
-import BarberProfileScreenProps from "../../types/navigation/screens/BarberProfile";
-import Barber from "../../types/Barber";
+import { fetchBarbers } from "@apiServices/barber";
+import LoadingBoundary from "@components/LoadingBoundary";
+import ErrorBoundary from "@components/ErrorBoundary";
+import BarberProfileScreenProps from "src/types/navigation/screens/BarberProfile";
+import Barber from "src/types/Barber";
 
 const BarberProfileContainer: React.FC = () => {
   const route = useRoute<BarberProfileScreenProps["route"]>();

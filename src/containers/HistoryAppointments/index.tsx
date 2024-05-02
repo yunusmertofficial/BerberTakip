@@ -2,11 +2,11 @@ import React from "react";
 import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import { Text } from "@rneui/themed";
 import AppointmentCard from "./components/AppointmentCard";
-import { colors } from "../../utils";
+import { colors } from "@utils";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-import { fetchAppointmentResults } from "../../apiServices/appointmentResult";
-import HistoryAppointmentDetailsScreenProps from "../../types/navigation/screens/HistoryAppointmentDetails";
+import { fetchAppointmentResults } from "@apiServices/appointmentResult";
+import HistoryAppointmentDetailsScreenProps from "src/types/navigation/screens/HistoryAppointmentDetails";
 
 const HistoryAppointmentsContainer = () => {
   const appointments = fetchAppointmentResults();

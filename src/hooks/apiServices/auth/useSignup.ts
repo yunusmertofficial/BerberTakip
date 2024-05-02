@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setUser } from "../../../../features/user/userSlice";
+import { setUser } from "@features/user/userSlice";
 
 interface SignUpFormValues {
   name: string;

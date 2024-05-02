@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
-import Stars from "../../../components/Stars";
+import Stars from "@components/Stars";
 import { Avatar, Icon } from "@rneui/themed";
-import { colors } from "../../../utils";
-import Barber from "../../../types/Barber";
-import { ImagesAssets } from "../../../../assets/ImageAssets";
+import { colors } from "@utils";
+import Barber from "src/types/Barber";
+import { ImagesAssets } from "@assets/ImageAssets";
 
 const Header = ({ barber }: { barber: Barber }) => {
   return (

@@ -2,14 +2,12 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { Button } from "@rneui/themed";
 import Header from "./components/Header";
-import AppointmentDetails from "./components/AppointmentDetails";
 import ServicesList from "./components/ServiceList";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { colors } from "../../utils";
+import { colors } from "@utils";
 import { useRoute } from "@react-navigation/native";
-import { fetchAppointmentResult } from "../../apiServices/appointmentResult";
-import HistoryAppointmentDetailsScreenProps from "../../types/navigation/screens/HistoryAppointmentDetails";
-
+import { fetchAppointmentResult } from "@apiServices/appointmentResult";
+import HistoryAppointmentDetailsScreenProps from "src/types/navigation/screens/HistoryAppointmentDetails";
 const HistoryAppointmentDetailsContainer = () => {
   const route = useRoute<HistoryAppointmentDetailsScreenProps["route"]>();
   const { appointment_id } = route.params;

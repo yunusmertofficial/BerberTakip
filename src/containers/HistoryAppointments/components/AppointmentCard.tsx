@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Card, Button, Divider, Icon } from "@rneui/themed";
-import { colors, formatDate } from "../../../utils";
+import { colors, formatDate } from "@utils";
 import { isSameDay } from "date-fns";
-import AppointmentResultData from "../../../apiServices/appointmentResult/types/AppointmentResultData";
+import AppointmentResultData from "@apiServices/appointmentResult/types/AppointmentResultData";
 
 const AppointmentCard = ({
   appointment,

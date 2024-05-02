@@ -2,8 +2,8 @@ import React, { useRef, useEffect } from "react";
 import ReactNativeMapView from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
 import { MarkerView } from "./MarkerView";
-import Barber from "../../../types/Barber";
-import HomeScreenProps from "../../../types/navigation/screens/Home";
+import Barber from "src/types/Barber";
+import HomeScreenProps from "src/types/navigation/screens/Home";
 
 interface InitialRegion {
   latitudeDelta: number;

@@ -2,7 +2,7 @@ import React from "react";
 import { Text, CheckBox } from "@rneui/themed";
 import { FormikProps } from "formik";
 import { Linking } from "react-native";
-import SignUpFormValues from "../../../../../types/FormValues/Auth/SignUp";
+import SignUpFormValues from "src/types/FormValues/Auth/SignUp";
 
 const AgreementCheckbox = ({
   formik,

@@ -5,7 +5,7 @@ import { Icon } from "@rneui/themed";
 import { colors } from "../src/utils";
 import { View } from "react-native";
 import AppointmentInformationScreen from "../src/screens/AppointmentInformationScreen";
-import TabNavParamList from "../src/types/navigation/TabNav";
+import TabNavParamList from "src/types/navigation/TabNav";
 
 const tabBarStyle = {
   height: 60,

@@ -3,16 +3,16 @@ import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
 import { Button, Text } from "@rneui/themed";
 import { useFormik } from "formik";
 import { LinearGradient } from "expo-linear-gradient";
-import SignupSchema from "../../../formikSchemas/Auth/SignupSchema";
-import SignUpFormValues from "../../../types/FormValues/Auth/SignUp";
-import { useSignUp } from "../../../hooks/apiServices/auth/useSignup";
-import { Card as CardComponent, CardHeader } from "../../../components/Card";
+import SignupSchema from "src/formikSchemas/Auth/SignupSchema";
+import SignUpFormValues from "src/types/FormValues/Auth/SignUp";
+import { useSignUp } from "@hooks/apiServices/auth/useSignup";
+import { Card as CardComponent, CardHeader } from "@components/Card";
 import PasswordInput from "../components/FormikFields/PasswordInput";
 import PhoneNumberInput from "../components/FormikFields/PhoneNumberInput";
 import NameInput from "./components/FormikFields/NameInput";
 import AgreementCheckbox from "./components/FormikFields/AgreementCheckbox";
 import RoutingSignin from "./components/RoutingSignin";
-import { colors } from "../../../utils";
+import { colors } from "@utils";
 
 const SignupContainer = () => {
   const { signUp, loading, error } = useSignUp();
