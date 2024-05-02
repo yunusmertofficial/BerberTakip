@@ -33,7 +33,11 @@ export const useSignIn = () => {
       };
       const decoded = jwtDecode(data.token);
       await AsyncStorage.setItem("token", data.token);
-      dispatch(setUser(decoded));
+      dispatch(
+        setUser({
+          _id: decoded.sub as string,
+        })
+      );
     } catch (error: any) {
       setError(error.message || "Bir hata oluştu.");
     } finally {

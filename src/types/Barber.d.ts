@@ -1,5 +1,6 @@
 import Service from "./Service";
 import Rating from "./Rating";
+import Personnel from "./Personnel";
 
 interface Barber {
   id: number;

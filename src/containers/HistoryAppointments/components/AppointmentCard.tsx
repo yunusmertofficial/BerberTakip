@@ -3,9 +3,13 @@ import { View, Text, StyleSheet } from "react-native";
 import { Card, Button, Divider, Icon } from "@rneui/themed";
 import { colors, formatDate } from "../../../utils";
 import { isSameDay } from "date-fns";
-import Appointment from "../../../types/Appointment";
+import AppointmentResultData from "../../../apiServices/appointmentResult/types/AppointmentResultData";
 
-const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
+const AppointmentCard = ({
+  appointment,
+}: {
+  appointment: AppointmentResultData;
+}) => {
   const formatStartTime = formatDate(appointment.startDate, "dd MMMM HH:mm");
   const formatEndTime = isSameDay(appointment.startDate, appointment.endDate)
     ? formatDate(appointment.endDate, "HH:mm")
@@ -26,7 +30,9 @@ const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
         {`Personel: ${appointment.personnel?.firstName} ${appointment.personnel?.lastName}`}
       </Text>
       <Text style={styles.services}>
-        {appointment.services.map((service) => service.name).join(", ")}
+        {appointment.completedServices
+          .map((service) => service.service.name)
+          .join(", ")}
       </Text>
       <Button
         title="Randevuyu Tekrarla"

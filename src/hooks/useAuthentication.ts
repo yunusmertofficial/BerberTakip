@@ -42,9 +42,7 @@ const useAuthentication = () => {
         } else {
           dispatch(
             setUser({
-              ...decoded,
-              latitude: undefined,
-              longitude: undefined,
+              _id: decoded.sub as string,
             })
           );
         }

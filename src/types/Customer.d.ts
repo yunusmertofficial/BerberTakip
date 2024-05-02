@@ -1,12 +1,12 @@
 import ActiveAppointment from "./ActiveAppointment";
-import AppointmentOutcome from "./AppointmentOutcome";
+import AppointmentResult from "./AppointmentResult";
 
 interface Customer {
   id: number;
   name: string;
   phoneNumber: string;
   password: string;
-  appointmentOutcomes?: AppointmentOutcome[];
+  appointmentResults?: AppointmentResult[];
   activeAppointment?: ActiveAppointment;
   createdAt: Date;
   updatedAt: Date;

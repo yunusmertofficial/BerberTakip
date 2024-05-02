@@ -5,93 +5,108 @@ const fetchBarbers = async (ids?: number[]) => {
   try {
     /*     const response = await api.get("barbers");
     return response.data; */
+
     const data: Barber[] = [
       {
         id: 1,
-        name: "Ahmet Berber",
-        location: "İstiklal Caddesi No: 123, Beyoğlu, İstanbul",
+        name: "Barber Shop",
+        location: "İstanbul",
         stars: 4.5,
-        reviews: 100,
-        latitude: 41.105402433528305,
-        longitude: 28.75646534427912,
-        rating: 4.8,
-        completed_appointments: 500,
-        services: [
-          { id: 1, name: "Saç Kesimi", price: 50 },
-          { id: 2, name: "Tıraş", price: 30 },
-          { id: 3, name: "Sakal Düzeltme", price: 20 },
-        ],
-        ratings: [
+        reviews: 125,
+        latitude: 41.0082,
+        longitude: 28.9784,
+        rating: 4.5,
+        completed_appointments: 1250,
+        personnels: [
           {
             id: 1,
-            comment: "Çok memnun kaldım, kesinlikle tavsiye ederim!",
-            rating: 5,
-            date: new Date("2024-04-20"),
+            firstName: "John",
+            lastName: "Doe",
           },
           {
             id: 2,
-            comment: "Personel çok ilgili, harika bir deneyim.",
-            rating: 4.5,
-            date: new Date("2024-04-18"),
+            firstName: "Jane",
+            lastName: "Doe",
+          },
+        ],
+        services: [
+          {
+            id: 1,
+            name: "Haircut",
+            estimatedDuration: 30,
+            price: 20,
+          },
+          {
+            id: 2,
+            name: "Beard Trim",
+            estimatedDuration: 15,
+            price: 10,
+          },
+        ],
+
+        ratings: [
+          {
+            id: 1,
+            comment: "Great service!",
+            ratingValue: 5,
+            date: new Date("2024-04-23T15:00"),
+          },
+          {
+            id: 2,
+            comment: "I loved it!",
+            ratingValue: 5,
+            date: new Date("2024-04-23T15:00"),
           },
         ],
       },
       {
         id: 2,
-        name: "Mehmet Berber",
-        location: "Atatürk Bulvarı No: 456, Kızılay, Ankara",
-        stars: 4.2,
-        reviews: 80,
-        latitude: 41.105402433528305,
-        longitude: 28.75646534427912,
+        name: "Barber Shop 2",
+        location: "İstanbul",
+        stars: 4.5,
+        reviews: 125,
+        latitude: 41.0082,
+        longitude: 28.9784,
         rating: 4.5,
-        completed_appointments: 400,
+        completed_appointments: 1250,
+        personnels: [
+          {
+            id: 1,
+            firstName: "John",
+            lastName: "Doe",
+          },
+          {
+            id: 2,
+            firstName: "Jane",
+            lastName: "Doe",
+          },
+        ],
         services: [
-          { id: 1, name: "Saç Kesimi", price: 40 },
-          { id: 2, name: "Tıraş", price: 25 },
+          {
+            id: 1,
+            name: "Haircut",
+            estimatedDuration: 30,
+            price: 20,
+          },
+          {
+            id: 2,
+            name: "Beard Trim",
+            estimatedDuration: 15,
+            price: 10,
+          },
         ],
         ratings: [
           {
             id: 1,
-            comment: "Her zaman buradan memnun ayrılıyorum.",
-            rating: 4.5,
-            date: new Date("2024-04-22"),
+            comment: "Great service!",
+            ratingValue: 5,
+            date: new Date("2024-04-23T15:00"),
           },
           {
             id: 2,
-            comment: "Fiyat performans açısından iyi.",
-            rating: 4,
-            date: new Date("2024-04-19"),
-          },
-        ],
-      },
-      {
-        id: 3,
-        name: "Ayşe Berber",
-        location: "Kordonboyu No: 789, Alsancak, İzmir",
-        stars: 4.8,
-        reviews: 120,
-        latitude: 41.105402433528305,
-        longitude: 28.75646534427912,
-        rating: 4.9,
-        completed_appointments: 600,
-        services: [
-          { id: 1, name: "Saç Kesimi", price: 60 },
-          { id: 2, name: "Tıraş", price: 35 },
-          { id: 3, name: "Sakal Düzeltme", price: 25 },
-        ],
-        ratings: [
-          {
-            id: 1,
-            comment: "Hizmet mükemmel, her kuruşa değer.",
-            rating: 5,
-            date: new Date("2024-04-21"),
-          },
-          {
-            id: 2,
-            comment: "Şehrin en iyi berberi!",
-            rating: 5,
-            date: new Date("2024-04-17"),
+            comment: "I loved it!",
+            ratingValue: 5,
+            date: new Date("2024-04-23T15:00"),
           },
         ],
       },

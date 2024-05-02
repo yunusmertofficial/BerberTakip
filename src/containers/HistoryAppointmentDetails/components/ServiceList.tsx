@@ -5,7 +5,10 @@ import Service from "../../../types/Service";
 import { formatDurationMinutes } from "../../../utils/dateUtil";
 
 interface Props {
-  services: Service[];
+  services: {
+    service: Service;
+    duration: number;
+  }[];
   totalPrice: number;
   totalDuration: number;
 }
@@ -15,16 +18,25 @@ const ServicesList: React.FC<Props> = ({
   totalPrice,
   totalDuration,
 }) => {
-  const renderItem = ({ item, index }: { item: Service; index: number }) => (
+  const renderItem = ({
+    item,
+    index,
+  }: {
+    item: {
+      service: Service;
+      duration: number;
+    };
+    index: number;
+  }) => (
     <View
       style={[
         styles.row,
         { backgroundColor: index % 2 === 1 ? colors.grey2 : colors.white },
       ]}
     >
-      <Text style={styles.text}>{item.name}</Text>
+      <Text style={styles.text}>{item.service.name}</Text>
       <Text style={styles.text}>{formatDurationMinutes(item.duration)}</Text>
-      <Text style={styles.text}>{`${item.price} TL`}</Text>
+      <Text style={styles.text}>{`${item.service.price} TL`}</Text>
     </View>
   );
 
