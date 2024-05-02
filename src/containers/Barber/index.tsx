@@ -10,11 +10,12 @@ import { fetchBarbers } from "../../apiServices/barber";
 import LoadingBoundary from "../../components/LoadingBoundary";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import BarberProfileScreenProps from "../../types/navigation/screens/BarberProfile";
+import Barber from "../../types/Barber";
 
 const BarberProfileContainer: React.FC = () => {
   const route = useRoute<BarberProfileScreenProps["route"]>();
   const { barberId } = route.params;
-  const [barber, setBarber] = useState<any>(null);
+  const [barber, setBarber] = useState<Barber | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -24,8 +25,8 @@ const BarberProfileContainer: React.FC = () => {
       setErrorMessage(null);
       try {
         const barbers = await fetchBarbers();
-        const selectedBarber = barbers.find((b: any) => b.id === barberId);
-        setBarber(selectedBarber);
+        const selectedBarber = barbers.find((b) => b.id === barberId);
+        setBarber(selectedBarber || null);
       } catch (error) {
         setErrorMessage("Berber bilgileri getirilirken bir hata oluştu.");
       }

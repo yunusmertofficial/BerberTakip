@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Text } from "@rneui/themed";
-import { colors } from "../../../utils";
+import { colors, formatDuration } from "../../../utils";
 
 const RemainingTime: React.FC<{
   endTime: Date;
-  formatTime: (time: number) => {
-    days?: string;
-    hours: string;
-    minutes: string;
-  };
-}> = ({ endTime, formatTime }) => {
+}> = ({ endTime }) => {
   const [remainingTime, setRemainingTime] = useState<number>(0);
 
   useEffect(() => {
@@ -27,8 +22,7 @@ const RemainingTime: React.FC<{
     return () => clearInterval(interval);
   }, [endTime]);
 
-  const time = formatTime(remainingTime);
-
+  const time = formatDuration(remainingTime);
   return (
     <View style={styles.remainingTimeContainer}>
       {time.days && (

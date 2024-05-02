@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Text } from "@rneui/themed";
 import QRCode from "react-native-qrcode-svg";
 import RemainingTime from "../RemainingTime";
-import { colors, formatDuration } from "../../../../utils";
+import { colors } from "../../../../utils";
 import { CircularProgress } from "../../../../components/CircularProgress";
 import { Button } from "@rneui/themed";
 enum AppointmentStatus {
@@ -38,7 +38,7 @@ const EstimatedStartTime = ({
       >
         {label}
       </Text>
-      <RemainingTime endTime={time} formatTime={formatDuration as any} />
+      <RemainingTime endTime={time} />
     </>
   );
 };

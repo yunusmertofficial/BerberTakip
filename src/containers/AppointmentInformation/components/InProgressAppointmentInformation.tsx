@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Image, Animated, View } from "react-native";
 import { Text } from "@rneui/themed";
 import { ImagesAssets } from "../../../../assets/ImageAssets";
-import { colors, formatDuration } from "../../../utils";
+import { colors } from "../../../utils";
 import { SafeAreaView } from "react-native-safe-area-context";
 import RemainingTime from "./RemainingTime";
 
@@ -69,10 +69,7 @@ const InProgressAppointmentInformation: React.FC<{
             Randevu Başlama Saati: {startedAt.toLocaleTimeString()}
           </Text>
           <Text style={styles.estimatedTimeText}>Tahmini Bitiş Süresi</Text>
-          <RemainingTime
-            endTime={estimatedEndTime}
-            formatTime={formatDuration as any}
-          />
+          <RemainingTime endTime={estimatedEndTime} />
         </View>
       </View>
     </SafeAreaView>

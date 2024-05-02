@@ -12,13 +12,14 @@ import Stars from "../../../components/Stars";
 import { colors } from "../../../utils";
 import { useNavigation } from "@react-navigation/native";
 import BarberProfileScreenProps from "../../../types/navigation/screens/BarberProfile";
+import Barber from "../../../types/Barber";
 
 function BarberListItem({
   item,
   animatedValue,
   isLoading,
 }: {
-  item: any;
+  item: Barber;
   animatedValue: Animated.Value;
   isLoading: boolean;
 }) {
