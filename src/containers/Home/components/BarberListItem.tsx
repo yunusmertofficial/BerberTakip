@@ -11,6 +11,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import Stars from "../../../components/Stars";
 import { colors } from "../../../utils";
 import { useNavigation } from "@react-navigation/native";
+import BarberProfileScreenProps from "../../../types/navigation/screens/BarberProfile";
 
 function BarberListItem({
   item,
@@ -21,7 +22,7 @@ function BarberListItem({
   animatedValue: Animated.Value;
   isLoading: boolean;
 }) {
-  const navigation = useNavigation();
+  const navigation = useNavigation<BarberProfileScreenProps["navigation"]>();
   if (isLoading) {
     return <BarberListItemPlaceholder />;
   }
@@ -32,11 +33,8 @@ function BarberListItem({
   };
 
   const handleViewProfile = (barberId: number) => {
-    //@ts-ignore
     navigation.navigate("BarberProfile", { barberId });
     console.log("Profil görüntüleniyor, berber ID:", barberId);
-    // Profil görüntüleme navigasyonu
-    // navigation.navigate('Profile', { barberId });
   };
 
   return (

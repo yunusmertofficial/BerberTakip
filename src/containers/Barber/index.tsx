@@ -9,10 +9,11 @@ import { useRoute } from "@react-navigation/native";
 import { fetchBarbers } from "../../apiServices/barber";
 import LoadingBoundary from "../../components/LoadingBoundary";
 import ErrorBoundary from "../../components/ErrorBoundary";
+import BarberProfileScreenProps from "../../types/navigation/screens/BarberProfile";
 
 const BarberProfileContainer: React.FC = () => {
-  const route = useRoute();
-  const { barberId } = route.params as { barberId: number };
+  const route = useRoute<BarberProfileScreenProps["route"]>();
+  const { barberId } = route.params;
   const [barber, setBarber] = useState<any>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 

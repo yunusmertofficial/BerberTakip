@@ -1,11 +1,11 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { BarbersProvider } from "../../src/context/BarbersContext";
 import HomeScreen from "../../src/screens/HomeScreen";
 import MapScreen from "../../src/screens/MapScreen";
 import { colors } from "../../src/utils";
 import BarberProfileScreen from "../../src/screens/BarberProfileScreen";
+import HomeStackParamList from "../../src/types/navigation/stacks/Home";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<HomeStackParamList>();
 
 const HomeStackScreen = () => {
   return (

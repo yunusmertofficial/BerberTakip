@@ -6,12 +6,13 @@ import { colors } from "../../utils";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { fetchAppointmentResults } from "../../apiServices/appointmentResult";
+import HistoryAppointmentDetailsScreenProps from "../../types/navigation/screens/HistoryAppointmentDetails";
 
 const HistoryAppointmentsContainer = () => {
   const appointments = fetchAppointmentResults();
-  const navigation = useNavigation();
-  const handlePress = (appointment_id: string) => {
-    //@ts-ignore
+  const navigation =
+    useNavigation<HistoryAppointmentDetailsScreenProps["navigation"]>();
+  const handlePress = (appointment_id: number) => {
     navigation.navigate("HistoryAppointmentDetails", { appointment_id });
   };
 
@@ -23,7 +24,7 @@ const HistoryAppointmentsContainer = () => {
       <FlatList
         data={appointments}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => handlePress(item.id.toString())}>
+          <TouchableOpacity onPress={() => handlePress(item.id)}>
             <AppointmentCard appointment={item} />
           </TouchableOpacity>
         )}

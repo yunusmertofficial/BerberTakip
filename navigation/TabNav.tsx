@@ -5,13 +5,14 @@ import { Icon } from "@rneui/themed";
 import { colors } from "../src/utils";
 import { View } from "react-native";
 import AppointmentInformationScreen from "../src/screens/AppointmentInformationScreen";
-
-const Tab = createBottomTabNavigator();
+import TabNavParamList from "../src/types/navigation/TabNav";
 
 const tabBarStyle = {
   height: 60,
   backgroundColor: colors.primary,
 };
+
+const Tab = createBottomTabNavigator<TabNavParamList>();
 
 function TabNav({ routeName }: { routeName: string | undefined }) {
   return (

@@ -10,34 +10,30 @@ import ErrorFallbackComponent from "../../components/ErrorFallback";
 import { setLocation } from "../../../features/user/userSlice";
 import { getLocationCoords } from "../../utils";
 import LoadingBoundary from "../../components/LoadingBoundary";
-
-interface initialRegion {
-  latitudeDelta: number;
-  longitudeDelta: number;
-}
+import HomeScreenProps from "../../types/navigation/screens/Home";
+import MapScreenProps from "../../types/navigation/screens/Map";
 
 const MapContainer = () => {
-  const route = useRoute();
+  const route = useRoute<MapScreenProps["route"]>();
   const dispatch = useDispatch();
-  const { barber_ids } = route.params as { barber_ids: number[] };
-  const navigation = useNavigation();
+  const navigation = useNavigation<HomeScreenProps["navigation"]>();
   const coords = useSelector((state: RootState) => state.user.coordinates) as {
     latitude: number;
     longitude: number;
   };
-  const { latitudeDelta, longitudeDelta } = route.params as initialRegion;
+  const { latitudeDelta, longitudeDelta, barberIds } = route.params;
   const [barbers, setBarbers] = useState<Barber[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const data = await fetchBarbers(barber_ids);
+      const data = await fetchBarbers(barberIds);
       setBarbers(data);
       setIsLoading(false);
     };
     fetchData();
-  }, [barber_ids]);
+  }, [barberIds]);
 
   console.log(coords);
 
@@ -80,7 +76,6 @@ const MapContainer = () => {
               error={"Lütfen Berberlerinizi Filtreleyin."}
               retryAgainMessage={"Anasayfaya Dön"}
               resetError={() => {
-                //@ts-ignore
                 navigation.navigate("Home");
               }}
             />

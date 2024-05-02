@@ -1,12 +1,13 @@
-import AppointmentResult, {
+/* import AppointmentResult, {
   AppointmentResultType,
-} from "../../types/AppointmentResult";
+} from "../../types/AppointmentResult"; */
+import AppointmentResult from "../../types/AppointmentResult";
 import AppointmentResultData from "./types/AppointmentResultData";
 
 const appointmentsResults: AppointmentResult[] = [
   {
     id: 1,
-    type: AppointmentResultType.COMPLETED,
+    type: "Completed",
     appointmentNumber: "202404230001",
     totalPrice: 85,
     totalDuration: 120,
@@ -84,7 +85,7 @@ export const fetchAppointmentResults = (): AppointmentResultData[] => {
 
 export const fetchAppointmentResult = (id: number): AppointmentResultData => {
   const appointmentResult = appointmentsResults.find(
-    (appointmentResult) => appointmentResult.id === id
+    (appointmentResult) => appointmentResult.id == id
   ) as AppointmentResult;
 
   return {

@@ -3,6 +3,7 @@ import ReactNativeMapView from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
 import { MarkerView } from "./MarkerView";
 import Barber from "../../../types/Barber";
+import HomeScreenProps from "../../../types/navigation/screens/Home";
 
 interface InitialRegion {
   latitudeDelta: number;
@@ -19,7 +20,7 @@ const MapView = ({
   barbers: Barber[];
 }) => {
   const mapView = useRef<ReactNativeMapView>(null);
-  const navigation = useNavigation();
+  const navigation = useNavigation<HomeScreenProps["navigation"]>();
 
   useEffect(() => {
     if (mapView.current && barbers) {

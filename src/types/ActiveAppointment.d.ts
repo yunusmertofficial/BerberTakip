@@ -1,4 +1,3 @@
-import Appointment from "./Appointment";
 import Personnel from "./Personnel";
 import Service from "./Service";
 import Rating from "./Rating";

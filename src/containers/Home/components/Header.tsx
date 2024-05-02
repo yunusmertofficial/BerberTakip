@@ -6,6 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { SearchBar } from "../../../components/SearchBar";
 import { colors } from "../../../utils";
 import { useBarbers } from "../../../context/BarbersContext";
+import MapScreenProps from "../../../types/navigation/screens/Map";
 
 export const Header = ({
   modalVisible,
@@ -15,11 +16,10 @@ export const Header = ({
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { barbers } = useBarbers();
-  const navigation = useNavigation();
+  const navigation = useNavigation<MapScreenProps["navigation"]>();
   const handleMapNavigation = () => {
-    //@ts-ignore
     navigation.navigate("Map", {
-      barber_ids: barbers.map((barber) => barber.id),
+      barberIds: barbers.map((barber) => barber.id),
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
     });

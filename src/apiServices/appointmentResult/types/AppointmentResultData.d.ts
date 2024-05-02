@@ -1,7 +1,6 @@
-import Appointment from "./Appointment";
-import Personnel from "./Personnel";
-import Service from "./Service";
-import Rating from "./Rating";
+import Personnel from "../../../types/Personnel";
+import Service from "../../../types/Service";
+import Rating from "../../../types/Rating";
 
 export enum AppointmentResultType {
   CANCELLED = "Cancelled",
@@ -34,7 +33,7 @@ interface MissedAppointmentDetails {
   estimatedStartDate?: Date;
 }
 
-interface AppointmentResult
+interface AppointmentResultData
   extends CompletedAppointmentDetails,
     CancelledAppointmentDetails,
     MissedAppointmentDetails {
@@ -47,4 +46,4 @@ interface AppointmentResult
   personnel: Personnel;
 }
 
-export default AppointmentResult;
+export default AppointmentResultData;

@@ -1,13 +1,15 @@
 import React from "react";
 import { View, Pressable, Text, StyleSheet } from "react-native";
 import { Callout, Marker } from "react-native-maps";
+import Barber from "../../../types/Barber";
+import HomeScreenProps from "../../../types/navigation/screens/Home";
 
 export const MarkerView = ({
   barber,
   navigation,
 }: {
-  barber: any;
-  navigation: any;
+  barber: Barber;
+  navigation: HomeScreenProps["navigation"];
 }) => {
   return (
     <Marker
@@ -19,7 +21,6 @@ export const MarkerView = ({
     >
       <Callout
         onPress={() => {
-          //@ts-ignore
           navigation.navigate("Home");
         }}
       >
@@ -28,7 +29,6 @@ export const MarkerView = ({
           <Pressable
             style={styles.calloutButton}
             onPress={() => {
-              //@ts-ignore
               navigation.navigate("Home");
             }}
           >
