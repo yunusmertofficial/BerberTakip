@@ -3,12 +3,23 @@ import Personnel from "./Personnel";
 import Service from "./Service";
 import Rating from "./Rating";
 
+enum AppointmentStatus {
+  SCHEDULED = "scheduled",
+  WAITING = "waiting",
+  AWAITING_CONFIRMATION = "awaiting-confirmation",
+  IN_PROGRESS = "in-progress",
+}
+
 interface ActiveAppointment {
   id: number;
-  appointment: Appointment;
+  appointmentNumber: string;
+  totalPrice: number;
+  totalEstimatedDuration: number;
+  services: Service[];
+  personnel: Personnel;
   checkInTime?: Date; // Optional for scheduled appointments
-  scheduledTime?: Date; // Optional for queue appointments
-  status: "waiting" | "in-progress" | "awaiting-confirmation" | "scheduled";
+  scheduledStartTime?: Date; // Optional for queue appointments
+  status: AppointmentStatus;
   source?: "appointment" | "walk-in"; // Optional for scheduled appointments
   createdAt: Date;
   updatedAt: Date;

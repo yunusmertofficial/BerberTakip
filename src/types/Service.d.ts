@@ -1,7 +1,7 @@
 interface Service {
   id: number;
   name: string;
-  duration: number;
+  estimatedDuration: number;
   price: number;
 }
 

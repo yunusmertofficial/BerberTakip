@@ -1,5 +1,6 @@
 import Rating from "./Rating";
 import Personnel from "./Personnel";
+import Service from "./Service";
 
 interface Appointment {
   id: number;

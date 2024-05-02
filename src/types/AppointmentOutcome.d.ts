@@ -1,23 +1,53 @@
 import Appointment from "./Appointment";
 import Personnel from "./Personnel";
 import Service from "./Service";
-import ExtendedAppointmentInfo from "./ExtendedAppointmentInfo";
 import Rating from "./Rating";
 
-// Genel randevu sonucu interface'i, iptal edilmiş, tamamlanmış veya kaçırılmış randevular için kullanılır.
-interface AppointmentOutcome {
+enum AppointmentResultType {
+  CANCELLED = "Cancelled",
+  COMPLETED = "Completed",
+  MISSED = "Missed",
+}
+
+interface CompletedAppointmentDetails {
+  totalDuration: number;
+  services: {
+    service: Service;
+    duration: number;
+  }[];
+  startTime: Date;
+  endTime: Date;
+  rating?: Rating;
+}
+
+interface CancelledAppointmentDetails {
+  totalEstimatedDuration: number;
+  services: Service[];
+  reason: string;
+  estimatedStartTime: Date;
+}
+
+interface MissedAppointmentDetails {
+  totalEstimatedDuration: number;
+  services: Service[];
+  reason: string;
+  estimatedStartTime: Date;
+}
+
+interface AppointmentResult {
   id: number;
-  type: "Cancelled" | "Completed" | "Missed"; // Randevu durumu tipi
-  appointment: Appointment; // Genel randevu yapısına referans
-  details: {
-    scheduledTime?: Date; // Appointment için planlanmış zaman
-    checkInTime?: Date; // Walk-in için müşterinin giriş yaptığı zaman
-    estimatedTime: Date; // Randevunun tahmini süresi
-  }; // Randevuyla ilgili ek bilgiler
-  reason?: string; // İptal veya kaçırılma sebebi (isteğe bağlı)
-  feedback?: Rating; // Tamamlanmış randevularda müşteri geri bildirimi (isteğe bağlı)
+  type: AppointmentResultType; // Randevu durumu tipi
+  scheduledStartTime?: Date; // Randevu için planlanmış başlangıç zamanı
+  checkInTime?: Date; // Walk-in için müşterinin sıra aldığı zaman
+  appointmentNumber: string;
+  totalPrice: number;
+  personnel: Personnel;
+  details:
+    | CompletedAppointmentDetails
+    | CancelledAppointmentDetails
+    | MissedAppointmentDetails;
   createdAt: Date; // Randevunun oluşturulma tarihi
   updatedAt: Date; // Son güncelleme tarihi
 }
 
-export default AppointmentOutcome;
+export default AppointmentResult;
