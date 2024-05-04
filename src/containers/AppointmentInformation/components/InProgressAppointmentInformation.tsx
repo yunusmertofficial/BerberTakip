@@ -7,7 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import RemainingTime from "./RemainingTime";
 
 const InProgressAppointmentInformation: React.FC<{
-  barberName: string;
+  barberName?: string;
   personnelName: string;
   startedAt: Date;
   estimatedEndTime: Date;

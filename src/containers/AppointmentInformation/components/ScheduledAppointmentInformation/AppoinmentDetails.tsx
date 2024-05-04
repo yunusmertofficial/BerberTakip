@@ -5,11 +5,11 @@ import { colors } from "../../../../utils";
 import { Button } from "@rneui/base";
 import Service from "src/types/Service";
 
-const serviceItem = ({ item }: any) => (
+const serviceItem = ({ item }: { item: Service }) => (
   <View style={styles.serviceItem}>
-    <Text style={styles.serviceName}>{item.serviceName}</Text>
-    <Text>Price: ${item.servicePrice}</Text>
-    <Text>Duration: {item.serviceDuration} minutes</Text>
+    <Text style={styles.serviceName}>{item.name}</Text>
+    <Text>Price: ${item.price}</Text>
+    <Text>Duration: {item.estimatedDuration} minutes</Text>
   </View>
 );
 

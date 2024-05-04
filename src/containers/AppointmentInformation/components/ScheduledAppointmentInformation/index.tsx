@@ -4,12 +4,12 @@ import { StyleSheet } from "react-native";
 import { colors } from "../../../../utils";
 import AppoinmentKey from "./AppoinmentKey";
 import AppoinmentDetails from "./AppoinmentDetails";
-import { AppointmentType } from "../..";
+import ActiveAppointmentData from "@apiServices/activeAppointment/types/ActiveAppointmentData";
 
 const ScheduledAppointmentInformation = ({
   appointment,
 }: {
-  appointment: AppointmentType;
+  appointment: ActiveAppointmentData;
 }) => {
   const [index, setIndex] = React.useState(0);
   return (
@@ -41,14 +41,12 @@ const ScheduledAppointmentInformation = ({
         >
           <AppoinmentKey
             queueNumber={appointment.queueNumber}
-            scheduledAppointmentTime={appointment.data.scheduledAppointmentTime}
-            estimatedTime={appointment.data.pending?.estimatedTime}
+            scheduledAppointmentTime={appointment.scheduledStartTime}
+            estimatedTime={appointment.estimatedStartTime}
             appointmentNumber={appointment.appointmentNumber}
-            waitingTimeInMinutes={
-              appointment.data.pending?.waitingTimeInMinutes
-            }
-            confirmationTime={appointment.data.pending?.confirmationTime}
-            status={appointment.data.pending?.status}
+            waitingTimeInMinutes={appointment.totalEstimatedDuration}
+            confirmationTime={appointment.confirmationTime}
+            status={appointment.status}
           />
         </TabView.Item>
         <TabView.Item
@@ -56,13 +54,16 @@ const ScheduledAppointmentInformation = ({
         >
           <AppoinmentDetails
             appointmentNumber={appointment.appointmentNumber}
-            barberName={appointment.barberName}
-            personnelName={appointment.personnelName}
-            scheduledAppointmentTime={appointment.data.scheduledAppointmentTime}
-            estimatedTime={appointment.data.pending?.estimatedTime}
-            appointmentLocation={appointment.appointmentLocation}
-            appointmentCoordinates={appointment.appointmentCoordinates}
-            services={appointment.data.services}
+            barberName={appointment.personnel.barber.name}
+            personnelName={appointment.personnel.firstName}
+            scheduledAppointmentTime={appointment.scheduledStartTime}
+            estimatedTime={appointment.estimatedStartTime}
+            appointmentLocation={appointment.personnel.barber.location}
+            appointmentCoordinates={{
+              latitude: appointment.personnel.barber.latitude,
+              longitude: appointment.personnel.barber.longitude,
+            }}
+            services={appointment.services}
           />
         </TabView.Item>
       </TabView>
