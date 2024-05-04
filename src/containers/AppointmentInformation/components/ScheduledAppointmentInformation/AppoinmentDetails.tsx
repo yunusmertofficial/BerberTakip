@@ -1,9 +1,37 @@
 import React from "react";
 import { FlatList, Linking, StyleSheet, View } from "react-native";
 import { Text } from "@rneui/themed";
-import { colors } from "../../../../utils";
+import { colors, formatDate } from "../../../../utils";
 import { Button } from "@rneui/base";
 import Service from "src/types/Service";
+import ActiveAppointmentData from "@apiServices/activeAppointment/types/ActiveAppointmentData";
+import {
+  WaitingScheduleAppointment,
+  WaitingWalkInAppointment,
+} from "@apiServices/activeAppointment/types/WaitingAppointment";
+import {
+  AwaitingConfirmationScheduleAppointment,
+  AwaitingConfirmationWalkInAppointment,
+} from "@apiServices/activeAppointment/types/AwaitingConfirmationAppointment";
+import {
+  ConfirmedScheduleAppointment,
+  ConfirmedWalkInAppointment,
+} from "@apiServices/activeAppointment/types/ConfirmedAppointmentData";
+import { ScheduledAppointmentData } from "@apiServices/activeAppointment/types/ScheduledAppointmentData";
+import {
+  InProgressScheduleAppointment,
+  InProgressWalkInAppointment,
+} from "@apiServices/activeAppointment/types/InProgressAppointmentData";
+import { isToday } from "date-fns";
+import { CircularProgress } from "@components/CircularProgress";
+
+const formatToTodayOrDate = (date: Date, formatStr: string) => {
+  if (isToday(date)) {
+    return formatDate(date, "HH:mm");
+  } else {
+    return formatDate(date, formatStr);
+  }
+};
 
 const serviceItem = ({ item }: { item: Service }) => (
   <View style={styles.serviceItem}>
@@ -13,57 +41,225 @@ const serviceItem = ({ item }: { item: Service }) => (
   </View>
 );
 
-const ListHeaderComponent = ({
-  appointmentNumber,
-  barberName,
-  personnelName,
-  scheduledAppointmentTime,
-  estimatedTime,
-  appointmentLocation,
-  appointmentCoordinates,
+const InProgressAppointmentInformation = ({
+  appointment,
 }: {
-  appointmentNumber: string;
-  barberName: string;
-  personnelName: string;
-  estimatedTime?: Date;
-  scheduledAppointmentTime?: Date;
-  appointmentLocation: string;
-  appointmentCoordinates: { latitude: number; longitude: number };
+  appointment: InProgressWalkInAppointment | InProgressScheduleAppointment;
+}) => {
+  return (
+    <>
+      <Text style={styles.detailText}>
+        <Text style={styles.detailTextBold}>Randevunuz Başladı:</Text>{" "}
+        {formatToTodayOrDate(
+          appointment.startTime,
+          "eeee, dd MMMM yyyy, HH:mm"
+        )}
+      </Text>
+      {appointment.source === "schedule" && (
+        <Text style={styles.detailText}>
+          <Text style={styles.detailTextBold}>Randevu Planladığınız Saat:</Text>{" "}
+          {formatToTodayOrDate(
+            appointment.scheduledStartTime,
+            "eeee, dd MMMM yyyy, HH:mm"
+          )}
+        </Text>
+      )}
+      {appointment.source === "walk-in" && (
+        <Text style={styles.detailText}>
+          <Text style={styles.detailTextBold}>Randevu Aldığınız Saat:</Text>{" "}
+          {formatToTodayOrDate(
+            appointment.checkInTime,
+            "eeee, dd MMMM yyyy, HH:mm"
+          )}
+        </Text>
+      )}
+      <Text style={styles.detailText}>
+        <Text style={styles.detailTextBold}>
+          Randevunuzun Onaylandığı Saat:
+        </Text>{" "}
+        {formatToTodayOrDate(
+          appointment.confirmationTime,
+          "eeee, dd MMMM yyyy, HH:mm"
+        )}
+      </Text>
+    </>
+  );
+};
+
+const ScheduledAppointmentInformation = ({
+  appointment,
+}: {
+  appointment: ScheduledAppointmentData;
+}) => {
+  const scheduledTimeString = formatToTodayOrDate(
+    appointment.scheduledStartTime,
+    "eeee, dd MMMM yyyy, HH:mm"
+  );
+
+  return (
+    <Text style={styles.detailText}>
+      <Text style={styles.detailTextBold}>Randevu Planladığınız Saat:</Text>{" "}
+      {scheduledTimeString}
+    </Text>
+  );
+};
+
+const ConfirmedAppointmentInformation = ({
+  appointment,
+}: {
+  appointment: ConfirmedWalkInAppointment | ConfirmedScheduleAppointment;
+}) => {
+  return (
+    <>
+      <Text style={styles.detailText}>
+        <Text style={styles.detailTextBold}>Randevu Onaylandı</Text>{" "}
+        {formatToTodayOrDate(
+          appointment.confirmationTime,
+          "eeee, dd MMMM yyyy, HH:mm"
+        )}
+      </Text>
+      {appointment.source === "schedule" && (
+        <Text style={styles.detailText}>
+          <Text style={styles.detailTextBold}>Randevu Planladığınız Saat:</Text>{" "}
+          {formatToTodayOrDate(
+            appointment.scheduledStartTime,
+            "eeee, dd MMMM yyyy, HH:mm"
+          )}
+        </Text>
+      )}
+      {appointment.source === "walk-in" && (
+        <Text style={styles.detailText}>
+          <Text style={styles.detailTextBold}>Randevu Aldığınız Saat:</Text>{" "}
+          {formatToTodayOrDate(
+            appointment.checkInTime,
+            "eeee, dd MMMM yyyy, HH:mm"
+          )}
+        </Text>
+      )}
+    </>
+  );
+};
+
+const WaitingAppointmentInformation = ({
+  appointment,
+}: {
+  appointment: WaitingScheduleAppointment | WaitingWalkInAppointment;
+}) => {
+  const estimatedTimeString = formatToTodayOrDate(
+    appointment.estimatedStartTime,
+    "HH:mm"
+  );
+
+  return (
+    <>
+      <Text style={styles.detailText}>
+        <Text style={styles.detailTextBold}>Sıra Numaranız:</Text>{" "}
+        {appointment.queueNumber}
+      </Text>
+      <Text style={styles.detailText}>
+        <Text style={styles.detailTextBold}>Tahmini Başlangıç Saati:</Text>{" "}
+        {estimatedTimeString}
+      </Text>
+
+      {appointment.source === "schedule" && (
+        <Text style={styles.detailText}>
+          <Text style={styles.detailTextBold}>Randevu Planladığınız Saat:</Text>{" "}
+          {formatToTodayOrDate(
+            appointment.scheduledStartTime,
+            "eeee, dd MMMM yyyy, HH:mm"
+          )}
+        </Text>
+      )}
+    </>
+  );
+};
+
+const AwaitingConfirmationAppointmentInformation = ({
+  appointment,
+}: {
+  appointment:
+    | AwaitingConfirmationWalkInAppointment
+    | AwaitingConfirmationScheduleAppointment;
+}) => {
+  return (
+    <>
+      <Text style={styles.detailText}>
+        <Text style={styles.detailTextBold}>Randevu Bekleniyor</Text>
+        <CircularProgress />
+      </Text>
+    </>
+  );
+};
+
+const ListHeaderComponent = ({
+  appointment,
+}: {
+  appointment: ActiveAppointmentData;
 }) => {
   return (
     <View>
       <Text style={styles.detailText}>
         <Text style={styles.detailTextBold}>Randevu Numarası:</Text>{" "}
-        {appointmentNumber}
+        {appointment.appointmentNumber}
       </Text>
       <Text style={styles.detailText}>
-        <Text style={styles.detailTextBold}>Berber Adı:</Text> {barberName}
+        <Text style={styles.detailTextBold}>Berber Adı:</Text>{" "}
+        {appointment.personnel.barber?.name}
       </Text>
       <Text style={styles.detailText}>
         <Text style={styles.detailTextBold}>Hizmet Sağlayıcı:</Text>{" "}
-        {personnelName}
+        {appointment.personnel.firstName} {appointment.personnel.lastName}
       </Text>
-      {scheduledAppointmentTime && (
-        <Text style={styles.detailText}>
-          <Text style={styles.detailTextBold}>Randevu Zamanı:</Text>{" "}
-          {scheduledAppointmentTime.toLocaleString()}
-        </Text>
+      {appointment.status === "in-progress" && (
+        <InProgressAppointmentInformation
+          appointment={
+            appointment as
+              | InProgressWalkInAppointment
+              | InProgressScheduleAppointment
+          }
+        />
       )}
-      {estimatedTime && (
-        <Text style={styles.detailText}>
-          <Text style={styles.detailTextBold}>Tahmini Başlangıç Zamanı:</Text>{" "}
-          {estimatedTime.toLocaleString()}
-        </Text>
+      {appointment.status === "scheduled" && (
+        <ScheduledAppointmentInformation
+          appointment={appointment as ScheduledAppointmentData}
+        />
       )}
+      {appointment.status === "confirmed" && (
+        <ConfirmedAppointmentInformation
+          appointment={
+            appointment as
+              | ConfirmedWalkInAppointment
+              | ConfirmedScheduleAppointment
+          }
+        />
+      )}
+      {appointment.status === "waiting" && (
+        <WaitingAppointmentInformation
+          appointment={
+            appointment as WaitingScheduleAppointment | WaitingWalkInAppointment
+          }
+        />
+      )}
+      {appointment.status === "awaiting-confirmation" && (
+        <AwaitingConfirmationAppointmentInformation
+          appointment={
+            appointment as
+              | AwaitingConfirmationWalkInAppointment
+              | AwaitingConfirmationScheduleAppointment
+          }
+        />
+      )}
+
       <Text style={styles.detailText}>
         <Text style={styles.detailTextBold}>Kısa Adres:</Text>{" "}
-        {appointmentLocation}
+        {appointment.personnel.barber?.location}
       </Text>
 
       <Button
         title="Yol Tarifi Al"
         onPress={() => {
-          const { latitude, longitude } = appointmentCoordinates;
+          const latitude = appointment.personnel.barber?.latitude;
+          const longitude = appointment.personnel.barber?.longitude;
           const url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
           Linking.openURL(url);
         }}
@@ -101,23 +297,9 @@ const ListFooterComponent = ({
 };
 
 const AppoinmentDetails = ({
-  services,
-  appointmentNumber,
-  barberName,
-  personnelName,
-  scheduledAppointmentTime,
-  estimatedTime,
-  appointmentLocation,
-  appointmentCoordinates,
+  appointment,
 }: {
-  services: Service[];
-  appointmentNumber: string;
-  barberName: string;
-  personnelName: string;
-  scheduledAppointmentTime?: Date;
-  estimatedTime?: Date;
-  appointmentLocation: string;
-  appointmentCoordinates: { latitude: number; longitude: number };
+  appointment: ActiveAppointmentData;
 }) => {
   return (
     <View
@@ -129,31 +311,15 @@ const AppoinmentDetails = ({
       ]}
     >
       <FlatList
-        data={services}
+        data={appointment.services}
         renderItem={serviceItem}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item, index) => index.toString()}
-        ListHeaderComponent={
-          <ListHeaderComponent
-            appointmentNumber={appointmentNumber}
-            barberName={barberName}
-            personnelName={personnelName}
-            scheduledAppointmentTime={scheduledAppointmentTime}
-            estimatedTime={estimatedTime}
-            appointmentLocation={appointmentLocation}
-            appointmentCoordinates={appointmentCoordinates}
-          />
-        }
+        ListHeaderComponent={<ListHeaderComponent appointment={appointment} />}
         ListFooterComponent={
           <ListFooterComponent
-            totalServiceDuration={services.reduce(
-              (acc, curr) => acc + curr.estimatedDuration,
-              0
-            )}
-            totalServicePrice={services.reduce(
-              (acc, curr) => acc + curr.price,
-              0
-            )}
+            totalServiceDuration={appointment.totalEstimatedDuration}
+            totalServicePrice={appointment.totalPrice}
           />
         }
       />

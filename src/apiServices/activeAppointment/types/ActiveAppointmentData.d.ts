@@ -2,14 +2,6 @@ import Personnel from "src/types/Personnel";
 import Service from "src/types/Service";
 import Rating from "src/types/Rating";
 
-export enum AppointmentStatus {
-  Scheduled = "scheduled",
-  Waiting = "waiting",
-  AwaitingConfirmation = "awaiting-confirmation",
-  Confirmed = "confirmed",
-  InProgress = "in-progress",
-}
-
 interface ActiveAppointment {
   id: number;
   appointmentNumber: string;
@@ -24,7 +16,12 @@ interface ActiveAppointment {
   estimatedStartTime?: Date;
   totalWaitDuration?: number;
   confirmationTime?: Date; // Optional for awaiting-confirmation status
-  status: AppointmentStatus;
+  status:
+    | "scheduled"
+    | "waiting"
+    | "awaiting-confirmation"
+    | "confirmed"
+    | "in-progress";
   source?: "schedule" | "walk-in"; // Optional for scheduled appointments
   createdAt: Date;
   updatedAt: Date;

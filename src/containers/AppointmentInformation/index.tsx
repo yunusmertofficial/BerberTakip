@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Text } from "@rneui/themed";
-import { StyleSheet, View } from "react-native";
+import { Button, StyleSheet, View } from "react-native";
 import ScheduledAppointmentInformation from "./components/ScheduledAppointmentInformation";
 import LoadingBoundary from "@components/LoadingBoundary";
 import ErrorBoundary from "@components/ErrorBoundary";
-import InProgressAppointmentInformation from "./components/InProgressAppointmentInformation";
-import Service from "src/types/Service";
 import { fetchActiveAppointment } from "@apiServices/activeAppointment";
 import ActiveAppointmentData from "@apiServices/activeAppointment/types/ActiveAppointmentData";
 
@@ -15,11 +13,12 @@ const AppointmentInformationContainer: React.FC = () => {
   );
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [value, setValue] = useState<number>(1);
 
   const fetchAppointmentInformation = async () => {
     try {
       setIsLoading(true);
-      const data = await fetchActiveAppointment();
+      const data = await fetchActiveAppointment(value);
       setAppointment(data);
     } catch (error: any) {
       setErrorMessage(error.message);
@@ -30,19 +29,7 @@ const AppointmentInformationContainer: React.FC = () => {
 
   useEffect(() => {
     fetchAppointmentInformation();
-  }, []);
-
-  function calculateEstimatedEndTime(
-    startTime: Date | undefined,
-    services: Service[]
-  ): Date {
-    const effectiveStartTime = startTime || new Date();
-    const totalServiceTime = services.reduce(
-      (total, service) => total + service.estimatedDuration,
-      0
-    );
-    return new Date(effectiveStartTime.getTime() + totalServiceTime * 60000);
-  }
+  }, [value]);
 
   return (
     <LoadingBoundary isLoading={isLoading}>
@@ -52,24 +39,7 @@ const AppointmentInformationContainer: React.FC = () => {
         resetError={fetchAppointmentInformation}
         isErrored={!!errorMessage}
       >
-        {(appointment?.status === "scheduled" ||
-          appointment?.status === "waiting" ||
-          appointment?.status === "awaiting-confirmation" ||
-          appointment?.status === "confirmed") && (
-          <ScheduledAppointmentInformation appointment={appointment} />
-        )}
-        {appointment?.status === "in-progress" && (
-          <InProgressAppointmentInformation
-            barberName={appointment?.personnel?.barber?.name}
-            personnelName={`${appointment?.personnel?.firstName} ${appointment?.personnel?.lastName}`}
-            startedAt={appointment?.startTime || new Date()}
-            estimatedEndTime={calculateEstimatedEndTime(
-              appointment?.startTime,
-              appointment?.services
-            )}
-          />
-        )}
-        {Object.keys(appointment || {}).length === 0 && (
+        {!appointment ? (
           <View
             style={{
               flex: 1,
@@ -87,7 +57,20 @@ const AppointmentInformationContainer: React.FC = () => {
               Henüz randevu bilgileriniz bulunmamaktadır.
             </Text>
           </View>
+        ) : (
+          <ScheduledAppointmentInformation appointment={appointment} />
         )}
+        <Button
+          onPress={() => {
+            //value en fazla 8 olabilir eğer 8 olduysa yeniden 0 yap
+            if (value === 8) {
+              setValue(0);
+            } else {
+              setValue(value + 1);
+            }
+          }}
+          title="Yeni bir duruma geç"
+        />
       </ErrorBoundary>
     </LoadingBoundary>
   );

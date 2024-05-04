@@ -5,7 +5,6 @@ export interface ConfirmedWalkInAppointment extends BaseActiveAppointment {
   checkInTime: Date;
   source: "walk-in";
   confirmationTime: Date;
-  totalWaitDuration: number;
 }
 
 export interface ConfirmedScheduleAppointment extends BaseActiveAppointment {
@@ -13,5 +12,4 @@ export interface ConfirmedScheduleAppointment extends BaseActiveAppointment {
   scheduledStartTime: Date;
   source: "schedule";
   confirmationTime: Date;
-  totalWaitDuration: number;
 }

@@ -15,7 +15,6 @@ interface ActiveAppointment {
   appointmentNumber: string;
   totalPrice: number;
   totalEstimatedDuration: number;
-  totalWaitDuration?: number;
   services: Service[];
   personnel: Personnel;
   checkInTime?: Date; // Optional for scheduled appointments

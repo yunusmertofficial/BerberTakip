@@ -6,6 +6,16 @@ import RemainingTime from "../RemainingTime";
 import { colors } from "@utils";
 import { CircularProgress } from "@components/CircularProgress";
 import { Button } from "@rneui/themed";
+import ActiveAppointmentData from "@apiServices/activeAppointment/types/ActiveAppointmentData";
+import { ScheduledAppointmentData } from "@apiServices/activeAppointment/types/ScheduledAppointmentData";
+import {
+  WaitingScheduleAppointment,
+  WaitingWalkInAppointment,
+} from "@apiServices/activeAppointment/types/WaitingAppointment";
+import {
+  ConfirmedScheduleAppointment,
+  ConfirmedWalkInAppointment,
+} from "@apiServices/activeAppointment/types/ConfirmedAppointmentData";
 
 const EstimatedStartTime = ({
   time,
@@ -37,44 +47,43 @@ const EstimatedStartTime = ({
   );
 };
 
+const formatScheduledMessage = (appointment: ScheduledAppointmentData) => {
+  const formattedDate = appointment.scheduledStartTime.toLocaleString("tr-TR", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  });
+  return `Randevu Zamanınız: ${formattedDate}`;
+};
+
+const formatWaitingMessage = (
+  appointment: WaitingScheduleAppointment | WaitingWalkInAppointment
+) => {
+  return `Sıra Numaranız: ${appointment.queueNumber}`;
+};
+
 const StatusText = ({
-  status,
-  scheduledAppointmentTime,
-  queueNumber,
+  appointment,
 }: {
-  status:
-    | "scheduled"
-    | "waiting"
-    | "awaiting-confirmation"
-    | "confirmed"
-    | "in-progress";
-  scheduledAppointmentTime?: Date;
-  queueNumber?: number;
+  appointment: ActiveAppointmentData;
 }) => {
   let message = "";
   let color = colors.secondary;
 
-  switch (status) {
+  switch (appointment.status) {
     case "scheduled":
-      if (!scheduledAppointmentTime) return null;
       color = colors.primary;
-      const formattedDate = scheduledAppointmentTime.toLocaleString("tr-TR", {
-        year: "numeric",
-        month: "numeric",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false, // 24 saatlik format
-      });
-
-      message = `Randevu Zamanınız: ${formattedDate}`;
+      message = formatScheduledMessage(appointment as ScheduledAppointmentData);
       break;
     case "waiting":
       color = colors.secondary;
-      message = queueNumber
-        ? `Sıra Numaranız: ${queueNumber - 1}`
-        : "Sıra Bekliyor";
+      message = formatWaitingMessage(
+        appointment as WaitingScheduleAppointment | WaitingWalkInAppointment
+      );
       break;
     case "awaiting-confirmation":
       color = colors.warning;
@@ -85,7 +94,7 @@ const StatusText = ({
       message = "Randevu Onaylandı";
     case "in-progress":
       color = colors.success;
-      message = "Randevu Onaylandı";
+      message = "Randevu Başladı";
       break;
     default:
       return null; // Eğer hiçbir durum geçerli değilse, bileşeni render etmeme.
@@ -106,33 +115,37 @@ const StatusText = ({
 };
 
 const AppointmentDetails = ({
-  status,
-  estimatedTime,
-  waitingTimeInMinutes,
-  confirmationTime,
+  appointment,
 }: {
-  status:
-    | "scheduled"
-    | "waiting"
-    | "awaiting-confirmation"
-    | "confirmed"
-    | "in-progress";
-  estimatedTime?: Date;
-  waitingTimeInMinutes: number;
-  confirmationTime?: Date;
+  appointment: ActiveAppointmentData;
 }) => {
-  switch (status) {
+  switch (appointment.status) {
     case "scheduled":
-      if (estimatedTime) {
-        return (
+      return (
+        <EstimatedStartTime
+          label="Randevu Zamanı"
+          time={(appointment as ScheduledAppointmentData).scheduledStartTime}
+        />
+      );
+    case "waiting":
+      return (
+        <>
           <EstimatedStartTime
-            label="Tahmini Randevu Başlangıç Zamanı"
-            time={estimatedTime}
+            label="Randevuya Kalan Süre"
+            color={colors.warning}
+            time={
+              new Date(
+                (
+                  appointment as
+                    | WaitingScheduleAppointment
+                    | WaitingWalkInAppointment
+                ).estimatedStartTime.getTime()
+              )
+            }
           />
-        );
-      } else {
-        return null;
-      }
+        </>
+      );
+
     case "awaiting-confirmation":
       return (
         <>
@@ -145,26 +158,25 @@ const AppointmentDetails = ({
 
     case "confirmed":
       return (
-        <>
-          {confirmationTime ? (
-            <EstimatedStartTime
-              label="İptal Edilmesine Kalan Süre"
-              color={colors.error}
-              time={
-                new Date(
-                  confirmationTime.getTime() + waitingTimeInMinutes * 60000
-                )
-              }
-            />
-          ) : null}
-        </>
+        <EstimatedStartTime
+          label="İptal Edilmesine Kalan Süre"
+          color={colors.error}
+          time={
+            new Date(
+              (
+                appointment as
+                  | ConfirmedWalkInAppointment
+                  | ConfirmedScheduleAppointment
+              ).confirmationTime.getTime() +
+                (appointment.personnel.barber?.totalWaitDuration || 0) *
+                  60 *
+                  1000
+            )
+          }
+        />
       );
     case "in-progress":
-      return (
-        <>
-          <Text style={styles.estimatedTimeText}>Randevu Başladı</Text>
-        </>
-      );
+      return <Text style={styles.estimatedTimeText}>Randevu Başladı</Text>;
 
     default:
       return null;
@@ -172,42 +184,16 @@ const AppointmentDetails = ({
 };
 
 const AppoinmentKey = ({
-  scheduledAppointmentTime,
-  estimatedTime,
-  waitingTimeInMinutes,
-  confirmationTime,
-  status,
-  queueNumber,
-  appointmentNumber,
+  appointment,
 }: {
-  scheduledAppointmentTime?: Date;
-  estimatedTime?: Date;
-  appointmentNumber: string;
-  queueNumber?: number;
-  status:
-    | "scheduled"
-    | "waiting"
-    | "awaiting-confirmation"
-    | "confirmed"
-    | "in-progress";
-  waitingTimeInMinutes: number; // Müşterinin bekletilme süresi (dakika)
-  confirmationTime?: Date; // Müşterinin randevusunun onaylandığı zaman
+  appointment: ActiveAppointmentData;
 }) => {
   return (
     <View style={styles.infoContainer}>
-      <StatusText
-        status={status}
-        scheduledAppointmentTime={scheduledAppointmentTime}
-        queueNumber={queueNumber}
-      />
-      <QRCode value={appointmentNumber} size={250} />
+      <StatusText appointment={appointment} />
+      <QRCode value={appointment.appointmentNumber} size={250} />
       <View style={[styles.detailsContainer, { alignItems: "center" }]}>
-        <AppointmentDetails
-          status={status}
-          estimatedTime={estimatedTime}
-          waitingTimeInMinutes={waitingTimeInMinutes}
-          confirmationTime={confirmationTime}
-        />
+        <AppointmentDetails appointment={appointment} />
       </View>
       <Button
         title="Randevuyu İptal Et"

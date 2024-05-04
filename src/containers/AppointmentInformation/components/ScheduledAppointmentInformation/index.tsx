@@ -39,32 +39,12 @@ const ScheduledAppointmentInformation = ({
         <TabView.Item
           style={{ backgroundColor: colors.background, width: "100%" }}
         >
-          <AppoinmentKey
-            queueNumber={appointment.queueNumber}
-            scheduledAppointmentTime={appointment.scheduledStartTime}
-            estimatedTime={appointment.estimatedStartTime}
-            appointmentNumber={appointment.appointmentNumber}
-            waitingTimeInMinutes={appointment.totalEstimatedDuration}
-            confirmationTime={appointment.confirmationTime}
-            status={appointment.status}
-          />
+          <AppoinmentKey appointment={appointment} />
         </TabView.Item>
         <TabView.Item
           style={{ backgroundColor: colors.background, width: "100%" }}
         >
-          <AppoinmentDetails
-            appointmentNumber={appointment.appointmentNumber}
-            barberName={appointment.personnel.barber.name}
-            personnelName={appointment.personnel.firstName}
-            scheduledAppointmentTime={appointment.scheduledStartTime}
-            estimatedTime={appointment.estimatedStartTime}
-            appointmentLocation={appointment.personnel.barber.location}
-            appointmentCoordinates={{
-              latitude: appointment.personnel.barber.latitude,
-              longitude: appointment.personnel.barber.longitude,
-            }}
-            services={appointment.services}
-          />
+          <AppoinmentDetails appointment={appointment} />
         </TabView.Item>
       </TabView>
     </>

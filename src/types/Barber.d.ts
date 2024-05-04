@@ -15,6 +15,7 @@ interface Barber {
   personnels?: Personnel[];
   services?: Service[];
   ratings?: Rating[];
+  totalWaitDuration: number;
 }
 
 export default Barber;
