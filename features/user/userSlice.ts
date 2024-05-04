@@ -1,13 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Address, Coordinates } from "src/utils/locationUtils";
+
+export interface LocationState {
+  coordinates: Coordinates | null;
+  address: Address | null;
+}
 
 // Define types for user state
 interface UserState {
   userInfo: UserInfo | null;
   isSignedIn: boolean;
-  coordinates: {
-    latitude: number;
-    longitude: number;
-  } | null;
+  location: LocationState;
 }
 
 // Define types for user info
@@ -19,7 +22,10 @@ interface UserInfo {
 const initialState: UserState = {
   userInfo: null,
   isSignedIn: false,
-  coordinates: null,
+  location: {
+    coordinates: null,
+    address: null,
+  },
 };
 
 export const userSlice = createSlice({
@@ -30,17 +36,9 @@ export const userSlice = createSlice({
       state.userInfo = action.payload;
       state.isSignedIn = true;
     },
-    setLocation: (
-      state,
-      action: PayloadAction<{
-        latitude: number;
-        longitude: number;
-      }>
-    ) => {
-      state.coordinates = {
-        latitude: action.payload.latitude,
-        longitude: action.payload.longitude,
-      };
+    setLocation: (state, action: PayloadAction<LocationState>) => {
+      state.location.coordinates = action.payload.coordinates;
+      state.location.address = action.payload.address;
     },
     clearUser: (state) => {
       state.userInfo = null;

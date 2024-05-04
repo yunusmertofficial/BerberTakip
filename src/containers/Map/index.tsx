@@ -8,7 +8,7 @@ import Barber from "src/types/Barber";
 import { fetchBarbers } from "@apiServices/barber";
 import ErrorFallbackComponent from "@components/ErrorFallback";
 import { setLocation } from "@features/user/userSlice";
-import { getLocationCoords } from "@utils";
+import { getLocation } from "@utils";
 import LoadingBoundary from "@components/LoadingBoundary";
 import HomeScreenProps from "src/types/navigation/screens/Home";
 import MapScreenProps from "src/types/navigation/screens/Map";
@@ -17,10 +17,10 @@ const MapContainer = () => {
   const route = useRoute<MapScreenProps["route"]>();
   const dispatch = useDispatch();
   const navigation = useNavigation<HomeScreenProps["navigation"]>();
-  const coords = useSelector((state: RootState) => state.user.coordinates) as {
-    latitude: number;
-    longitude: number;
-  };
+  const coords = useSelector(
+    (state: RootState) => state.user.location.coordinates
+  );
+
   const { latitudeDelta, longitudeDelta, barberIds } = route.params;
   const [barbers, setBarbers] = useState<Barber[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -28,7 +28,7 @@ const MapContainer = () => {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const data = await fetchBarbers(barberIds);
+      const data = await fetchBarbers();
       setBarbers(data);
       setIsLoading(false);
     };
@@ -60,8 +60,13 @@ const MapContainer = () => {
               resetError={async () => {
                 setIsLoading(true);
                 try {
-                  const coords = await getLocationCoords();
-                  dispatch(setLocation(coords));
+                  const location = await getLocation();
+                  dispatch(
+                    setLocation({
+                      coordinates: location.coordinates,
+                      address: location.address,
+                    })
+                  );
                 } catch (error) {
                   console.log(error);
                 } finally {
@@ -76,7 +81,7 @@ const MapContainer = () => {
               error={"Lütfen Berberlerinizi Filtreleyin."}
               retryAgainMessage={"Anasayfaya Dön"}
               resetError={() => {
-                navigation.navigate("Home");
+                navigation.navigate("Home", {});
               }}
             />
           )}

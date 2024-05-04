@@ -3,7 +3,6 @@ import { StyleSheet, Image, Animated, View } from "react-native";
 import { Text } from "@rneui/themed";
 import { ImagesAssets } from "@assets/ImageAssets";
 import { colors } from "@utils";
-import { CircularProgress } from "@components/CircularProgress";
 
 const InProgressAppointmentInformation: React.FC<{
   barberName?: string;
@@ -66,7 +65,6 @@ const InProgressAppointmentInformation: React.FC<{
           <Text style={styles.infoText}>
             Randevu Başlama Saati: {startedAt?.toLocaleTimeString()}
           </Text>
-          <CircularProgress />
         </View>
       </View>
     </View>

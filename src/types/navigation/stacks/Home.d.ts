@@ -1,7 +1,13 @@
+import { FilterState } from "src/types/FormValues/Home/Filter";
+
 type HomeStackParamList = {
-  Home: undefined;
+  Home: {
+    searchQuery?: string;
+    filters?: FilterState;
+  };
   Map: {
-    barberIds: number[];
+    filters?: FilterState;
+    searchQuery?: string;
     latitudeDelta: number;
     longitudeDelta: number;
   };

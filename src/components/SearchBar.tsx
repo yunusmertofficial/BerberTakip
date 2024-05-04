@@ -1,24 +1,33 @@
 import { SearchBar as SearchBarComponent } from "@rneui/themed";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { colors } from "../utils";
 
 export const SearchBar = ({
   searchData,
+  placeholder,
+  initialSearch = "",
 }: {
   searchData: (search: string) => Promise<void>;
+  placeholder?: string;
+  initialSearch?: string;
 }) => {
-  const [search, setSearch] = useState("");
+  console.log("SearchBar rendered");
+  const [search, setSearch] = useState(initialSearch || "");
   const [isLoading, setIsLoading] = useState(false);
 
   const updateSearch = (text: string) => setSearch(text);
 
+  const handleSearch = useCallback(async () => {
+    if (search.length === 0) return;
+    setIsLoading(true);
+    await searchData(search);
+    setIsLoading(false);
+  }, [search, searchData]); // Burada searchData'yı bağımlılıklara ekledik.
+
   useEffect(() => {
     const timeout = setTimeout(async () => {
-      if (search.length === 0) return;
-      setIsLoading(true);
-      await searchData(search);
-      setIsLoading(false);
+      handleSearch();
     }, 500);
 
     return () => clearTimeout(timeout);
@@ -26,13 +35,14 @@ export const SearchBar = ({
 
   return (
     <SearchBarComponent
-      placeholder="Ara..."
+      placeholder={placeholder || "Ara"}
       onChangeText={updateSearch}
       value={search}
       containerStyle={styles.searchContainer}
       inputContainerStyle={styles.inputContainer}
       inputStyle={styles.input}
       showLoading={isLoading}
+      round
     />
   );
 };
@@ -40,18 +50,14 @@ export const SearchBar = ({
 const styles = StyleSheet.create({
   searchContainer: {
     flex: 1,
-    marginRight: 10,
     backgroundColor: "transparent",
     borderBottomColor: "transparent",
     borderTopColor: "transparent",
-    width: "90%",
   },
   inputContainer: {
-    backgroundColor: "#E0E0E0",
-    borderRadius: 20,
-    height: 40,
+    backgroundColor: "white",
   },
   input: {
-    color: colors.black,
+    fontSize: 16,
   },
 });

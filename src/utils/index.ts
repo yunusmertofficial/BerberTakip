@@ -1,4 +1,4 @@
-import getLocationCoords from "./locationUtils";
+import getLocation from "./locationUtils";
 import wait from "./wait";
 import calculateDelta from "./regionUtil";
 import colors from "./color";
@@ -9,7 +9,7 @@ import {
   formatDurationMinutes,
 } from "./dateUtil";
 export {
-  getLocationCoords,
+  getLocation,
   formatDurationMinutes,
   formatDuration,
   wait,

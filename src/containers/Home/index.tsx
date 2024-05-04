@@ -1,17 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View, FlatList, Animated } from "react-native";
 import BarberListItem from "./components/BarberListItem";
 import { useBarbers } from "@context/BarbersContext";
-import { Header } from "./components/Header";
-import FilterModal from "./components/FilterModal";
 import ErrorBoundary from "@components/ErrorBoundary";
 import Barber from "src/types/Barber";
 
 const HomeContainer = () => {
   const { barbers, isLoading, errorMsg, fetchData } = useBarbers();
-  const [modalVisibile, setModalVisibile] = useState(false);
   const animatedValue = useState(new Animated.Value(0))[0] as Animated.Value;
-
   useEffect(() => {
     Animated.loop(
       Animated.sequence([
@@ -31,12 +27,6 @@ const HomeContainer = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <FilterModal
-        modalVisible={modalVisibile}
-        setModalVisible={setModalVisibile}
-        applyFilters={(filters) => console.log(filters)}
-      />
-      <Header modalVisible={modalVisibile} setModalVisible={setModalVisibile} />
       <ErrorBoundary
         resetError={fetchData}
         isErrored={!!errorMsg}

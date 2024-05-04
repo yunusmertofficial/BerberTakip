@@ -1,157 +1,130 @@
-import { Icon } from "@rneui/themed";
-import React, { useReducer } from "react";
-import { View, Text, StyleSheet, Button, Modal, Pressable } from "react-native";
-import Stars from "@components/Stars";
+import React, { useCallback, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  Modal,
+  Pressable,
+  TextInput,
+} from "react-native";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import Stars from "@components/Stars"; // Doğru yolda olduğunu varsayıyorum.
+import { FilterState } from "src/types/FormValues/Home/Filter";
 
-// State tipi
-interface FilterState {
-  minStars: string;
-  locationFilter: string;
+interface FilterModalProps {
+  modalVisible: boolean;
+  handleCloseFilterModal: () => void;
+  applyFilters: (filters: FilterState) => void;
+  initialValues: FilterState;
 }
 
-// Action tipi
-type FilterAction =
-  | { type: "SET_MIN_STARS"; payload: string }
-  | { type: "SET_LOCATION_FILTER"; payload: string };
+const FilterModal: React.FC<FilterModalProps> = React.memo(
+  ({ modalVisible, handleCloseFilterModal, applyFilters, initialValues }) => {
+    console.log("FilterModal rendered");
+    const formik = useFormik<FilterState>({
+      initialValues,
+      validationSchema: Yup.object({
+        minStars: Yup.string().required("Yıldız sayısı seçimi zorunludur."),
+        maxDistance: Yup.number()
+          .min(1, "En az 1 km olmalıdır")
+          .required("Bu alan zorunludur."),
+      }),
+      onSubmit: (values) => {
+        applyFilters(values);
+        handleCloseFilterModal();
+      },
+    });
 
-// Reducer
-const filterReducer = (
-  state: FilterState,
-  action: FilterAction
-): FilterState => {
-  switch (action.type) {
-    case "SET_MIN_STARS":
-      return { ...state, minStars: action.payload };
-    case "SET_LOCATION_FILTER":
-      return { ...state, locationFilter: action.payload };
-    default:
-      return state;
-  }
-};
+    const setFormValues = useCallback(() => {
+      if (modalVisible) {
+        formik.setValues(initialValues);
+      } else {
+        formik.resetForm();
+      }
+    }, [modalVisible, initialValues]);
 
-const FilterModal: React.FC<{
-  modalVisible: boolean;
-  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  applyFilters: (filters: FilterState) => void;
-}> = ({ modalVisible, setModalVisible, applyFilters }) => {
-  const initialState: FilterState = {
-    minStars: "",
-    locationFilter: "",
-  };
+    useEffect(() => {
+      setFormValues();
+    }, [setFormValues]);
 
-  const [state, dispatch] = useReducer(filterReducer, initialState);
+    // Yıldız sayısı seçenekleri
+    const starOptions = ["2", "3", "4"];
 
-  const handleApplyFilters = () => {
-    setModalVisible(false);
-    applyFilters(state);
-  };
-
-  // Yıldız sayısı seçenekleri
-  const starOptions = ["2", "3", "4"];
-
-  // Mesafe seçenekleri
-  const distanceOptions = ["1", "2", "3", "4", "5"];
-
-  return (
-    <Modal
-      visible={modalVisible}
-      animationType="slide"
-      transparent={true}
-      onRequestClose={() => setModalVisible(false)}
-    >
-      <Pressable
-        style={styles.modalContainer}
-        onPress={() => {
-          setModalVisible(false);
+    return (
+      <Modal
+        visible={modalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => {
+          formik.resetForm(); // Modal kapanırken formu resetle
+          handleCloseFilterModal();
         }}
       >
-        <View style={styles.innerContainer}>
-          <View style={styles.filterGroup}>
-            <Text style={styles.filterTitle}>Yıldıza Göre Filtreleme:</Text>
-            {starOptions.map((option) => (
-              <Pressable
-                key={option}
-                onPress={() =>
-                  dispatch({ type: "SET_MIN_STARS", payload: option })
-                }
-                style={{ flexDirection: "row", alignItems: "center" }}
-              >
-                <Icon
-                  name={
-                    state.minStars === option
-                      ? "radiobox-marked"
-                      : "radiobox-blank"
-                  }
-                  type="material-community"
-                  size={state.minStars === option ? 28 : 24} // Increase size if selected
-                  color="#007AFF"
-                  style={{ marginRight: 10 }}
-                />
-                <View style={{ flexDirection: "row" }}>
+        <Pressable
+          style={styles.modalContainer}
+          onPress={() => {
+            formik.resetForm(); // Dışarı tıklanınca formu resetle
+            handleCloseFilterModal();
+          }}
+        >
+          <View
+            style={styles.innerContainer}
+            onStartShouldSetResponder={() => true}
+          >
+            <View style={styles.filterGroup}>
+              <Text style={styles.filterTitle}>Yıldıza Göre Filtreleme:</Text>
+              {starOptions.map((option) => (
+                <Pressable
+                  key={option}
+                  onPress={() => formik.setFieldValue("minStars", option)}
+                  style={styles.starOption}
+                >
+                  <View
+                    style={
+                      formik.values.minStars === option
+                        ? styles.radioSelected
+                        : styles.radioUnselected
+                    }
+                  />
                   <Stars numStars={parseInt(option)} />
                   <Text
-                    style={{
-                      fontWeight: state.minStars === option ? "bold" : "normal",
-                    }}
+                    style={[
+                      styles.starText,
+                      formik.values.minStars === option && styles.boldText,
+                    ]}
                   >
                     {option} ve üzeri
                   </Text>
-                  {/* Bold text if selected */}
-                </View>
-              </Pressable>
-            ))}
-          </View>
-          <View style={styles.filterGroup}>
-            <Text style={styles.filterTitle}>Konuma Göre Filtreleme:</Text>
-            {distanceOptions.map((option) => (
-              <Pressable
-                key={option}
-                onPress={() =>
-                  dispatch({ type: "SET_LOCATION_FILTER", payload: option })
-                }
-                style={{ flexDirection: "row", alignItems: "center" }}
-              >
-                <Icon
-                  name={
-                    state.locationFilter === option
-                      ? "radiobox-marked"
-                      : "radiobox-blank"
-                  }
-                  type="material-community"
-                  size={state.locationFilter === option ? 28 : 24} // Increase size if selected
-                  color="#007AFF"
-                  style={{ marginRight: 10 }}
-                />
-                <Text
-                  style={{
-                    fontWeight:
-                      state.locationFilter === option ? "bold" : "normal",
-                  }}
-                >
-                  {option} en fazla km uzaklıkta
+                </Pressable>
+              ))}
+              {formik.touched.minStars && formik.errors.minStars ? (
+                <Text style={styles.errorText}>{formik.errors.minStars}</Text>
+              ) : null}
+            </View>
+            <View style={styles.filterGroup}>
+              <Text style={styles.filterTitle}>Maksimum Mesafe (km):</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={formik.handleChange("maxDistance")}
+                onBlur={formik.handleBlur("maxDistance")}
+                value={formik.values.maxDistance.toString()}
+                keyboardType="number-pad"
+              />
+              {formik.touched.maxDistance && formik.errors.maxDistance ? (
+                <Text style={styles.errorText}>
+                  {formik.errors.maxDistance}
                 </Text>
-                {/* Bold text if selected */}
-              </Pressable>
-            ))}
+              ) : null}
+            </View>
+            <Button title="Uygula" onPress={() => formik.handleSubmit()} />
           </View>
-          <Button title="Uygula" onPress={handleApplyFilters} />
-          <Pressable
-            style={styles.closeButton}
-            onPress={() => setModalVisible(false)}
-          >
-            <Icon
-              name="close"
-              type="material-community"
-              size={24}
-              color="#333"
-            />
-          </Pressable>
-        </View>
-      </Pressable>
-    </Modal>
-  );
-};
-
+        </Pressable>
+      </Modal>
+    );
+  }
+);
 const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
@@ -174,11 +147,47 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
   },
-  closeButton: {
-    position: "absolute",
-    top: 10,
-    right: 10,
+  input: {
+    borderWidth: 1,
+    borderColor: "gray",
     padding: 10,
+    borderRadius: 5,
+    width: "100%",
+  },
+  errorText: {
+    color: "red",
+    fontSize: 12,
+    marginTop: 5,
+  },
+  starOption: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 5,
+  },
+  radioSelected: {
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#007AFF",
+    backgroundColor: "#007AFF",
+    marginRight: 10,
+  },
+  radioUnselected: {
+    height: 16,
+    width: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "grey",
+    backgroundColor: "transparent",
+    marginRight: 10,
+  },
+  starText: {
+    marginLeft: 10,
+  },
+  boldText: {
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
 
