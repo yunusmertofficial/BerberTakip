@@ -16,6 +16,7 @@ interface ActiveAppointment {
   estimatedStartTime?: Date;
   totalWaitDuration?: number;
   confirmationTime?: Date; // Optional for awaiting-confirmation status
+  scheduledCancellationTime?: Date; // Optional for confirmed appointments
   status:
     | "scheduled"
     | "waiting"

@@ -12,10 +12,6 @@ import {
   WaitingScheduleAppointment,
   WaitingWalkInAppointment,
 } from "@apiServices/activeAppointment/types/WaitingAppointment";
-import {
-  ConfirmedScheduleAppointment,
-  ConfirmedWalkInAppointment,
-} from "@apiServices/activeAppointment/types/ConfirmedAppointmentData";
 
 const EstimatedStartTime = ({
   time,
@@ -161,18 +157,7 @@ const AppointmentDetails = ({
         <EstimatedStartTime
           label="İptal Edilmesine Kalan Süre"
           color={colors.error}
-          time={
-            new Date(
-              (
-                appointment as
-                  | ConfirmedWalkInAppointment
-                  | ConfirmedScheduleAppointment
-              ).confirmationTime.getTime() +
-                (appointment.personnel.barber?.totalWaitDuration || 0) *
-                  60 *
-                  1000
-            )
-          }
+          time={appointment.scheduledCancellationTime || new Date()}
         />
       );
     case "in-progress":

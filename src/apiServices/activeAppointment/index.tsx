@@ -74,6 +74,7 @@ export const fetchActiveAppointment = async (
       status: "confirmed",
       checkInTime: new Date(),
       source: "walk-in",
+      scheduledCancellationTime: new Date(),
       confirmationTime: new Date(),
     },
     appointment: {
@@ -82,6 +83,7 @@ export const fetchActiveAppointment = async (
       scheduledStartTime: new Date(),
       source: "schedule",
       confirmationTime: new Date(),
+      scheduledCancellationTime: new Date(),
       totalWaitDuration: 10,
     },
   };
