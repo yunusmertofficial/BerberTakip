@@ -116,7 +116,7 @@ const AppointmentDetails = ({
     case "scheduled":
       return (
         <EstimatedStartTime
-          label="Randevu Zamanı"
+          label="Planlanan Randevu Zamanı"
           time={(appointment as ScheduledAppointmentData).scheduledStartTime}
         />
       );
@@ -124,7 +124,7 @@ const AppointmentDetails = ({
       return (
         <>
           <EstimatedStartTime
-            label="Randevuya Kalan Süre"
+            label="Randevuya Tahmini Kalan Süre"
             color={colors.warning}
             time={
               new Date(
