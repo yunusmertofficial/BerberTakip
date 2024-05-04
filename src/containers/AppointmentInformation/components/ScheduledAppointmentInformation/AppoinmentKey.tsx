@@ -53,7 +53,7 @@ const formatScheduledMessage = (appointment: ScheduledAppointmentData) => {
     second: "2-digit",
     hour12: false,
   });
-  return `Randevu Zamanınız: ${formattedDate}`;
+  return `Planladığınız Randevu Zamanı: ${formattedDate}`;
 };
 
 const formatWaitingMessage = (
