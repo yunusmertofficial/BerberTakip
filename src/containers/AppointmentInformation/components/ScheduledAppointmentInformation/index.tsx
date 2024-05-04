@@ -5,6 +5,7 @@ import { colors } from "../../../../utils";
 import AppoinmentKey from "./AppoinmentKey";
 import AppoinmentDetails from "./AppoinmentDetails";
 import ActiveAppointmentData from "@apiServices/activeAppointment/types/ActiveAppointmentData";
+import InProgressAppointmentInformation from "../InProgressAppointmentInformation";
 
 const ScheduledAppointmentInformation = ({
   appointment,
@@ -39,7 +40,19 @@ const ScheduledAppointmentInformation = ({
         <TabView.Item
           style={{ backgroundColor: colors.background, width: "100%" }}
         >
-          <AppoinmentKey appointment={appointment} />
+          {appointment.status === "in-progress" ? (
+            <InProgressAppointmentInformation
+              barberName={appointment.personnel.barber?.name}
+              personnelName={
+                appointment.personnel.firstName +
+                " " +
+                appointment.personnel.lastName
+              }
+              startedAt={appointment.startTime}
+            />
+          ) : (
+            <AppoinmentKey appointment={appointment} />
+          )}
         </TabView.Item>
         <TabView.Item
           style={{ backgroundColor: colors.background, width: "100%" }}

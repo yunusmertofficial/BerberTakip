@@ -88,10 +88,6 @@ const StatusText = ({
     case "confirmed":
       color = colors.success;
       message = "Randevu Onaylandı";
-    case "in-progress":
-      color = colors.success;
-      message = "Randevu Başladı";
-      break;
     default:
       return null; // Eğer hiçbir durum geçerli değilse, bileşeni render etmeme.
   }
@@ -160,8 +156,6 @@ const AppointmentDetails = ({
           time={appointment.scheduledCancellationTime || new Date()}
         />
       );
-    case "in-progress":
-      return <Text style={styles.estimatedTimeText}>Randevu Başladı</Text>;
 
     default:
       return null;

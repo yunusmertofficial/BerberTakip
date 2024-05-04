@@ -3,15 +3,13 @@ import { StyleSheet, Image, Animated, View } from "react-native";
 import { Text } from "@rneui/themed";
 import { ImagesAssets } from "@assets/ImageAssets";
 import { colors } from "@utils";
-import { SafeAreaView } from "react-native-safe-area-context";
-import RemainingTime from "./RemainingTime";
+import { CircularProgress } from "@components/CircularProgress";
 
 const InProgressAppointmentInformation: React.FC<{
   barberName?: string;
   personnelName: string;
-  startedAt: Date;
-  estimatedEndTime: Date;
-}> = ({ barberName, personnelName, startedAt, estimatedEndTime }) => {
+  startedAt?: Date;
+}> = ({ barberName, personnelName, startedAt }) => {
   const [animatedValue] = useState(new Animated.Value(0));
 
   useEffect(() => {
@@ -36,7 +34,7 @@ const InProgressAppointmentInformation: React.FC<{
   }, []);
 
   return (
-    <SafeAreaView style={styles.pageContainer}>
+    <View style={styles.pageContainer}>
       <Text style={styles.title}>Şuan Randevunuz Devam Ediyor</Text>
       <View style={styles.infoContainer}>
         <Animated.Image
@@ -66,13 +64,12 @@ const InProgressAppointmentInformation: React.FC<{
           <Text style={styles.infoText}>Kuaför: {barberName}</Text>
           <Text style={styles.infoText}>Çalışan: {personnelName}</Text>
           <Text style={styles.infoText}>
-            Randevu Başlama Saati: {startedAt.toLocaleTimeString()}
+            Randevu Başlama Saati: {startedAt?.toLocaleTimeString()}
           </Text>
-          <Text style={styles.estimatedTimeText}>Tahmini Bitiş Süresi</Text>
-          <RemainingTime endTime={estimatedEndTime} />
+          <CircularProgress />
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
