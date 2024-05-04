@@ -1,6 +1,14 @@
-import Personnel from "./Personnel";
-import Service from "./Service";
-import Rating from "./Rating";
+import Personnel from "src/types/Personnel";
+import Service from "src/types/Service";
+import Rating from "src/types/Rating";
+
+export enum AppointmentStatus {
+  Scheduled = "scheduled",
+  Waiting = "waiting",
+  AwaitingConfirmation = "awaiting-confirmation",
+  Confirmed = "confirmed",
+  InProgress = "in-progress",
+}
 
 interface ActiveAppointment {
   id: number;
@@ -14,14 +22,21 @@ interface ActiveAppointment {
   startTime?: Date; //eğer status inprogress ise işleme başlama saatini gösterir
   queueNumber?: number;
   estimatedStartTime?: Date;
+  totalWaitDuration?: number;
   confirmationTime?: Date; // Optional for awaiting-confirmation status
-  status:
-    | "scheduled"
-    | "waiting"
-    | "awaiting-confirmation"
-    | "confirmed"
-    | "in-progress";
-  source?: "appointment" | "walk-in"; // Optional for scheduled appointments
+  status: AppointmentStatus;
+  source?: "schedule" | "walk-in"; // Optional for scheduled appointments
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface BaseActiveAppointment {
+  id: number;
+  appointmentNumber: string;
+  totalPrice: number;
+  totalEstimatedDuration: number;
+  services: Service[];
+  personnel: Personnel;
   createdAt: Date;
   updatedAt: Date;
 }

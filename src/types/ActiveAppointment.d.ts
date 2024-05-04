@@ -15,6 +15,7 @@ interface ActiveAppointment {
   appointmentNumber: string;
   totalPrice: number;
   totalEstimatedDuration: number;
+  totalWaitDuration?: number;
   services: Service[];
   personnel: Personnel;
   checkInTime?: Date; // Optional for scheduled appointments
@@ -22,7 +23,7 @@ interface ActiveAppointment {
   startTime?: Date; //eğer status inprogress ise işleme başlama saatini gösterir
   status: AppointmentStatus;
   confirmationTime?: Date; // Optional for awaiting-confirmation status
-  source?: "appointment" | "walk-in"; // Optional for scheduled appointments
+  source?: "schedule" | "walk-in"; // Optional for scheduled appointments
   createdAt: Date;
   updatedAt: Date;
 }
