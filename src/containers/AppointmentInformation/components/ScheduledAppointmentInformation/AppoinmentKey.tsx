@@ -88,6 +88,7 @@ const StatusText = ({
     case "confirmed":
       color = colors.success;
       message = "Randevu Onaylandı";
+      break;
     default:
       return null; // Eğer hiçbir durum geçerli değilse, bileşeni render etmeme.
   }
