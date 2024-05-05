@@ -6,7 +6,6 @@ import { SearchBar } from "./SearchBar";
 import { useSelector } from "react-redux";
 import { RootState } from "@store";
 import FilterModal from "src/containers/Home/components/FilterModal";
-import { useBarbers } from "@context/BarbersContext";
 import { useNavigation } from "@react-navigation/native";
 import HomeScreenProps from "src/types/navigation/screens/Home";
 import { FilterState } from "src/types/FormValues/Home/Filter";

@@ -1,6 +1,5 @@
 import { StatusBar } from "react-native";
 import HomeContainer from "../containers/Home";
-import { BarbersProvider } from "../context/BarbersContext";
 import { colors } from "../utils";
 import CustomHeader from "@components/CustomHeader";
 import { useCallback, useEffect, useState } from "react";
