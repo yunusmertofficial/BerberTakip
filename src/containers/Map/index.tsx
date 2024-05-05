@@ -8,10 +8,10 @@ import Barber from "src/types/Barber";
 import { fetchBarbers } from "@apiServices/barber";
 import ErrorFallbackComponent from "@components/ErrorFallback";
 import { setLocation } from "@features/user/userSlice";
-import { getLocation } from "@utils";
 import LoadingBoundary from "@components/LoadingBoundary";
 import HomeScreenProps from "src/types/navigation/screens/Home";
 import MapScreenProps from "src/types/navigation/screens/Map";
+import { saveLocationData } from "src/utils/locationUtils";
 
 const MapContainer = () => {
   const route = useRoute<MapScreenProps["route"]>();
@@ -60,13 +60,15 @@ const MapContainer = () => {
               resetError={async () => {
                 setIsLoading(true);
                 try {
-                  const location = await getLocation();
-                  dispatch(
-                    setLocation({
-                      coordinates: location.coordinates,
-                      address: location.address,
-                    })
-                  );
+                  const location = await saveLocationData();
+                  if (location) {
+                    dispatch(
+                      setLocation({
+                        coordinates: location.coordinates,
+                        address: location.address,
+                      })
+                    );
+                  }
                 } catch (error) {
                   console.log(error);
                 } finally {

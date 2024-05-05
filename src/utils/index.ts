@@ -1,4 +1,4 @@
-import getLocation from "./locationUtils";
+import { getLocation } from "./locationUtils";
 import wait from "./wait";
 import calculateDelta from "./regionUtil";
 import colors from "./color";

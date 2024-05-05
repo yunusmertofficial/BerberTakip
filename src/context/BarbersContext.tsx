@@ -12,6 +12,7 @@ import Barber from "../types/Barber";
 import { RootState } from "../../store";
 import { getLocation } from "@utils";
 import { FilterState } from "src/types/FormValues/Home/Filter";
+import { saveLocationData } from "src/utils/locationUtils";
 
 // Berberlerin tipini ve diğer durumları içeren bir arayüz oluşturuyoruz
 interface BarbersContextType {
@@ -67,7 +68,6 @@ const BarbersContext = createContext<BarbersContextType>(initialBarbersContext);
 export const BarbersProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  console.log("BarbersProvider rendered");
   const [barbers, setBarbers] = useState<Barber[] | { id: number }[]>(
     initialBarbersContext.barbers
   );
@@ -84,13 +84,14 @@ export const BarbersProvider: React.FC<{ children: React.ReactNode }> = ({
   const coordinates = useSelector(
     (state: RootState) => state.user.location.coordinates
   );
+
   const fetchData = useCallback(async () => {
     setIsLoading(true);
     setErrorMsg(null);
     try {
       let coords = coordinates;
       if (!coords) {
-        const location = await getLocation();
+        const location = await saveLocationData();
         coords = location.coordinates;
         dispatch(setLocation(location));
       }
@@ -101,7 +102,7 @@ export const BarbersProvider: React.FC<{ children: React.ReactNode }> = ({
     } finally {
       setIsLoading(false);
     }
-  }, [coordinates, filters, searchQuery]); // Bağımlılıklar listesi
+  }, [coordinates, filters, searchQuery]);
 
   useEffect(() => {
     fetchData();
